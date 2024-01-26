@@ -1,0 +1,26 @@
+
+
+/* * {
+  box-sizing: border-box;
+} */
+
+.outline {
+  /* background: #f6f5f7; */
+  background: rgb(26,80,239);
+background: linear-gradient(90deg, rgba(26,80,239,1) 0%, rgba(180,137,248,1) 51%, rgba(230,230,246,1) 100%, rgba(251,251,251,1) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  font-family: sans-serif,"Montserrat";
+  height: 100vh;
+  border-style: none;
+   
+  }
+  
+.form-error {
+    font-size:10px;
+    font-weight: bold;
+    color: #b22b27;
+    margin-right: 30px;
+  }
