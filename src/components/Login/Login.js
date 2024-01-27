@@ -10,99 +10,59 @@ import {
   signInWithEmailAndPassword,
 } from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "../utils/Firebase";
-const initialValues = {
-  name: "",
-  email: "",
-  password: "",
-  confirm_password: "",
-};
+import { Link } from "react-router-dom";
 
-const Login2 = () => {
+const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
 
-  // const handleSignUp = (values, action) => {
-  //   console.log(values);
-  //   action.resetForm();
+  const signUpValues = {
+    name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  };
 
-  //   createUserWithEmailAndPassword(auth, values.email, values.password)
-  //     .then((userCredential) => {
-  //       const user = userCredential.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode);
-  //     });
-  // };
+  const signInValues = {
+    email: "",
+    password: "",
+  };
 
-  // const handleSignIn = (values, action) => {
-  //   console.log(values);
-  //   action.resetForm();
+  // Sign Up schema
+  const signUpSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    confirm_password: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
 
-  //   signInWithEmailAndPassword(auth, values.email, values.password)
-  //     .then((userCredential) => {
-  //       const user = userCredential.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       seterror(errorCode + "-" + errorMessage);
-  //     });
-  // };
+  // Sign In schema
+  const signInSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
 
+  // Sign Up form
   const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setErrors,
+    values: signUpFormValues,
+    handleSubmit: handleSignUp,
+    handleChange: handleSignUpChange,
+    handleBlur: handleSignUpBlur,
+    errors: signUpErrors,
+    touched: signUpTouched,
+    setErrors: setSignUpErrors,
+    resetForm: resetSignUpForm,
   } = useFormik({
-    initialValues: initialValues,
+    initialValues: signUpValues,
     validationSchema: signUpSchema,
-    onSubmit: (values, action) => {
-      console.log(values);
-      action.resetForm();
-
-      if (!signIn) {
-        createUserWithEmailAndPassword(auth, values.email, values.password)
-          .then((userCredential) => {
-            // Signed up
-            console.log("User created successfully");
-            const user = userCredential.user;
-            // ...
-            console.log(user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // Handle error
-            console.log(errorCode);
-          });
-      } else {
-        signInWithEmailAndPassword(auth, values.email, values.password)
-          .then((userCredential) => {
-            // Signed in
-            console.log("Signed in successfully");
-            const user = userCredential.user;
-            // ...
-            console.log(user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            seterror(errorCode + "-" + errorMessage);
-          });
-      }
+    onSubmit: (values) => {
+      handleSignUpSubmit(values, resetSignUpForm);
     },
   });
 
@@ -292,6 +252,7 @@ const Login2 = () => {
               </div>
             </Components.Form>
           </Components.SignInContainer>
+
           <Components.OverlayContainer signingin={signIn}>
             <Components.Overlay signingin={signIn}>
               <Components.LeftOverlayPanel signingin={signIn}>
@@ -320,4 +281,4 @@ const Login2 = () => {
     </>
   );
 };
-export default Login2;
+export default Login;
