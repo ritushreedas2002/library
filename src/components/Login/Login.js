@@ -12,7 +12,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 
-const Login2 = () => {
+const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
 
@@ -281,4 +281,4 @@ const Login2 = () => {
     </>
   );
 };
-export default Login2;
+export default Login;
