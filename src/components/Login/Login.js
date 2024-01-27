@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { useFormik } from "formik";
+
 import * as Components from "./Components";
 import "./style.css";
-import { signUpSchema } from "./Validation";
-import { Link } from "react-router-dom";
+import { auth } from "../utils/Firebase";
+import * as Yup from "yup";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
 import {
   createUserWithEmailAndPassword,
@@ -17,7 +22,7 @@ const initialValues = {
   confirm_password: "",
 };
 
-const Login = () => {
+const Login2 = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
 
@@ -101,10 +106,78 @@ const Login = () => {
     },
   });
 
+  // Sign In form
+  const {
+    values: signInFormValues,
+    handleSubmit: handleSignIn,
+    handleChange: handleSignInChange,
+    handleBlur: handleSignInBlur,
+    errors: signInErrors,
+    touched: signInTouched,
+    setErrors: setSignInErrors,
+    resetForm: resetSignInForm,
+  } = useFormik({
+    initialValues: signInValues,
+    validationSchema: signInSchema,
+    onSubmit: (values) => {
+      handleSignInSubmit(values, resetSignInForm);
+    },
+  });
+
+  const handleSignUpSubmit = async (values, resetForm) => {
+    try {
+      console.log("SignUp call at first sign up");
+      console.log(values);
+
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const user = userCredential.user;
+      console.log(user);
+
+      console.log("Sign Up Successful");
+      resetForm();
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorCode, errorMessage);
+      seterror(`${errorCode} - ${errorMessage}`);
+      setSignUpErrors({}); // Clear form errors
+    }
+  };
+
+  const handleSignInSubmit = async (values, resetForm) => {
+    try {
+      console.log(values);
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const user = userCredential.user;
+      console.log(user);
+
+      console.log("Sign In Successful");
+      resetForm();
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorCode, errorMessage);
+      seterror(`${errorCode} - ${errorMessage}`);
+      setSignInErrors({}); // Clear form errors
+    }
+  };
+
   const toggleEffect = () => {
     setsignIn(!signIn);
-    console.log(signIn);
-    setErrors({});
+    seterror(null);
+    setSignUpErrors({});
+    setSignInErrors({});
+    resetSignUpForm();
+    resetSignInForm();
   };
 
   return (
@@ -112,53 +185,54 @@ const Login = () => {
       <div className="outline">
         <Components.Container>
           <Components.SignUpContainer signingin={signIn}>
-            <Components.Form onSubmit={handleSubmit}>
+            <Components.Form onSubmit={handleSignUp}>
               <Components.Title>Create Account</Components.Title>
               <Components.Input
                 name="name"
                 type="text"
                 placeholder="Name"
-                value={values.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                value={signUpFormValues.name}
+                onChange={handleSignUpChange}
+                onBlur={handleSignUpBlur}
               />
-              {errors.name && touched.name ? (
-                <p className="form-error">{errors.name}</p>
+              {signUpErrors.name && signUpTouched.name ? (
+                <p className="form-error">{signUpErrors.name}</p>
               ) : null}
               <Components.Input
                 name="email"
                 type="email"
                 placeholder="Email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                value={signUpFormValues.email}
+                onChange={handleSignUpChange}
+                onBlur={handleSignUpBlur}
               />
-              {errors.email && touched.email ? (
-                <p className="form-error">{errors.email}</p>
+              {signUpErrors.email && signUpTouched.email ? (
+                <p className="form-error">{signUpErrors.email}</p>
               ) : null}
               <Components.Input
                 name="password"
                 type="password"
                 autoComplete="off"
                 placeholder="Password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                value={signUpFormValues.password}
+                onChange={handleSignUpChange}
+                onBlur={handleSignUpBlur}
               />
-              {errors.password && touched.password ? (
-                <p className="form-error">{errors.password}</p>
+              {signUpErrors.password && signUpTouched.password ? (
+                <p className="form-error">{signUpErrors.password}</p>
               ) : null}
               <Components.Input
                 name="confirm_password"
                 type="password"
                 autoComplete="off"
                 placeholder="Confirm Password"
-                value={values.confirm_password}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                value={signUpFormValues.confirm_password}
+                onChange={handleSignUpChange}
+                onBlur={handleSignUpBlur}
               />
-              {errors.confirm_password && touched.confirm_password ? (
-                <p className="form-error">{errors.confirm_password}</p>
+              {signUpErrors.confirm_password &&
+              signUpTouched.confirm_password ? (
+                <p className="form-error">{signUpErrors.confirm_password}</p>
               ) : null}
               <Components.Button>Sign Up</Components.Button>
               <hr />
@@ -174,32 +248,39 @@ const Login = () => {
             </Components.Form>
           </Components.SignUpContainer>
           <Components.SignInContainer signingin={signIn}>
-            <Components.Form onSubmit={handleSubmit}>
+            <Components.Form onSubmit={handleSignIn}>
               <Components.Title>Sign in</Components.Title>
               <Components.Input
                 name="email"
                 type="email"
                 placeholder="Email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                value={signInFormValues.email}
+                onChange={handleSignInChange}
+                onBlur={handleSignInBlur}
               />
+              {signInErrors.email && signInTouched.email ? (
+                <p className="form-error">{signInErrors.email}</p>
+              ) : null}
               <Components.Input
                 name="password"
                 type="password"
                 autoComplete="off"
                 placeholder="Password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                value={signInFormValues.password}
+                onChange={handleSignInChange}
+                onBlur={handleSignInBlur}
               />
+              {signInErrors.password && signInTouched.password ? (
+                <p className="form-error">{signInErrors.password}</p>
+              ) : null}
               {errormessage && (
                 <p className="text-sm text-red-500">{errormessage}</p>
               )}
               <Components.Anchor href="#">
                 Forgot your password?
               </Components.Anchor>
-              <Components.Button type="submit">Sign In</Components.Button>
+
+              <Components.Button>Sign In</Components.Button>
               <div className="mt-3 flex items-center">
                 <FcGoogle />{" "}
                 <span className="ml-2 text-sm text-blue-600">Sign In</span>
@@ -239,5 +320,4 @@ const Login = () => {
     </>
   );
 };
-
-export default Login;
+export default Login2;
