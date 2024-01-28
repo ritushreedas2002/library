@@ -1,57 +1,66 @@
-import React, { useState } from 'react';
+// UserProfile.js
+import React from "react";
 
-const UserProfile = ({ name, email, profilePic, onNameChange, onImageChange }) => {
-  const [newName, setNewName] = useState(name);
-
-  const handleNameSubmit = () => {
-    onNameChange(newName);
-  };
-
-  const handleImageSubmit = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        onImageChange(reader.result);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
+const UserProfile = ({ user, onEditProfileClick }) => {
+  const { name, email, profileImage } = user;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="bg-gray-300 h-32 w-32 rounded-full overflow-hidden mb-4">
-        <img
-          src={profilePic}
-          alt="Profile"
-          className="h-full w-full object-cover"
-        />
+    <div className="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="md:flex">
+        <div className="w-full p-4">
+          <h1 className="text-3xl font-semibold text-blue-600">Account</h1>
+          <p className="text-gray-600">Manage your account settings</p>
+
+          <div className="mt-6 border-t-2 border-gray-200">
+            <div className="mt-4">
+              <h2 className="text-2xl font-bold text-blue-500">Profile</h2>
+              <div className="flex items-center justify-between p-4">
+                <div className="flex items-center">
+                  <div className="rounded-full h-36 w-36 overflow-hidden mr-4">
+                    <img
+                      src={
+                        profileImage
+                          ? URL.createObjectURL(profileImage)
+                          : "https://via.placeholder.com/150.jpg"
+                      }
+                      alt="Profile"
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <div className="mt-4 flex">
+                      <h2 className="text-lg font-semibold text-blue-500">
+                        Username:
+                      </h2>
+                      <h2 className="text-gray-800 pl-3 text-lg font-semibold">{name}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <h2 className="text-lg font-semibold text-blue-500">
+                Email addresses
+              </h2>
+              <div className="p-4 flex justify-between items-center">
+                <div>
+                  <span className="text-gray-800 break-all">{email}</span>
+                  <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                    Primary
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <input
-        type="file"
-        accept="image/*"
-        className="mb-4"
-        onChange={handleImageSubmit}
-      />
-      <h2 className="text-2xl font-semibold mb-2">{name}</h2>
-      <div className="mb-4">
-        <input
-          type="text"
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          className="border-b border-gray-400 focus:outline-none"
-        />
-        <button
-          onClick={handleNameSubmit}
-          className="bg-blue-500 text-white ml-2 px-4 py-1 rounded"
-        >
-          Save
-        </button>
-      </div>
-      <p className="text-gray-600">{email}</p>
+      <button
+        onClick={onEditProfileClick}
+        className="bg-blue-500 text-white px-4 py-2 ml-96 mb-12 rounded"
+      >
+        Edit Profile
+      </button>
     </div>
   );
 };

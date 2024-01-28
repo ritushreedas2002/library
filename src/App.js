@@ -2,11 +2,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MainContainer from "./components/Home/MainContainer";
 import Login from "./components/Login/Login";
 import Test from "./components/Home/Test";
-import 'swiper/swiper-bundle.css';
-import  Sidebar  from "./components/Home/Sidebar";
-
-//import User from "./components/User/User";
-import ProfilePage from "./components/User/ProfilePage";
+import "swiper/swiper-bundle.css";
+import Sidebar from "./components/Home/Sidebar";
 import User from "./components/User/User";
 
 function App() {
@@ -24,14 +21,14 @@ function App() {
       element: <Test />,
     },
     {
-      path:"/Sidebar",
-      element:<Sidebar/>
+      path: "/Sidebar",
+      element: <Sidebar />,
     },
-    
+
     {
-      path:"/User",
-      element:<User/>
-    }
+      path: "/User",
+      element: <User />,
+    },
   ]);
   return <RouterProvider router={router}></RouterProvider>;
 }
