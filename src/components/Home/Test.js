@@ -62,6 +62,7 @@ const Test = () => {
             // spaceBetween: 15,
             effect: "coverflow",
             coverflowEffect: {
+
               rotate: 0,
               stretch: 50,
               depth: 100,
@@ -105,40 +106,10 @@ const Test = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="swiper-button-next" />
-      <div className="swiper-button-prev" />
+      {/* <div className="swiper-button-next" />
+      <div className="swiper-button-prev" /> */}
     </div>
   );
 };
 
 export default Test;
-{
-  /* <SwiperSlide>
-          <img
-            src="https://placekitten.com/800/400"
-            alt="Slide 1"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://placekitten.com/800/401"
-            alt="Slide 2"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://placekitten.com/800/402"
-            alt="Slide 3"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://placekitten.com/800/403"
-            alt="Slide 4"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-        </SwiperSlide> */
-}
