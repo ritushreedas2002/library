@@ -13,6 +13,7 @@ import { FiChevronDown } from "react-icons/fi";
 import { MdOutlineCancel } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import Test from "./Test";
+import BookSearch from "../utils/BookSearch";
 const menuItems = [
   {
     name: "Home",
@@ -42,9 +43,9 @@ const menuItems = [
     icon: <FiHeart />,
   },
   {
-    name:"Logout",
-    icon:<BiLogOut/>
-  }
+    name: "Logout",
+    icon: <BiLogOut />,
+  },
 ];
 
 // const NavHeader = ({ onClick }) => (
@@ -60,19 +61,19 @@ const Icon = ({ icon }) => (
   <span className="material-symbols-outlined">{icon}</span>
 );
 
-const NavButton = ({ onClick, name, icon, isActive, hasSubNav,open }) => (
+const NavButton = ({ onClick, name, icon, isActive, hasSubNav, open }) => (
   <button
     type="button"
     onClick={() => onClick(name)}
     className={isActive ? "active" : ""}
   >
     {icon && <Icon icon={icon} />}
-    {!open && (<span>{name}</span>)}
+    {!open && <span>{name}</span>}
     {hasSubNav && <FiChevronDown />}
   </button>
 );
 
-const SubMenu = ({ item, activeItem, handleClick ,open}) => {
+const SubMenu = ({ item, activeItem, handleClick, open }) => {
   const navRef = useRef(null);
 
   const isSubNavOpen = (item, items) =>
@@ -80,29 +81,31 @@ const SubMenu = ({ item, activeItem, handleClick ,open}) => {
 
   return (
     <>
-    {!open && (
-      <div
-        className={`sub-nav ${isSubNavOpen(item.name, item.items) ? "open" : ""}`}
-        style={{
-          height: !isSubNavOpen(item.name, item.items)
-            ? 0
-            : navRef.current?.clientHeight,
-        }}
-      >
-        <div ref={navRef} className="sub-nav-inner">
-          {item?.items.map((subItem) => (
-            <NavButton
-              key={subItem}
-              onClick={handleClick}
-              name={subItem}
-              isActive={activeItem === subItem}
-            />
-          ))}
+      {!open && (
+        <div
+          className={`sub-nav ${
+            isSubNavOpen(item.name, item.items) ? "open" : ""
+          }`}
+          style={{
+            height: !isSubNavOpen(item.name, item.items)
+              ? 0
+              : navRef.current?.clientHeight,
+          }}
+        >
+          <div ref={navRef} className="sub-nav-inner">
+            {item?.items.map((subItem) => (
+              <NavButton
+                key={subItem}
+                onClick={handleClick}
+                name={subItem}
+                isActive={activeItem === subItem}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    )}
-  </>
-  )
+      )}
+    </>
+  );
 };
 
 export const Sidebar = () => {
@@ -115,27 +118,16 @@ export const Sidebar = () => {
 
   return (
     <>
-    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
-      <header className="sidebar-header">
-        <button type="button" onClick={() => setIsOpen(!isOpen)}>
-          {!isOpen ?<MdOutlineCancel />:<FiMenu />  }
-        </button>
-        {!isOpen && (<span>Admin</span>)}
-      </header>
-      {menuItems.map((item) => (
-        <div key={item.name}>
-          {!item.items && (
-            <NavButton
-              onClick={handleClick}
-              name={item.name}
-              icon={item.icon}
-              isActive={activeItem === item.name}
-              hasSubNav={!!item.items}
-              open={isOpen}
-            />
-          )}
-          {item.items && (
-            <>
+      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+        <header className="sidebar-header">
+          <button type="button" onClick={() => setIsOpen(!isOpen)}>
+            {!isOpen ? <MdOutlineCancel /> : <FiMenu />}
+          </button>
+          {!isOpen && <span>Admin</span>}
+        </header>
+        {menuItems.map((item) => (
+          <div key={item.name}>
+            {!item.items && (
               <NavButton
                 onClick={handleClick}
                 name={item.name}
@@ -144,20 +136,32 @@ export const Sidebar = () => {
                 hasSubNav={!!item.items}
                 open={isOpen}
               />
-              <SubMenu
-                activeItem={activeItem}
-                handleClick={handleClick}
-                item={item}
-                open={isOpen}
-              />
-            </>
-          )}
-        </div>
-      ))}
-    </aside>
-    <div className="ml-20">
-    <Test/>
-    </div>
+            )}
+            {item.items && (
+              <>
+                <NavButton
+                  onClick={handleClick}
+                  name={item.name}
+                  icon={item.icon}
+                  isActive={activeItem === item.name}
+                  hasSubNav={!!item.items}
+                  open={isOpen}
+                />
+                <SubMenu
+                  activeItem={activeItem}
+                  handleClick={handleClick}
+                  item={item}
+                  open={isOpen}
+                />
+              </>
+            )}
+          </div>
+        ))}
+      </aside>
+      <div className="ml-20">
+        <Test />
+        <BookSearch />
+      </div>
     </>
   );
 };
