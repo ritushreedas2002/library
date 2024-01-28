@@ -1,48 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { GOOGLE_BOOK_API } from "./constants";
-const apiKey = GOOGLE_BOOK_API;
+// BookSearch.js
+
+import React from "react";
+import useBooks from "./useBooks";
+import "./styles.css"
+
+const DemoBookCard = () => {
+  return (
+    <div className="w-48 h-48 bg-gray-500 flex justify-center items-center md:w-48  ">
+      <h1 className="text-white">pic unavailable</h1>
+    </div>
+  );
+};
+
+const BookCard = ({ book }) => {
+  return (
+    <div className='w-36 mr-7 md:w-48 pr-4'>
+      {book?.volumeInfo?.imageLinks?.thumbnail ? (
+        <img
+          src={book.volumeInfo?.imageLinks?.thumbnail}
+          alt={book.volumeInfo?.title}
+          className="w-48 h-48"
+        />
+      ) : (
+        <DemoBookCard />
+      )}
+    </div>
+  );
+};
 
 const BookSearch = () => {
-  const [books, setBooks] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  // setIsLoading(true);
+  const { books, error } = useBooks();
 
-  const fetchBooks = async (startIndex = 0) => {
-    console.log(process.env.GOOGLE_BOOK_API);
-    if (isLoading) {
-      try {
-        const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=react&startIndex=${startIndex}&maxResults=30&key=AIzaSyAHmU-nwtsjbFU7LJgVZ0wY6typtBwzeKw`
-        );
-        const data = await response.json();
-        console.log(data);
-        setBooks((prevBooks) => [...prevBooks, ...data.items]);
+  if (error) {
+    return <p>Error fetching books: {error.message}</p>;
+  }
 
-        // Stop fetching if 30 books are reached
-        if (books.length > 29) {
-          console.log("30 books received");
-          setIsLoading(false);
-          return;
-        }
-
-      } catch (error) {
-        setError(error);
-        console.error("Error fetching books:", error);
-        setIsLoading(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
+  if (books.length === 0) {
+    return <h1>Still empty</h1>;
+  }
 
   console.log("Books fetched:", books);
-  
+
+  return (
+    <div className="px-12 w-full mt-12">
+      <h1 className="m-5 text-3xl">Programming Books</h1>
+      <div className="flex overflow-x-scroll">
+        <div className="flex">
+      {books?.map((book, index) => (
+        <BookCard key={index} book={book} />
+      ))}
+    </div>
+    </div>
+    </div>
+  );
 };
 
 export default BookSearch;
-
-
