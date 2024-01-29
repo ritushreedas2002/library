@@ -14,7 +14,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { addUser, removeUser } from "../utils/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNavigation } from "../utils/NavigateSlice";
 
 //import { addUser, removeUser } from "../utils/userSlice";
@@ -24,6 +24,7 @@ const Login = () => {
   const [errormessage, seterror] = useState(null);
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  //const selector=useSelector(store=>store.user);
   const signUpValues = {
     name: "",
     email: "",
@@ -113,7 +114,8 @@ const Login = () => {
      // ...
      const {uid,email,displayName} = auth.currentUser;//updated value
      dispatch(addUser({uid:uid,email:email,displayName:displayName}));
-     dispatch(setNavigation(true));
+     
+     //navigate("/MainBody")
       }).catch((error) => {
      // An error occurred
     
@@ -169,25 +171,7 @@ const Login = () => {
   };
 
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        const { uid, email, displayName } = user;
-        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
-        // ...
-        navigate("/MainBody");
-      } else {
-        // User is signed out
-        dispatch(removeUser());
-        navigate("/");
-      }
-    });
-  
-    // Unsubscribe when the component unmounts
-    // After login and moving, there is no requirement of onAuth state, so return
-    return () => unsubscribe();
-  }, [dispatch, navigate]);
+
   
 
 

@@ -16,6 +16,7 @@ import Test from "../Test";
 import BookSearch from "../../utils/BookSearch";
 import { signOut } from "firebase/auth";
 import { auth } from "../../utils/Firebase";
+import { useNavigate } from "react-router-dom";
 
 const menuItems = [
   {
@@ -105,6 +106,7 @@ const SubMenu = ({ item, activeItem, handleClick, open }) => {
 export const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+  const navigate=useNavigate();
   const handleClick = (item) => {
     console.log("activeItem", activeItem);
     setActiveItem(item !== activeItem ? item : "");
@@ -113,6 +115,8 @@ export const Sidebar = () => {
   const handleLogout = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
+      navigate("/")
+      
   }).catch((error) => {
       // An error happened.
   });
