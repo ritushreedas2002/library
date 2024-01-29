@@ -1,10 +1,13 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "swiper/swiper-bundle.css";
+import FirstPage from "./components/Home/FirstPage";
+import { Provider } from "react-redux";
+import appStore from "./components/utils/appStore"
 import MainContainer from "./components/Home/MainContainer";
 import Login from "./components/Login/Login";
-import Test from "./components/Home/Test";
-import "swiper/swiper-bundle.css";
-import Sidebar from "./components/Home/Sidebar";
+import MainBody from "./components/MainBody/MainBody";
 import User from "./components/User/User";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -16,21 +19,26 @@ function App() {
       path: "/Login",
       element: <Login />,
     },
-    {
-      path: "/test",
-      element: <Test />,
-    },
-    {
-      path: "/Sidebar",
-      element: <Sidebar />,
-    },
 
+    {
+      path: "/MainBody",
+      element: <MainBody />,
+    },
     {
       path: "/User",
       element: <User />,
     },
   ]);
-  return <RouterProvider router={router}></RouterProvider>;
-}
 
+  return (
+    <Provider store={appStore}>
+      <RouterProvider router={router}>
+      <FirstPage/>
+      </RouterProvider>
+      </Provider>
+  ); 
+}
 export default App;
+
+
+

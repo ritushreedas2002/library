@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import { useFormik } from "formik";
 
 import * as Components from "./Components";
@@ -8,14 +8,22 @@ import * as Yup from "yup";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
+  onAuthStateChanged
 } from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { addUser, removeUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
+import { setNavigation } from "../utils/NavigateSlice";
+
+//import { addUser, removeUser } from "../utils/userSlice";
 
 const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
-
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
   const signUpValues = {
     name: "",
     email: "",
@@ -84,6 +92,8 @@ const Login = () => {
     },
   });
 
+
+
   const handleSignUpSubmit = async (values, resetForm) => {
     try {
       console.log("SignUp call at first sign up");
@@ -96,6 +106,19 @@ const Login = () => {
       );
       const user = userCredential.user;
       console.log(user);
+      updateProfile(user, {
+        displayName: values.name
+      }).then(() => {
+     // Profile updated!
+     // ...
+     const {uid,email,displayName} = auth.currentUser;//updated value
+     dispatch(addUser({uid:uid,email:email,displayName:displayName}));
+     dispatch(setNavigation(true));
+      }).catch((error) => {
+     // An error occurred
+    
+         seterror(error.message);
+      });
 
       console.log("Sign Up Successful");
       resetForm();
@@ -107,6 +130,9 @@ const Login = () => {
       setSignUpErrors({}); // Clear form errors
     }
   };
+
+
+
 
   const handleSignInSubmit = async (values, resetForm) => {
     try {
@@ -131,6 +157,8 @@ const Login = () => {
     }
   };
 
+
+
   const toggleEffect = () => {
     setsignIn(!signIn);
     seterror(null);
@@ -139,6 +167,30 @@ const Login = () => {
     resetSignUpForm();
     resetSignInForm();
   };
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        // ...
+        navigate("/MainBody");
+      } else {
+        // User is signed out
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+  
+    // Unsubscribe when the component unmounts
+    // After login and moving, there is no requirement of onAuth state, so return
+    return () => unsubscribe();
+  }, [dispatch, navigate]);
+  
+
+
 
   return (
     <>

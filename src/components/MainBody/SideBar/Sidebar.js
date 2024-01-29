@@ -12,8 +12,11 @@ import {
 import { FiChevronDown } from "react-icons/fi";
 import { MdOutlineCancel } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
-import Test from "./Test";
-import BookSearch from "../utils/BookSearch";
+import Test from "../Test";
+import BookSearch from "../../utils/BookSearch";
+import { signOut } from "firebase/auth";
+import { auth } from "../../utils/Firebase";
+
 const menuItems = [
   {
     name: "Home",
@@ -47,15 +50,6 @@ const menuItems = [
     icon: <BiLogOut />,
   },
 ];
-
-// const NavHeader = ({ onClick }) => (
-//   <header className="sidebar-header">
-//     <button type="button">
-//       <FiMenu />
-//     </button>
-//     <span>Admin</span>
-//   </header>
-// );
 
 const Icon = ({ icon }) => (
   <span className="material-symbols-outlined">{icon}</span>
@@ -116,6 +110,14 @@ export const Sidebar = () => {
     setActiveItem(item !== activeItem ? item : "");
   };
 
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+  }).catch((error) => {
+      // An error happened.
+  });
+  };
+
   return (
     <>
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
@@ -136,6 +138,12 @@ export const Sidebar = () => {
                 hasSubNav={!!item.items}
                 open={isOpen}
               />
+            )}
+            {item.name === "Logout" && (
+              <button type="button" onClick={handleLogout}>
+                <Icon icon={item.icon} />
+                {!isOpen && <span>{item.name}</span>}
+              </button>
             )}
             {item.items && (
               <>
