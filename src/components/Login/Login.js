@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import {  useState } from "react";
 import { useFormik } from "formik";
 
 import * as Components from "./Components";
@@ -9,13 +9,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  onAuthStateChanged
+  
 } from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
-import { addUser, removeUser } from "../utils/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { setNavigation } from "../utils/NavigateSlice";
+import { Link} from "react-router-dom";
+import { addUser} from "../utils/userSlice";
+import { useDispatch } from "react-redux";
+
 
 //import { addUser, removeUser } from "../utils/userSlice";
 
@@ -23,7 +23,7 @@ const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
   const dispatch=useDispatch();
-  const navigate=useNavigate();
+  
   //const selector=useSelector(store=>store.user);
   const signUpValues = {
     name: "",
@@ -169,11 +169,6 @@ const Login = () => {
     resetSignUpForm();
     resetSignInForm();
   };
-
-
-
-  
-
 
 
   return (
