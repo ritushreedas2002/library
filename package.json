@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -12,6 +13,7 @@
     "formik": "^2.4.5",
     "gsap": "^3.12.5",
     "http-proxy-middleware": "^2.0.6",
+    "jwt-decode": "^4.0.0",
     "locomotive-scroll": "^4.1.4",
     "react": "^18.2.0",
     "react-countup": "^6.5.0",

@@ -103,23 +103,24 @@ const SubMenu = ({ item, activeItem, handleClick, open }) => {
   );
 };
 
-export const Sidebar = () => {
+export const Sidebar = ({ onSignOut }) => {
   const [activeItem, setActiveItem] = useState("");
   const [isOpen, setIsOpen] = useState(true);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const handleClick = (item) => {
     console.log("activeItem", activeItem);
     setActiveItem(item !== activeItem ? item : "");
   };
 
   const handleLogout = () => {
-    signOut(auth).then(() => {
-      // Sign-out successful.
-      navigate("/")
-      
-  }).catch((error) => {
-      // An error happened.
-  });
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   return (
@@ -147,6 +148,12 @@ export const Sidebar = () => {
               <button type="button" onClick={handleLogout}>
                 <Icon icon={item.icon} />
                 {!isOpen && <span>{item.name}</span>}
+              </button>
+            )}
+            {item.name === "Logout" && (
+              <button type="button" onClick={onSignOut}>
+                <Icon icon={item.icon} />
+                {!isOpen && <span>SignOut</span>}
               </button>
             )}
             {item.items && (

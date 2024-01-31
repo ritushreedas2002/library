@@ -12,7 +12,7 @@ const DemoBookCard = () => {
   );
 };
 
-const BookCard = ({ book }) => {
+export const BookCard = ({ book }) => {
   return (
     <div className='w-36 mr-7 md:w-48 pr-4'>
       {book?.volumeInfo?.imageLinks?.thumbnail ? (
@@ -54,5 +54,5 @@ const BookSearch = () => {
     </div>
   );
 };
-
+ 
 export default BookSearch;

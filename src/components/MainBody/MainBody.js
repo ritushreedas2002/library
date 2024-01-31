@@ -1,12 +1,9 @@
-
 import Sidebar from "./SideBar/Sidebar";
 
-
-const MainBody = () => {
+const MainBody = ({ onSignOut }) => {
   return (
-
     <>
-      <Sidebar />
+      <Sidebar onSignOut={onSignOut} />
     </>
   );
 };

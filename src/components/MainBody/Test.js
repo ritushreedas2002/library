@@ -22,7 +22,7 @@ import "swiper/css/free-mode";
 // import "swiper/css/effect-coverflow";
 
 import { RxArrowTopRight } from "react-icons/rx";
-import { ServiceData } from "../utils";
+import { ServiceData } from "./SwiperData";
 
 // Install Swiper modules
 SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow]);
@@ -62,7 +62,6 @@ const Test = () => {
             // spaceBetween: 15,
             effect: "coverflow",
             coverflowEffect: {
-
               rotate: 0,
               stretch: 50,
               depth: 100,

@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 
 import * as Components from "./Components";
@@ -9,21 +9,21 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  
 } from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
-import { Link} from "react-router-dom";
-import { addUser} from "../utils/userSlice";
+import { Link } from "react-router-dom";
+import { addUser, addtheUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 //import { addUser, removeUser } from "../utils/userSlice";
 
 const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
-  const dispatch=useDispatch();
-  
+  const dispatch = useDispatch();
+
   //const selector=useSelector(store=>store.user);
   const signUpValues = {
     name: "",
@@ -93,8 +93,6 @@ const Login = () => {
     },
   });
 
-
-
   const handleSignUpSubmit = async (values, resetForm) => {
     try {
       console.log("SignUp call at first sign up");
@@ -108,19 +106,23 @@ const Login = () => {
       const user = userCredential.user;
       console.log(user);
       updateProfile(user, {
-        displayName: values.name
-      }).then(() => {
-     // Profile updated!
-     // ...
-     const {uid,email,displayName} = auth.currentUser;//updated value
-     dispatch(addUser({uid:uid,email:email,displayName:displayName}));
-     
-     //navigate("/MainBody")
-      }).catch((error) => {
-     // An error occurred
-    
-         seterror(error.message);
-      });
+        displayName: values.name,
+      })
+        .then(() => {
+          // Profile updated!
+          // ...
+          const { uid, email, displayName } = auth.currentUser; //updated value
+          dispatch(
+            addUser({ uid: uid, email: email, displayName: displayName })
+          );
+
+          //navigate("/MainBody")
+        })
+        .catch((error) => {
+          // An error occurred
+
+          seterror(error.message);
+        });
 
       console.log("Sign Up Successful");
       resetForm();
@@ -132,9 +134,6 @@ const Login = () => {
       setSignUpErrors({}); // Clear form errors
     }
   };
-
-
-
 
   const handleSignInSubmit = async (values, resetForm) => {
     try {
@@ -159,8 +158,6 @@ const Login = () => {
     }
   };
 
-
-
   const toggleEffect = () => {
     setsignIn(!signIn);
     seterror(null);
@@ -169,7 +166,6 @@ const Login = () => {
     resetSignUpForm();
     resetSignInForm();
   };
-
 
   return (
     <>
@@ -273,8 +269,21 @@ const Login = () => {
 
               <Components.Button>Sign In</Components.Button>
               <div className="mt-3 flex items-center">
-                <FcGoogle />{" "}
-                <span className="ml-2 text-sm text-blue-600">Sign In</span>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    const userObject = jwtDecode(
+                      credentialResponse?.credential
+                    );
+                    console.log(userObject);
+                    dispatch(addtheUser(userObject));
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+                {/* <div id="signInDiv"></div> */}
+                {/* <FcGoogle />{" "} */}
+                {/* <span className="ml-2 text-sm text-blue-600">Sign In</span> */}
               </div>
               <div className="m-5">
                 <Link to="/" className="text-blue-700 text-sm">
@@ -309,6 +318,7 @@ const Login = () => {
           </Components.OverlayContainer>
         </Components.Container>
       </div>
+      {/* <div id="signInDiv"></div> */}
     </>
   );
 };
