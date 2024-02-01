@@ -2,7 +2,10 @@
 
 import React from "react";
 import useBooks from "./useBooks";
-import "./styles.css"
+import "./styles.css";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { modifyCategory } from "./bookSlice";
 
 const DemoBookCard = () => {
   return (
@@ -14,7 +17,7 @@ const DemoBookCard = () => {
 
 export const BookCard = ({ book }) => {
   return (
-    <div className='w-36 mr-7 md:w-48 pr-4'>
+    <div className="w-36 mr-7 md:w-48 pr-4">
       {book?.volumeInfo?.imageLinks?.thumbnail ? (
         <img
           src={book.volumeInfo?.imageLinks?.thumbnail}
@@ -42,17 +45,19 @@ const BookSearch = () => {
   console.log("Books fetched:", books);
 
   return (
-    <div className="px-12 w-full mt-12">
+    <div className="pl-12 w-full mt-12">
       <h1 className="m-5 text-3xl">Programming Books</h1>
       <div className="flex overflow-x-scroll">
         <div className="flex">
-      {books?.map((book, index) => (
-        <BookCard key={index} book={book} />
-      ))}
-    </div>
-    </div>
+          {books?.map((book, index) => (
+            <Link key={index} to={"/book/" + book.id}>
+              <BookCard key={index} book={book} />
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
- 
+
 export default BookSearch;

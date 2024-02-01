@@ -18,6 +18,9 @@ import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
 import { jwtDecode } from "jwt-decode";
+import UserProfile from "./components/User/UserProfile";
+import User from "./components/User/User";
+import BookDetails from "./components/utils/BookDetails";
 
 
 const App = () => {
@@ -86,6 +89,7 @@ const App = () => {
       <div className="app">
         <Routes>
           <Route path="/" element={<FirstPage />} />
+          <Route path="/book/:bookid" element={<BookDetails />} />
           <Route
             path="/Login"
             element={

@@ -1,9 +1,31 @@
+import { useState } from "react";
+import BookSearch from "../utils/BookSearch";
 import Sidebar from "./SideBar/Sidebar";
+import Test from "./Test";
 
 const MainBody = ({ onSignOut }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <>
-      <Sidebar onSignOut={onSignOut} />
+      <Sidebar
+        onSignOut={onSignOut}
+        isOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
+      />
+      <div
+        className="ml-20" 
+        //className={`content ${
+        //   sidebarOpen ? "slider-back" : ""
+        // }${sidebarOpen ? "ml-30" : ""}`}
+      >
+        <Test />
+        <BookSearch />
+      </div>
     </>
   );
 };

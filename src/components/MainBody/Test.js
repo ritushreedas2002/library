@@ -29,7 +29,7 @@ SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow]);
 
 const Test = () => {
   return (
-    <div className="flex items-center justify-center flex-col h-[900px] bg-[#6c34af]">
+    <div className="flex w-full items-center justify-center -z-20 flex-col h-[900px] bg-[#6c34af]">
       <Swiper
         effect={"coverflow"}
         breakpoints={{
@@ -85,11 +85,12 @@ const Test = () => {
           clickable: true,
         }}
         modules={[FreeMode, Pagination]}
-        className="max-w-[90%] lg:max-w-[80%] "
+        className="max-w-full "
+        /*lg:max-w-[80%]*/
       >
         {ServiceData.map((item) => (
           <SwiperSlide key={item.title}>
-            <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[215px] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
+            <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-full lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${item.backgroundImage})` }}
