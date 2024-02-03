@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ShimmerSearch from "../utils/Shimmer/ShimmerSearch";
 
 const SearchResults = () => {
   const { query } = useParams();
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults]= useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,12 +20,16 @@ const SearchResults = () => {
 
     SearchBooks(query).then(setSearchResults);
   }, [query]);
+    console.log(searchResults);
+
+    if(searchResults.length===0)return <ShimmerSearch/>
 
   return (
     <div>
       <button onClick={() => navigate(-1)}>Go Back</button>
       <div className=" bg-slate-600 flex flex-wrap justify-start pl-32">
         {searchResults.map((book, index) => (
+          <Link to={`/book/${book.id}`}>
           <div key={index}>
             {/* <h2>{book.volumeInfo.title}</h2> */}
             <img
@@ -33,6 +38,7 @@ const SearchResults = () => {
               className="w-48 h-48 m-2"
             />
           </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -3,6 +3,7 @@ import useIndivBook from "./useIndivBook";
 import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import useRelatedBooks from "./useRelatedBooks";
+import ShimmerBookDetail from "./Shimmer/ShimmerBookDetail";
 
 const DemoBookCard = () => {
   return (
@@ -68,7 +69,7 @@ const BookDetails = () => {
   };
   console.log(booklist);
 
-  if (bookInfo === null) return null;
+  if (bookInfo === null) return <ShimmerBookDetail/>;
   //console.log(bookInfo.volumeInfo?.categories[0]);
 
   //const related = useRelatedBooks(bookInfo.volumeInfo?.categories[0]);
@@ -78,7 +79,7 @@ const BookDetails = () => {
         <div className="flex">
           {bookInfo?.volumeInfo === null ? (
             // <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
-            <div className="w-72 h-96 mr-12 bg-red-500 z-10 flex justify-center items-center text-white text-center">
+            <div className="w-72 h-[600px] mr-12 bg-red-500 z-10 flex justify-center items-center text-white text-center">
               <h1>pic unavailable</h1>
             </div>
           ) : (
