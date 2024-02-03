@@ -6,10 +6,10 @@ const useIndivBook = (bookid) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchBookDetail();
-  }, []);
+    fetchBookDetail(bookid);
+  }, [bookid]);
 
-  const fetchBookDetail = async () => {
+  const fetchBookDetail = async (bookid) => {
     if (isLoading) {
       try {
         const response = await fetch(

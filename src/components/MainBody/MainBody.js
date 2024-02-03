@@ -18,7 +18,7 @@ const MainBody = ({ onSignOut }) => {
         toggleSidebar={toggleSidebar}
       />
       <div
-        className="ml-20" 
+        className="ml-20 bg-[#6c34af]" 
         //className={`content ${
         //   sidebarOpen ? "slider-back" : ""
         // }${sidebarOpen ? "ml-30" : ""}`}

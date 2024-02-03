@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 
-const useBooks = () => {
+const useBooks = (category) => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchBooks = async (startIndex = 0) => {
+  const fetchBooks = async () => {
     if (isLoading) {
       try {
         const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=react&startIndex=${startIndex}&maxResults=7&key=AIzaSyAHmU-nwtsjbFU7LJgVZ0wY6typtBwzeKw`
+          "https://www.googleapis.com/books/v1/volumes?q=" +
+            category +
+            "&startIndex=0&maxResults=10&key=AIzaSyAHmU-nwtsjbFU7LJgVZ0wY6typtBwzeKw"
         );
         const data = await response.json();
         console.log(data);
@@ -33,7 +35,7 @@ const useBooks = () => {
     fetchBooks();
   }, []);
 
-  return { books, error };
+  return books;
 };
- 
+
 export default useBooks;

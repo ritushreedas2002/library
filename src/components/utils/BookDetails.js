@@ -19,7 +19,7 @@ const MiniCard = ({ item }) => {
         <img
           src={item.volumeInfo?.imageLinks?.smallThumbnail}
           alt={item.volumeInfo?.title}
-          className=" w-32  size-fit" // this is the best way to get uniform size images
+          className=" w-24  size-fit" // this is the best way to get uniform size images
         />
       ) : (
         <DemoBookCard />
@@ -69,7 +69,7 @@ const BookDetails = () => {
   console.log(booklist);
 
   if (bookInfo === null) return null;
-  console.log(bookInfo.volumeInfo?.categories[0]);
+  //console.log(bookInfo.volumeInfo?.categories[0]);
 
   //const related = useRelatedBooks(bookInfo.volumeInfo?.categories[0]);
   return (
@@ -77,11 +77,17 @@ const BookDetails = () => {
       <div className=" p-8  bg-gray-500 rounded-2xl w-[75%]">
         <div className="flex">
           {bookInfo?.volumeInfo === null ? (
-            <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
+            // <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
+            <div className="w-72 h-96 mr-12 bg-red-500 z-10 flex justify-center items-center text-white text-center">
+              <h1>pic unavailable</h1>
+            </div>
           ) : (
             <img
               className="mr-12 w-72 size-fit "
-              src={bookInfo?.volumeInfo?.imageLinks?.small}
+              src={
+                bookInfo?.volumeInfo?.imageLinks?.small ||
+                bookInfo?.volumeInfo?.imageLinks?.thumbnail
+              }
               alt=""
             />
           )}
@@ -94,12 +100,14 @@ const BookDetails = () => {
             </div>
           </div>
         </div>
-        <div className=" flex flex-col overflow-y-scroll max-h-[250px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">
+        <div className=" flex flex-col overflow-y-scroll max-h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">
           <div className=" text-white text-xl font-semibold border-b-2">
             Description
           </div>
           <div className=" mt-4 text-base text-white">
-            {parse(bookInfo.volumeInfo?.description)}
+            {bookInfo.volumeInfo?.description
+              ? parse(bookInfo.volumeInfo?.description)
+              : null}
           </div>
         </div>
       </div>
@@ -107,7 +115,7 @@ const BookDetails = () => {
         <div className=" text-white text-2xl font-semibold mb-4 text-center">
           Related Books
         </div>
-        <div className=" flex flex-col overflow-y-scroll max-h-[650px] no-scrollbar">
+        <div className=" flex flex-col overflow-y-scroll max-h-[620px] no-scrollbar">
           {booklist?.map((book, index) => (
             <Link key={index} to={"/book/" + book.id}>
               {/* link changing but page not updating */}
