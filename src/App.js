@@ -21,7 +21,7 @@ import { jwtDecode } from "jwt-decode";
 import UserProfile from "./components/User/UserProfile";
 import User from "./components/User/User";
 import BookDetails from "./components/utils/BookDetails";
-
+import SearchResults from "./components/MainBody/SearchResults";
 
 const App = () => {
   const [theuser, setTheUser] = useState(null);
@@ -90,6 +90,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<FirstPage />} />
           <Route path="/book/:bookid" element={<BookDetails />} />
+          <Route path="/search/:query" element={<SearchResults />} />
           <Route
             path="/Login"
             element={
