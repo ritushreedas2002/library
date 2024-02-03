@@ -64,15 +64,30 @@ const MainBody = ({ onSignOut }) => {
   console.log(width);
 
   return (
-    <>
-      <Sidebar
-        onSignOut={onSignOut}
-        isOpen={sidebarOpen}
-        toggleSidebar={toggleSidebar}
-      />
-      <SearchBar />
+    <div className="h-screen flex bg-[#6c34af] ">
+      <div className="h-full bg-[#6c34af] w-[13%]">
+        <div
+          onClick={() => setClicked(!clicked)}
+          className={`h-full w-[13%] bg-blue-400 transition-all duration-500 `}
+          style={{  position: "fixed" }}
+          // style={{
+          //   width: ${width}px,
+          //   height: "550px",
+          //   backgroundColor: "lightblue",
+          //   transition: "width 0.5s",
+          // }}
+        >
+          Click me
+        </div>
+        {/* <Sidebar
+          onSignOut={onSignOut}
+          isOpen={sidebarOpen}
+          toggleSidebar={toggleSidebar}
+        /> */}
+      </div>
+
       <div
-        className="ml-20 bg-[#6c34af]"
+        className="  bg-[#6c34af] w-[87%] "
         //className={`content ${
         //   sidebarOpen ? "slider-back" : ""
         // }${sidebarOpen ? "ml-30" : ""}`}
