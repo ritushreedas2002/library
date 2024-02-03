@@ -26,7 +26,7 @@ const usePopular = () => {
     if (isLoading) {
       try {
         const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=bestsellers&startIndex=0&maxResults=10&key=AIzaSyAHmU-nwtsjbFU7LJgVZ0wY6typtBwzeKw`
+          `https://www.googleapis.com/books/v1/volumes?q=bestsellers&startIndex=0&maxResults=10&key=AIzaSyBd5eK6KC9hXwSK5Gqu86oJdxFcm-FLBVQ`
         );
         const data = await response.json();
         console.log(data);

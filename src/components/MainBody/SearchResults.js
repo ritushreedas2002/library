@@ -11,7 +11,7 @@ const SearchResults = () => {
       const data = await fetch(
         "https://www.googleapis.com/books/v1/volumes?q=" +
           query +
-          "&startIndex=0&maxResults=27&key=AIzaSyAHmU-nwtsjbFU7LJgVZ0wY6typtBwzeKw"
+          "&startIndex=0&maxResults=27&key=AIzaSyBd5eK6KC9hXwSK5Gqu86oJdxFcm-FLBVQ"
       );
       const json = await data.json();
       return json.items;

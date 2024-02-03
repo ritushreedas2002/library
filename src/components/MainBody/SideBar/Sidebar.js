@@ -127,7 +127,7 @@ export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
   return (
     <>
       <div className=" ">
-        <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+        <aside className={`sidebar ${isOpen ? "open" : "open"}`}>
           <header className="sidebar-header">
             <button type="button" /*onClick={() => setIsOpen(!isOpen)}*/ onClick={toggleSidebar}>
               {!isOpen ? <MdOutlineCancel /> : <FiMenu />}
