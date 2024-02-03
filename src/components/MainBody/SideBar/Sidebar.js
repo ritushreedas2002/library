@@ -13,7 +13,6 @@ import { FiChevronDown } from "react-icons/fi";
 import { MdOutlineCancel } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import Test from "../Test";
-import BookSearch from "../../utils/BookSearch";
 import { signOut } from "firebase/auth";
 import { auth } from "../../utils/Firebase";
 import { useNavigate } from "react-router-dom";
@@ -126,6 +125,7 @@ export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
 
   return (
     <>
+    <div className={`overlay ${!isOpen ?'visible':''}`} onClick={toggleSidebar}></div>
       <div className=" ">
         <aside className={`sidebar ${isOpen ? "open" : ""}`}>
           <header className="sidebar-header">
@@ -180,6 +180,7 @@ export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
           ))}
         </aside>
       </div>
+      
     </>
   );
 };

@@ -40,7 +40,7 @@ const SearchBar = () => {
           placeholder="Search more books..."
         />
         <button
-          className="col-span-2 m-4 py-2 px-2 bg-red-700 text-white text-lg font-semibold rounded-lg text-center"
+          className="col-span-2 m-4 py-2 px-2 bg-red-700 text-white text-md font-semibold rounded-lg text-center"
           onClick={handleSearchClick}
         >
           🔍 Search

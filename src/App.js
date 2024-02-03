@@ -18,13 +18,15 @@ import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
 import { jwtDecode } from "jwt-decode";
-import UserProfile from "./components/User/UserProfile";
 import User from "./components/User/User";
 import BookDetails from "./components/utils/BookDetails";
 import SearchResults from "./components/MainBody/SearchResults";
+import Testing from "./components/Testing";
+
 
 const App = () => {
   const [theuser, setTheUser] = useState(null);
+  const [userEmail, setUserEmail] = useState("");
   const dispatch = useDispatch();
 
   const handleCallbackResponse = (response) => {
@@ -67,6 +69,10 @@ const App = () => {
       if (user) {
         // User is signed in
         const { uid, email, displayName } = user;
+        const storedEmail = localStorage.getItem("email");
+        if (storedEmail) {
+          setUserEmail(storedEmail);
+        }
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
         dispatch(setisLoading(false));
       } else {
@@ -94,7 +100,7 @@ const App = () => {
           <Route
             path="/Login"
             element={
-              user || googleuser ? (
+              userEmail || googleuser ? (
                 <Navigate to="/MainBody" />
               ) : (
                 <>
@@ -107,7 +113,7 @@ const App = () => {
           <Route
             path="/MainBody"
             element={
-              user || googleuser ? (
+              userEmail || googleuser ? (
                 <MainBody onSignOut={handleSignOut} />
               ) : (
                 <Navigate to="/Login" />
@@ -119,6 +125,9 @@ const App = () => {
             path="/MainBody"
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
+          <Route path="/User" element={<User />} />
+          <Route path="/test" element={<Testing />} />
+          
         </Routes>
       </div>
     </Router>

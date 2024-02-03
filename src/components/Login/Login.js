@@ -3,11 +3,12 @@ import { useFormik } from "formik";
 
 import * as Components from "./Components";
 import "./style.css";
-import { auth } from "../utils/Firebase";
+import { auth,provider } from "../utils/Firebase";
 import * as Yup from "yup";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   updateProfile,
 } from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
@@ -104,6 +105,7 @@ const Login = () => {
         values.password
       );
       const user = userCredential.user;
+      window.localStorage.setItem("email", user.email);
       console.log(user);
       updateProfile(user, {
         displayName: values.name,
@@ -115,6 +117,7 @@ const Login = () => {
           dispatch(
             addUser({ uid: uid, email: email, displayName: displayName })
           );
+          localStorage.setItem("email", user.email);
 
           //navigate("/MainBody")
         })
@@ -134,6 +137,21 @@ const Login = () => {
       setSignUpErrors({}); // Clear form errors
     }
   };
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      if (user) {
+        console.log(user);
+        window.localStorage.setItem("email", user.email);
+        // Dispatch an action to update your Redux store if needed
+        // dispatch(addtheUser(userObject));
+      }
+    } catch (error) {
+      console.error("Google Sign In failed:", error);
+    }
+  };
 
   const handleSignInSubmit = async (values, resetForm) => {
     try {
@@ -146,7 +164,7 @@ const Login = () => {
       );
       const user = userCredential.user;
       console.log(user);
-
+      window.localStorage.setItem("email", user.email);
       console.log("Sign In Successful");
       resetForm();
     } catch (error) {
@@ -268,8 +286,8 @@ const Login = () => {
               </Components.Anchor>
 
               <Components.Button>Sign In</Components.Button>
-              <div className="mt-3 flex items-center">
-                <GoogleLogin
+              <div className="mt-3 flex items-center cursor-pointer " onClick={handleGoogleSignIn}>
+                {/* <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     const userObject = jwtDecode(
                       credentialResponse?.credential
@@ -280,10 +298,10 @@ const Login = () => {
                   onError={() => {
                     console.log("Login Failed");
                   }}
-                />
-                {/* <div id="signInDiv"></div> */}
-                {/* <FcGoogle />{" "} */}
-                {/* <span className="ml-2 text-sm text-blue-600">Sign In</span> */}
+                />  */}
+                <div id="signInDiv" ></div>
+                <FcGoogle  />{" "}
+                <span className="ml-2 text-sm text-blue-600">Sign In</span>
               </div>
               <div className="m-5">
                 <Link to="/" className="text-blue-700 text-sm">
@@ -322,4 +340,5 @@ const Login = () => {
     </>
   );
 };
+
 export default Login;

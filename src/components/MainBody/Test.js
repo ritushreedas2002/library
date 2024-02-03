@@ -49,15 +49,27 @@ const Test = () => {
               // slideShadows: true,
             },
           },
-          640: {
-            // slidesPerView: 2,
+          // 640: {
+          //   // slidesPerView: 2,
+          //   // spaceBetween: 15,
+          //   effect: "coverflow",
+          //   coverflowEffect: {
+          //     rotate: 50,
+          //     stretch: 0,
+          //     depth: 100,
+          //     modifier: 1,
+          //     slideShadows: false,
+          //   },
+          // },
+          640:{
+            slidesPerView: 3,
             // spaceBetween: 15,
             effect: "coverflow",
             coverflowEffect: {
-              rotate: 50,
-              stretch: 0,
+              rotate: 0,
+              stretch: 50,
               depth: 100,
-              modifier: 1,
+              modifier: 2.5,
               slideShadows: false,
             },
           },
@@ -94,7 +106,7 @@ const Test = () => {
       >
         {popular.map((item) => (
           <SwiperSlide key={item.id}>
-            <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-full lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
+            <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
               <div
                 className=" absolute inset-0 bg-cover "
                 style={{
