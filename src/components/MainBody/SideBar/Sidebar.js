@@ -103,54 +103,40 @@ const SubMenu = ({ item, activeItem, handleClick, open }) => {
   );
 };
 
-export const Sidebar = () => {
+export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
   const [activeItem, setActiveItem] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
-  const navigate=useNavigate();
+  //const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
+
   const handleClick = (item) => {
     console.log("activeItem", activeItem);
     setActiveItem(item !== activeItem ? item : "");
   };
 
   const handleLogout = () => {
-    signOut(auth).then(() => {
-      // Sign-out successful.
-      navigate("/")
-      
-  }).catch((error) => {
-      // An error happened.
-  });
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   return (
     <>
-      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
-        <header className="sidebar-header">
-          <button type="button" onClick={() => setIsOpen(!isOpen)}>
-            {!isOpen ? <MdOutlineCancel /> : <FiMenu />}
-          </button>
-          {!isOpen && <span>Admin</span>}
-        </header>
-        {menuItems.map((item) => (
-          <div key={item.name}>
-            {!item.items && (
-              <NavButton
-                onClick={handleClick}
-                name={item.name}
-                icon={item.icon}
-                isActive={activeItem === item.name}
-                hasSubNav={!!item.items}
-                open={isOpen}
-              />
-            )}
-            {item.name === "Logout" && (
-              <button type="button" onClick={handleLogout}>
-                <Icon icon={item.icon} />
-                {!isOpen && <span>{item.name}</span>}
-              </button>
-            )}
-            {item.items && (
-              <>
+      <div className=" ">
+        <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+          <header className="sidebar-header">
+            <button type="button" /*onClick={() => setIsOpen(!isOpen)}*/ onClick={toggleSidebar}>
+              {!isOpen ? <MdOutlineCancel /> : <FiMenu />}
+            </button>
+            {!isOpen && <span>Admin</span>}
+          </header>
+          {menuItems.map((item) => (
+            <div key={item.name}>
+              {!item.items && (
                 <NavButton
                   onClick={handleClick}
                   name={item.name}
@@ -159,20 +145,40 @@ export const Sidebar = () => {
                   hasSubNav={!!item.items}
                   open={isOpen}
                 />
-                <SubMenu
-                  activeItem={activeItem}
-                  handleClick={handleClick}
-                  item={item}
-                  open={isOpen}
-                />
-              </>
-            )}
-          </div>
-        ))}
-      </aside>
-      <div className="ml-20">
-        <Test />
-        <BookSearch />
+              )}
+              {item.name === "Logout" && (
+                <button type="button" onClick={handleLogout}>
+                  <Icon icon={item.icon} />
+                  {!isOpen && <span>{item.name}</span>}
+                </button>
+              )}
+              {item.name === "Logout" && (
+                <button type="button" onClick={onSignOut}>
+                  <Icon icon={item.icon} />
+                  {!isOpen && <span>SignOut</span>}
+                </button>
+              )}
+              {item.items && (
+                <>
+                  <NavButton
+                    onClick={handleClick}
+                    name={item.name}
+                    icon={item.icon}
+                    isActive={activeItem === item.name}
+                    hasSubNav={!!item.items}
+                    open={isOpen}
+                  />
+                  <SubMenu
+                    activeItem={activeItem}
+                    handleClick={handleClick}
+                    item={item}
+                    open={isOpen}
+                  />
+                </>
+              )}
+            </div>
+          ))}
+        </aside>
       </div>
     </>
   );
