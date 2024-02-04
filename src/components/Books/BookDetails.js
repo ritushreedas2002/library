@@ -40,10 +40,15 @@ const BookDetails = () => {
   const [booklist, setBookList] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showPreview, setShowPreview] = useState(false);
 
   //console.log(bookInfo.volumeInfo);
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
   console.log(category);
+
+  const toggleShowPreview = () => {
+    setShowPreview(!showPreview);
+  };
 
   useEffect(() => {
     // Fetch related books only when the category is available
@@ -113,8 +118,21 @@ const BookDetails = () => {
               : null}
           </div>
         </div>
-        <div className="flex items-center justify-center"><BookPreview2 bookId={bookInfo.id}/></div>
-        
+        {/* <Link to={"/book/preview/" + bookInfo.id}> */}
+          <button
+            className=" p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg"
+            onClick={toggleShowPreview}
+          >
+            {showPreview ? "Close Preview" : "See Preview"}
+          </button>
+        {/* </Link> */}
+
+        {showPreview && (
+          <div className="flex items-center justify-center">
+            <BookPreview2 bookId={bookInfo.id} />
+          </div>
+        )}
+
         {/* <div className="w-[600px] h-[500px]">
           <Helmet>
             <script

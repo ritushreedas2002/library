@@ -21,6 +21,7 @@ import Login from "./components/Login/Login";
 import User from "./components/User/User";
 import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchResults";
+import BookPreviewPage from "./components/Books/BookPreviewPage";
 //import Testing from "./components/Testing";
 
 const App = () => {
@@ -92,6 +93,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<FirstPage />} />
           <Route path="/book/:bookid" element={<BookDetails />} />
+          <Route path="/book/preview/:bookid" element={<BookPreviewPage />} />
           <Route path="/search/:query" element={<SearchResults />} />
           <Route
             path="/Login"

@@ -1,16 +1,15 @@
 // BookPreview.js
 import React, { useEffect } from 'react';
-import axios from 'axios';
 
-const BookPreview = ({ bookId }) => {
+const BookPreview2 = ({ bookId }) => {
   useEffect(() => {
     embedBookPreview(bookId);
   }, [bookId]);
 
   const embedBookPreview = (bookId) => {
     const iframe = document.createElement('iframe');
-    iframe.width = '600';
-    iframe.height = '400';
+    iframe.width = '800';
+    iframe.height = '600';
     iframe.src = `https://books.google.com/books?id=${bookId}&lpg=PP1&pg=PA1&output=embed`;
     iframe.frameBorder = '0';
     iframe.allowFullScreen = true;
@@ -22,4 +21,4 @@ const BookPreview = ({ bookId }) => {
   return <div id="bookPreviewContainer" className='flex items-center'></div>;
 };
 
-export default BookPreview;
+export default BookPreview2;
