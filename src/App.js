@@ -21,6 +21,7 @@ import Login from "./components/Login/Login";
 import User from "./components/User/User";
 import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchResults";
+import BookPreviewPage from "./components/Books/BookPreviewPage";
 //import Testing from "./components/Testing";
 
 const App = () => {
@@ -124,6 +125,7 @@ const App = () => {
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
           <Route path="/User" element={<User />} />
+          <Route path="/book/preview/:bookid" element={<BookPreviewPage/>}/>
         </Routes>
       </div>
     </Router>

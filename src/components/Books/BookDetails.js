@@ -3,8 +3,7 @@ import useIndivBook from "../hooks/useIndivBook";
 import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import BookPreview2 from "../utils/BookPreview2";
-import { Helmet } from "react-helmet";
-import useRelatedBooks from "../hooks/useRelatedBooks";
+//import useRelatedBooks from "../hooks/useRelatedBooks";
 import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
 
 const DemoBookCard = () => {
@@ -70,7 +69,7 @@ const BookDetails = () => {
     }
   };
   console.log(booklist);
-  const isbn = "Jrx6EAAAQBAJ";
+  const isbn = "9786067892888";
   if (bookInfo === null) return <ShimmerBookDetail />;
   //console.log(bookInfo.volumeInfo?.categories[0]);
 
@@ -113,7 +112,12 @@ const BookDetails = () => {
               : null}
           </div>
         </div>
-        <div className="flex items-center justify-center"><BookPreview2 bookId={bookInfo.id}/></div>
+        <Link to={"/book/preview/" + isbn}>
+          <button className=" p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg">
+            See Preview
+          </button>
+        </Link>
+        {/* <div className="flex items-center justify-center"><BookPreview2 bookId={bookInfo.id}/></div> */}
         
         {/* <div className="w-[600px] h-[500px]">
           <Helmet>

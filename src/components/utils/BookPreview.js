@@ -104,7 +104,7 @@
 import React, { useEffect } from 'react';
 
 
-const BookPreview = ({ bookId }) => {
+const BookPreview2 = ({ bookId }) => {
   useEffect(() => {
     embedBookPreview(bookId);
   }, [bookId]);
@@ -124,5 +124,5 @@ const BookPreview = ({ bookId }) => {
   return <div id="bookPreviewContainer" className='flex items-center'></div>;
 };
 
-export default BookPreview;
+export default BookPreview2;
 
