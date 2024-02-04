@@ -3,7 +3,7 @@ import FirstPage from "./components/Home/FirstPage";
 import { useSelector } from "react-redux";
 import MainBody from "./components/MainBody/MainBody";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./components/utils/Firebase";
 import {
@@ -17,16 +17,15 @@ import {
 import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
-import { jwtDecode } from "jwt-decode";
+//import { jwtDecode } from "jwt-decode";
 import User from "./components/User/User";
-import BookDetails from "./components/utils/BookDetails";
+import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchResults";
-import Testing from "./components/Testing";
-
+//import Testing from "./components/Testing";
 
 const App = () => {
-  const [theuser, setTheUser] = useState(null);
-  
+  // const [theuser, setTheUser] = useState(null);
+
   const dispatch = useDispatch();
 
   // const handleCallbackResponse = (response) => {
@@ -69,12 +68,14 @@ const App = () => {
       if (user) {
         // User is signed in
         const { uid, email, displayName } = user;
-        
+
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        localStorage.setItem("userAuthenticated",'true');
         dispatch(setisLoading(false));
       } else {
         // User is signed out
         dispatch(removeUser());
+        localStorage.setItem("userAuthenticated",'false');
       }
     });
 
@@ -84,8 +85,6 @@ const App = () => {
   }, []);
 
   const user = useSelector(selectUser);
-
-  //console.log(user);
 
   return (
     <Router>
@@ -97,12 +96,13 @@ const App = () => {
           <Route
             path="/Login"
             element={
-               user /*|| googleuser */? (
+              
+               localStorage?.getItem("userAuthenticated") ===
+                 "true" ||  user  /*|| googleuser */ ? (
                 <Navigate to="/MainBody" />
               ) : (
                 <>
                   <Login />
-                  {/* <div id="signInDiv"></div> */}
                 </>
               )
             }
@@ -110,21 +110,20 @@ const App = () => {
           <Route
             path="/MainBody"
             element={
-              user /*|| googleuser*/ ? (
-                <MainBody /*onSignOut={handleSignOut}*/ />
+              localStorage.getItem("userAuthenticated") === "true" || user
+              /* || googleuser*/ ? (
+                <MainBody />
               ) : (
                 <Navigate to="/Login" />
               )
             }
           />
-          {console.log(theuser + "available")}
+          {/* {console.log(theuser + "available")} */}
           {/* <Route
             path="/MainBody"
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
           <Route path="/User" element={<User />} />
-          <Route path="/test" element={<Testing />} />
-          
         </Routes>
       </div>
     </Router>

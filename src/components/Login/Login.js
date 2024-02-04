@@ -3,16 +3,17 @@ import { useFormik } from "formik";
 
 import * as Components from "./Components";
 import "./style.css";
-import { auth,provider } from "../utils/Firebase";
+import { auth, provider } from "../utils/Firebase";
 import * as Yup from "yup";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
+  GoogleAuthProvider,
 } from "@firebase/auth"; // Replace with actual import from your firebase auth library
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { addUser, addtheUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
@@ -24,6 +25,7 @@ const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //const selector=useSelector(store=>store.user);
   const signUpValues = {
@@ -105,7 +107,7 @@ const Login = () => {
         values.password
       );
       const user = userCredential.user;
-      window.localStorage.setItem("email", user.email);
+
       console.log(user);
       updateProfile(user, {
         displayName: values.name,
@@ -117,9 +119,12 @@ const Login = () => {
           dispatch(
             addUser({ uid: uid, email: email, displayName: displayName })
           );
-          localStorage.setItem("email", user.email);
+          localStorage.setItem("userAuthenticated", "true");
+          navigate("/MainBody");
+          // Redirect to MainBody
 
           //navigate("/MainBody")
+          
         })
         .catch((error) => {
           // An error occurred
@@ -138,19 +143,29 @@ const Login = () => {
     }
   };
   const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-  
-      if (user) {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
         console.log(user);
-        window.localStorage.setItem("email", user.email);
-        // Dispatch an action to update your Redux store if needed
-        // dispatch(addtheUser(userObject));
-      }
-    } catch (error) {
-      console.error("Google Sign In failed:", error);
-    }
+        localStorage.setItem("userAuthenticated", "true");
+        navigate("/MainBody");
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
 
   const handleSignInSubmit = async (values, resetForm) => {
@@ -163,10 +178,13 @@ const Login = () => {
         values.password
       );
       const user = userCredential.user;
+      localStorage.setItem("userAuthenticated", "true");
       console.log(user);
-      window.localStorage.setItem("email", user.email);
+      navigate("/MainBody");
       console.log("Sign In Successful");
       resetForm();
+
+      // Redirect to MainBody
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -286,7 +304,10 @@ const Login = () => {
               </Components.Anchor>
 
               <Components.Button>Sign In</Components.Button>
-              <div className="mt-3 flex items-center cursor-pointer " onClick={handleGoogleSignIn}>
+              <div
+                className="mt-3 flex items-center cursor-pointer "
+                onClick={handleGoogleSignIn}
+              >
                 {/* <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     const userObject = jwtDecode(
@@ -299,8 +320,8 @@ const Login = () => {
                     console.log("Login Failed");
                   }}
                 />  */}
-                <div id="signInDiv" ></div>
-                <FcGoogle  />{" "}
+                <div id="signInDiv"></div>
+                <FcGoogle />{" "}
                 <span className="ml-2 text-sm text-blue-600">Sign In</span>
               </div>
               <div className="m-5">
