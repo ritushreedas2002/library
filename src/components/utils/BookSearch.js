@@ -49,7 +49,7 @@ const BookSearch = () => {
   console.log("Books fetched:", programming);
 
   return (
-    <div className="pl-12 w-full flex flex-col ">
+    <div className="pl-12 w-full flex flex-col bg-[#6c34af]">
       <h1 className="pb-4 text-3xl font-medium text-white">
         Programming Books
       </h1>

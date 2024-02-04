@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import useRelatedBooks from "./useRelatedBooks";
 import ShimmerBookDetail from "./Shimmer/ShimmerBookDetail";
+import BookPreview from "./BookPreview";
+import { Helmet } from "react-helmet";
 
 const DemoBookCard = () => {
   return (
@@ -68,8 +70,8 @@ const BookDetails = () => {
     }
   };
   console.log(booklist);
-
-  if (bookInfo === null) return <ShimmerBookDetail/>;
+  const isbn = "9781101514115";
+  if (bookInfo === null) return <ShimmerBookDetail />;
   //console.log(bookInfo.volumeInfo?.categories[0]);
 
   //const related = useRelatedBooks(bookInfo.volumeInfo?.categories[0]);
@@ -111,6 +113,18 @@ const BookDetails = () => {
               : null}
           </div>
         </div>
+        <BookPreview isbn={isbn}/>
+        {/* <div className="w-[600px] h-[500px]">
+          <Helmet>
+            <script
+              type="text/javascript"
+              src="https://books.google.com/books/previewlib.js"
+            ></script>
+          </Helmet>
+          <script type="text/javascript">
+            GBS_insertEmbeddedViewer('ISBN:9781101514115',600,500);
+          </script>
+        </div> */}
       </div>
       <div className=" p-4 ml-5 bg-gray-500 rounded-2xl w-[22%] flex flex-col">
         <div className=" text-white text-2xl font-semibold mb-4 text-center">
