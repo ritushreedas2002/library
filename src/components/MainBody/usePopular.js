@@ -13,9 +13,8 @@ import SpaceCity6 from "../assets/SpaceCity6.jpeg";
 import SpaceCity7 from "../assets/SpaceCity7.jpeg";
 import SpaceCity8 from "../assets/SpaceCity8.jpeg";
 import SpaceCity9 from "../assets/SpaceCity9.jpeg";
-import useBooks from "../utils/useBooks";
+import useBooks from "../hooks/useBooks";
 import { useEffect, useState } from "react";
-
 
 const usePopular = () => {
   const [books, setBooks] = useState([]);
@@ -54,7 +53,6 @@ const usePopular = () => {
 };
 
 export default usePopular;
-
 
 // export const ServiceData = [
 //   {

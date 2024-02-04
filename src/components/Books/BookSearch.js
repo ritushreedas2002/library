@@ -1,11 +1,11 @@
 // BookSearch.js
 
-import React, { useEffect, useState } from "react";
-import useBooks from "./useBooks";
-import "./styles.css";
+import React from "react";
+import useBooks from "../hooks/useBooks";
+
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { modifyCategory } from "./bookSlice";
+// import { useDispatch } from "react-redux";
+// import { modifyCategory } from "../utils/bookSlice";
 
 const DemoBookCard = () => {
   return (

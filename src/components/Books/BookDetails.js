@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import useIndivBook from "./useIndivBook";
+import useIndivBook from "../hooks/useIndivBook";
 import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import useRelatedBooks from "./useRelatedBooks";
 import ShimmerBookDetail from "./Shimmer/ShimmerBookDetail";
 import BookPreview from "./BookPreview";
 import { Helmet } from "react-helmet";
+import useRelatedBooks from "../hooks/useRelatedBooks";
+import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
 
 const DemoBookCard = () => {
   return (
