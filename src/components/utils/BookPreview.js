@@ -48,7 +48,7 @@ const BookPreview = ({ isbn }) => {
   // const ISBN_num = useSelector(
   //   (state) => state.currentBookReducer.currentBook.book.ISBN_number
   // );
-  const ISBN_num = isbn;
+  const ISBN_num = parseInt(isbn);
   const canvasRef = useRef();
 
   // Initialize loaded state as false
@@ -56,6 +56,7 @@ const BookPreview = ({ isbn }) => {
   // Create alert message if book not found in Google Database
   function alertNotFound() {
     alert("could not embed the book!");
+    console.log("unavailable book");
   }
   // Add a Google Books script tag and event listener if the tag has loaded
   useEffect(() => {
