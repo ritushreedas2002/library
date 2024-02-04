@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import BookPreview2 from "../utils/BookPreview2";
 //import useRelatedBooks from "../hooks/useRelatedBooks";
 import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
+import BookPreviewPage from "./BookPreviewPage";
 
 const DemoBookCard = () => {
   return (
@@ -46,8 +47,13 @@ const BookDetails = () => {
   console.log(category);
 
   const toggleShowPreview = () => {
-    setShowPreview(!showPreview);
+    setShowPreview(true);
   };
+  const ShowPreview = () => {
+    setShowPreview(false);
+  };
+  
+
 
   useEffect(() => {
     // Fetch related books only when the category is available
@@ -74,7 +80,7 @@ const BookDetails = () => {
     }
   };
   console.log(booklist);
-  const isbn = "9786067892888";
+  
   if (bookInfo === null) return <ShimmerBookDetail />;
   //console.log(bookInfo.volumeInfo?.categories[0]);
 
@@ -119,16 +125,16 @@ const BookDetails = () => {
         </div>
         {/* <Link to={"/book/preview/" + bookInfo.id}> */}
           <button
-            className=" p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg"
+            className=" p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg mt-6"
             onClick={toggleShowPreview}
           >
-            {showPreview ? "Close Preview" : "See Preview"}
+            { "See Preview"}
           </button>
         {/* </Link> */}
 
         {showPreview && (
           <div className="flex items-center justify-center">
-            <BookPreview2 bookId={bookInfo.id} />
+            <BookPreview2 bookId={bookInfo.id} show={ShowPreview} />
           </div>
         )}
 
