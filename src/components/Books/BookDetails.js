@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import useIndivBook from "../hooks/useIndivBook";
 import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
-import useRelatedBooks from "./useRelatedBooks";
-import ShimmerBookDetail from "./Shimmer/ShimmerBookDetail";
-import BookPreview from "./BookPreview";
+import BookPreview2 from "../utils/BookPreview2";
 import { Helmet } from "react-helmet";
 import useRelatedBooks from "../hooks/useRelatedBooks";
 import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
@@ -72,7 +70,7 @@ const BookDetails = () => {
     }
   };
   console.log(booklist);
-  const isbn = "9781101514115";
+  const isbn = "Jrx6EAAAQBAJ";
   if (bookInfo === null) return <ShimmerBookDetail />;
   //console.log(bookInfo.volumeInfo?.categories[0]);
 
@@ -88,7 +86,7 @@ const BookDetails = () => {
             </div>
           ) : (
             <img
-              className="mr-12 w-72 size-fit "
+              className="mr-12 w-72 size-fit max-h-[400px]"
               src={
                 bookInfo?.volumeInfo?.imageLinks?.small ||
                 bookInfo?.volumeInfo?.imageLinks?.thumbnail
@@ -115,7 +113,8 @@ const BookDetails = () => {
               : null}
           </div>
         </div>
-        <BookPreview isbn={isbn}/>
+        <div className="flex items-center justify-center"><BookPreview2 bookId={bookInfo.id}/></div>
+        
         {/* <div className="w-[600px] h-[500px]">
           <Helmet>
             <script
@@ -128,7 +127,7 @@ const BookDetails = () => {
           </script>
         </div> */}
       </div>
-      <div className=" p-4 ml-5 bg-gray-500 rounded-2xl w-[22%] flex flex-col">
+      <div className=" p-4 ml-5 max-h-[630px] bg-gray-500 rounded-2xl w-[22%] flex flex-col">
         <div className=" text-white text-2xl font-semibold mb-4 text-center">
           Related Books
         </div>
