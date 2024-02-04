@@ -50,6 +50,7 @@ import BookSearch from "../utils/BookSearch";
 import Sidebar from "./SideBar/Sidebar";
 import Test from "./Test";
 import SearchBar from "./SearchBar";
+import Sidebar2 from "./SideBar/Sidebar2";
 
 const MainBody = ({ onSignOut }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -66,7 +67,7 @@ const MainBody = ({ onSignOut }) => {
   return (
     <div className="h-screen flex bg-[#6c34af] ">
       <div className="h-full bg-[#6c34af] w-[13%]">
-        <div
+        {/* <div
           onClick={() => setClicked(!clicked)}
           className={`h-full w-[13%] bg-blue-400 transition-all duration-500 `}
           style={{  position: "fixed" }}
@@ -78,12 +79,13 @@ const MainBody = ({ onSignOut }) => {
           // }}
         >
           Click me
-        </div>
+        </div> */}
         {/* <Sidebar
           onSignOut={onSignOut}
           isOpen={sidebarOpen}
           toggleSidebar={toggleSidebar}
         /> */}
+        <Sidebar2/>
       </div>
 
       <div

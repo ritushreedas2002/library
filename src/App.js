@@ -26,53 +26,50 @@ import Testing from "./components/Testing";
 
 const App = () => {
   const [theuser, setTheUser] = useState(null);
-  const [userEmail, setUserEmail] = useState("");
+  
   const dispatch = useDispatch();
 
-  const handleCallbackResponse = (response) => {
-    console.log("Encoded JWT token:" + response.credential);
-    var userObject = jwtDecode(response.credential);
-    console.log(userObject);
-    console.log("Google sign in called");
-    setTheUser(userObject);
-    dispatch(addtheUser(userObject));
-  };
+  // const handleCallbackResponse = (response) => {
+  //   console.log("Encoded JWT token:" + response.credential);
+  //   var userObject = jwtDecode(response.credential);
+  //   console.log(userObject);
+  //   console.log("Google sign in called");
+  //   setTheUser(userObject);
+  //   dispatch(addtheUser(userObject));
+  // };
 
-  const handleSignOut = () => {
-    console.log("Google sign out called");
-    setTheUser(null);
-    dispatch(removetheUser());
-  };
+  // const handleSignOut = () => {
+  //   console.log("Google sign out called");
+  //   setTheUser(null);
+  //   dispatch(removetheUser());
+  // };
 
-  const googleuser = useSelector((store) => store.user.theuser);
+  // const googleuser = useSelector((store) => store.user.theuser);
 
-  console.log(googleuser + "google");
+  // console.log(googleuser + "google");
 
-  useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id:
-        "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com",
-      callback: handleCallbackResponse,
-    });
+  // useEffect(() => {
+  //   /* global google */
+  //   google.accounts.id.initialize({
+  //     client_id:
+  //       "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com",
+  //     callback: handleCallbackResponse,
+  //   });
 
-    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
-      theme: "outline",
-      size: "large",
-    });
-  }, []);
+  //   google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+  //     theme: "outline",
+  //     size: "large",
+  //   });
+  // }, []);
 
-  const isLoading = useSelector((store) => store.user.isLoading);
-  console.log(isLoading);
+  // const isLoading = useSelector((store) => store.user.isLoading);
+  // console.log(isLoading);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in
         const { uid, email, displayName } = user;
-        const storedEmail = localStorage.getItem("email");
-        if (storedEmail) {
-          setUserEmail(storedEmail);
-        }
+        
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
         dispatch(setisLoading(false));
       } else {
@@ -100,7 +97,7 @@ const App = () => {
           <Route
             path="/Login"
             element={
-              userEmail || googleuser ? (
+               user /*|| googleuser */? (
                 <Navigate to="/MainBody" />
               ) : (
                 <>
@@ -113,8 +110,8 @@ const App = () => {
           <Route
             path="/MainBody"
             element={
-              userEmail || googleuser ? (
-                <MainBody onSignOut={handleSignOut} />
+              user /*|| googleuser*/ ? (
+                <MainBody /*onSignOut={handleSignOut}*/ />
               ) : (
                 <Navigate to="/Login" />
               )

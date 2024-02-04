@@ -1,13 +1,14 @@
 import { useState } from "react";
 import EditProfileModal from "./EditProfile";
 import UserProfile from "./UserProfile";
+import { useSelector } from "react-redux";
 
 const User = () => {
-
+  const user1=useSelector(store=>store.user.user);
 
   const [user, setUser] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
+    name: user1?.displayName,
+    email: user1?.email,
     profileImage: null,
   });
   const [isEditing, setIsEditing] = useState(false);

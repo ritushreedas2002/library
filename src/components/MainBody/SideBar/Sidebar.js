@@ -113,14 +113,11 @@ export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
   };
 
   const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+    signOut(auth).then(() => {
+      // Sign-out successful.
+  }).catch((error) => {
+      // An error happened.
+  });
   };
 
   return (
