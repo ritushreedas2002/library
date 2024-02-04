@@ -24,6 +24,7 @@ import "swiper/css/free-mode";
 import { RxArrowTopRight } from "react-icons/rx";
 import { ServiceData } from "./usePopular";
 import usePopular from "./usePopular";
+import { useNavigate } from "react-router-dom";
 
 // Install Swiper modules
 SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow]);
@@ -31,6 +32,10 @@ SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow]);
 const Test = () => {
   const popular = usePopular();
   console.log(popular);
+  const navigate=useNavigate()
+  const handleNavigate = (itemId) => {
+    navigate(`/book/${itemId}`);
+  };
 
   return (
     <div className="flex w-full items-center justify-center pt-32  flex-col h-[600px] bg-[#6c34af]">
@@ -105,7 +110,8 @@ const Test = () => {
         /*lg:max-w-[80%]*/
       >
         {popular.map((item) => (
-          <SwiperSlide key={item.id}>
+          
+          <SwiperSlide key={item.id} onClick={() => handleNavigate(item.id)}>
             <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
               <div
                 className=" absolute inset-0 bg-cover "
@@ -117,6 +123,7 @@ const Test = () => {
               <RxArrowTopRight className="absolute bottom-5 left-5 w-[35px] h-[35px] text-white group-hover:text-blue-500 group-hover:rotate-45 duration-100" />
             </div>
           </SwiperSlide>
+         
         ))}
       </Swiper>
       {/* <div className="swiper-button-next" />
