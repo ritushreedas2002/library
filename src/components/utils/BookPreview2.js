@@ -21,4 +21,4 @@ const BookPreview2 = ({ bookId }) => {
   return <div id="bookPreviewContainer" className='flex items-center'></div>;
 };
 
-export default BookPreview;
+export default BookPreview2;
