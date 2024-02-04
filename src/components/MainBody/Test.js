@@ -80,8 +80,8 @@ const Test = () => {
             coverflowEffect: {
               rotate: 0,
               stretch: 50,
-              depth: 100,
-              modifier: 2.5,
+              depth: 40,
+              modifier: 4.5,
               slideShadows: false,
             },
           },
