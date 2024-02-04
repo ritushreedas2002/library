@@ -93,6 +93,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<FirstPage />} />
           <Route path="/book/:bookid" element={<BookDetails />} />
+          <Route path="/book/preview/:bookid" element={<BookPreviewPage />} />
           <Route path="/search/:query" element={<SearchResults />} />
           <Route
             path="/Login"
