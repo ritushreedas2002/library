@@ -3,7 +3,7 @@ import FirstPage from "./components/Home/FirstPage";
 import { useSelector } from "react-redux";
 import MainBody from "./components/MainBody/MainBody";
 import { useDispatch } from "react-redux";
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./components/utils/Firebase";
 import {
@@ -17,15 +17,16 @@ import {
 import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
-//import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import User from "./components/User/User";
 import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchResults";
 import BookPreviewPage from "./components/Books/BookPreviewPage";
+//import { jwtDecode } from "jwt-decode";
 //import Testing from "./components/Testing";
 
 const App = () => {
-  // const [theuser, setTheUser] = useState(null);
+   //const [theuser, setTheUser] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -62,8 +63,8 @@ const App = () => {
   //   });
   // }, []);
 
-  // const isLoading = useSelector((store) => store.user.isLoading);
-  // console.log(isLoading);
+  const isLoading = useSelector((store) => store.user.isLoading);
+  console.log(isLoading);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -113,8 +114,8 @@ const App = () => {
             path="/MainBody"
             element={
               localStorage.getItem("userAuthenticated") === "true" || user
-              /* || googleuser*/ ? (
-                <MainBody />
+               /*|| googleuser*/ ? (
+                <MainBody /*onSignOut={handleSignOut}*//>
               ) : (
                 <Navigate to="/Login" />
               )

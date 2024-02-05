@@ -8,7 +8,7 @@ import { auth } from "../../utils/Firebase";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../../utils/userSlice";
 
-const Sidebar2 = () => {
+const Sidebar2 = ({onSignOut}) => {
   //const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();

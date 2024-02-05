@@ -147,7 +147,9 @@ const Login = () => {
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
+        console.log(credential);
         const token = credential.accessToken;
+        console.log(token);
         // The signed-in user info.
         const user = result.user;
         console.log(user);
@@ -310,10 +312,12 @@ const Login = () => {
               >
                 {/* <GoogleLogin
                   onSuccess={(credentialResponse) => {
+                    console.log(credentialResponse);
                     const userObject = jwtDecode(
                       credentialResponse?.credential
                     );
                     console.log(userObject);
+                    
                     dispatch(addtheUser(userObject));
                   }}
                   onError={() => {

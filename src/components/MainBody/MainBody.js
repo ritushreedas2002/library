@@ -4,6 +4,7 @@ import Test from "./Test";
 import SearchBar from "./SearchBar";
 import Sidebar2 from "./SideBar/Sidebar2";
 
+
 const MainBody = ({ onSignOut }) => {
   return (
     <div className="h-screen flex bg-[#6c34af] ">
@@ -26,16 +27,16 @@ const MainBody = ({ onSignOut }) => {
           isOpen={sidebarOpen}
           toggleSidebar={toggleSidebar}
         /> */}
-        <Sidebar2 />
+        <Sidebar2  /*onSignOut={onSignOut}*//>
       </div>
 
-      <div className="bg-[#6c34af] w-[87%] ">
+       <div className="bg-[#6c34af] w-[87%] ">
         <SearchBar />
         <Test />
         <div className="bg-[#6c34af]">
           <BookSearch />
-        </div>
       </div>
+      </div> 
     </div>
   );
 };
