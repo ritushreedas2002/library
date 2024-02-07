@@ -21,6 +21,13 @@ import { jwtDecode } from "jwt-decode";
 import User from "./components/User/User";
 import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchBar/SearchResults";
+import PDFUpload from "./components/PdfRender/PDFUpload";
+import { pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 //import { jwtDecode } from "jwt-decode";
 //import Testing from "./components/Testing";
 
@@ -124,6 +131,7 @@ const App = () => {
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
           <Route path="/User" element={<User />} />
+          <Route path="/Pdf" element={<PDFUpload/>}/>
         </Routes>
       </div>
     </Router>

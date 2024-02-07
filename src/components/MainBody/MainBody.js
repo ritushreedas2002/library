@@ -4,6 +4,7 @@ import Test from "./Test";
 import SearchBar from "./SearchBar/SearchBar";
 import Sidebar2 from "./SideBar/Sidebar2";
 import BookDetails from "../Books/BookDetails";
+import PDFUpload from "../PdfRender/PDFUpload";
 
 const MainBody = ({ onSignOut }) => {
   return (
@@ -37,6 +38,7 @@ const MainBody = ({ onSignOut }) => {
           <BookSearch />
         </div>
       </div>
+      
     </div>
   );
 };

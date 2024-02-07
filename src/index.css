@@ -24,3 +24,9 @@
   width: 700px;  
   height: 200px;
 }
+
+.pdf-div{
+  padding: 50px;
+  background-color: #dedede;
+  margin-top: 50px;
+}
