@@ -2,6 +2,7 @@ import { useState } from "react";
 import EditProfileModal from "./EditProfile";
 import UserProfile from "./UserProfile";
 import { useSelector } from "react-redux";
+import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 
 const User = () => {
   const user1=useSelector(store=>store.user.user);
@@ -31,6 +32,7 @@ const User = () => {
   };
   return (
     <>
+      <Sidebar2/>
       <div className="flex justify-center items-center h-screen bg-slate-200">
       {isEditing ? (
         <EditProfileModal

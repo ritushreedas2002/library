@@ -22,8 +22,8 @@ import "swiper/css/free-mode";
 // import "swiper/css/effect-coverflow";
 
 import { RxArrowTopRight } from "react-icons/rx";
-import { ServiceData } from "./usePopular";
-import usePopular from "./usePopular";
+import { ServiceData } from "../hooks/usePopular";
+import usePopular from "../hooks/usePopular";
 import { useNavigate } from "react-router-dom";
 
 // Install Swiper modules
@@ -32,7 +32,7 @@ SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow]);
 const Test = () => {
   const popular = usePopular();
   console.log(popular);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const handleNavigate = (itemId) => {
     navigate(`/book/${itemId}`);
   };
@@ -66,7 +66,7 @@ const Test = () => {
           //     slideShadows: false,
           //   },
           // },
-          640:{
+          640: {
             slidesPerView: 3,
             // spaceBetween: 15,
             effect: "coverflow",
@@ -110,7 +110,6 @@ const Test = () => {
         /*lg:max-w-[80%]*/
       >
         {popular.map((item) => (
-          
           <SwiperSlide key={item.id} onClick={() => handleNavigate(item.id)}>
             <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
               <div
@@ -123,7 +122,6 @@ const Test = () => {
               <RxArrowTopRight className="absolute bottom-5 left-5 w-[35px] h-[35px] text-white group-hover:text-blue-500 group-hover:rotate-45 duration-100" />
             </div>
           </SwiperSlide>
-         
         ))}
       </Swiper>
       {/* <div className="swiper-button-next" />

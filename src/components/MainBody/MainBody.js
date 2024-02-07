@@ -1,9 +1,9 @@
 import BookSearch from "../Books/BookSearch";
 
 import Test from "./Test";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchBar/SearchBar";
 import Sidebar2 from "./SideBar/Sidebar2";
-
+import BookDetails from "../Books/BookDetails";
 
 const MainBody = ({ onSignOut }) => {
   return (
@@ -27,16 +27,16 @@ const MainBody = ({ onSignOut }) => {
           isOpen={sidebarOpen}
           toggleSidebar={toggleSidebar}
         /> */}
-        <Sidebar2  /*onSignOut={onSignOut}*//>
+        <Sidebar2 /*onSignOut={onSignOut}*/ />
       </div>
 
-       <div className="bg-[#6c34af] w-[87%] ">
+      <div className="bg-[#6c34af] w-[87%] ">
         <SearchBar />
         <Test />
         <div className="bg-[#6c34af]">
           <BookSearch />
+        </div>
       </div>
-      </div> 
     </div>
   );
 };

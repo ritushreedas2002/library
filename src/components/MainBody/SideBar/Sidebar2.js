@@ -1,15 +1,16 @@
 //import { useState } from "react";
-import { FiMenu, FiHome, FiSettings, FiLock, FiHeart } from "react-icons/fi";
+import { FiHome, FiSettings, FiLock, FiHeart } from "react-icons/fi";
 
 import { BiLogOut } from "react-icons/bi";
 import { Link,  useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../utils/Firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../../utils/userSlice";
 
 const Sidebar2 = ({onSignOut}) => {
   //const [isOpen, setIsOpen] = useState(false);
+  const user=useSelector(store=>store.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -32,7 +33,11 @@ const Sidebar2 = ({onSignOut}) => {
         className="text-white text-4xl p-4 hover:bg-purple-900 focus:outline-none focus:bg-purple-900"
         // onClick={() => setIsOpen(!isOpen)}
       >
-        <FiMenu />
+       <h6 className="text-[20px] font-semibold text-white">
+ "Welcome" <span className="text-blue-500" style={{ fontFamily: 'Pacifico, cursive' }}>{user?.displayName}</span>
+</h6>
+
+
       </button>
       <nav>
         <ul className="mt-10">

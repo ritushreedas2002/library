@@ -27,7 +27,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="bg-[#6c34af]">
+    <div className="mt-2">
       <div className=" flex justify-center">
       <form
         className="ml-14 pt-4 w-3/5 grid grid-cols-12"

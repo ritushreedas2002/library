@@ -3,7 +3,7 @@ import FirstPage from "./components/Home/FirstPage";
 import { useSelector } from "react-redux";
 import MainBody from "./components/MainBody/MainBody";
 import { useDispatch } from "react-redux";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./components/utils/Firebase";
 import {
@@ -20,13 +20,12 @@ import Login from "./components/Login/Login";
 import { jwtDecode } from "jwt-decode";
 import User from "./components/User/User";
 import BookDetails from "./components/Books/BookDetails";
-import SearchResults from "./components/MainBody/SearchResults";
-import BookPreviewPage from "./components/Books/BookPreviewPage";
+import SearchResults from "./components/MainBody/SearchBar/SearchResults";
 //import { jwtDecode } from "jwt-decode";
 //import Testing from "./components/Testing";
 
 const App = () => {
-   //const [theuser, setTheUser] = useState(null);
+  //const [theuser, setTheUser] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -72,12 +71,12 @@ const App = () => {
         const { uid, email, displayName } = user;
 
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
-        localStorage.setItem("userAuthenticated",'true');
+        localStorage.setItem("userAuthenticated", "true");
         dispatch(setisLoading(false));
       } else {
         // User is signed out
         dispatch(removeUser());
-        localStorage.setItem("userAuthenticated",'false');
+        localStorage.setItem("userAuthenticated", "false");
       }
     });
 
@@ -94,14 +93,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<FirstPage />} />
           <Route path="/book/:bookid" element={<BookDetails />} />
-          <Route path="/book/preview/:bookid" element={<BookPreviewPage />} />
+
           <Route path="/search/:query" element={<SearchResults />} />
           <Route
             path="/Login"
             element={
-              
-               localStorage?.getItem("userAuthenticated") ===
-                 "true" ||  user  /*|| googleuser */ ? (
+              localStorage?.getItem("userAuthenticated") === "true" ||
+              user /*|| googleuser */ ? (
                 <Navigate to="/MainBody" />
               ) : (
                 <>
@@ -113,9 +111,8 @@ const App = () => {
           <Route
             path="/MainBody"
             element={
-              localStorage.getItem("userAuthenticated") === "true" || user
-               /*|| googleuser*/ ? (
-                <MainBody /*onSignOut={handleSignOut}*//>
+              localStorage.getItem("userAuthenticated") === "true" || user ? (
+                /*|| googleuser*/ <MainBody /*onSignOut={handleSignOut}*/ />
               ) : (
                 <Navigate to="/Login" />
               )
@@ -127,7 +124,6 @@ const App = () => {
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
           <Route path="/User" element={<User />} />
-          <Route path="/book/preview/:bookid" element={<BookPreviewPage/>}/>
         </Routes>
       </div>
     </Router>

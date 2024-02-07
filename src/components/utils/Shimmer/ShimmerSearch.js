@@ -11,7 +11,6 @@ const ShimmerSearch=()=>{
     }
     return (
         <div>
-      <button>Go Back</button>
         <div className=" bg-slate-600 flex flex-wrap justify-start pl-32 h-screen">
             <DemoCard/>
             <DemoCard/>
