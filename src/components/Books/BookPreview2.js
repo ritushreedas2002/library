@@ -81,12 +81,8 @@ const BookPreview2 = ({ bookId ,show}) => {
             {/* Book preview component */}
             <div id="bookPreviewContainer" className="flex items-center"></div>
 
-            <button
-              className="  p-2 mt-7 m-1 w-28 rounded-lg bg-blue-600 top-2 right-2 text-white hover:bg-red-500" 
-              onClick={closeModal}
-            >
-              Close
-            </button>
+            <button onClick={closeModal} className="py-2 mt-6 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">Close</button>
+             
           </div>
         </div>
       )}

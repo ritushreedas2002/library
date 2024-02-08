@@ -27,7 +27,7 @@ import usePopular from "../hooks/usePopular";
 import { useNavigate } from "react-router-dom";
 
 // Install Swiper modules
-SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow]);
+SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow,Autoplay]);
 
 const Test = () => {
   const popular = usePopular();
@@ -95,7 +95,7 @@ const Test = () => {
         grabCursor={true}
         centeredSlides={true}
         loop={true}
-        // autoplay={{ delay: 1000 }}
+        autoplay={{ delay: 1000 }}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",

@@ -27,7 +27,7 @@ const PdfViewer = ({ pdf }) => {
 
     return (
         <div className='flex justify-center'>
-            <div className="pdf-div">
+             <div className="pdf-div" style={{ width: '1070px', height: '600px', overflowY: 'auto' }}>
                 <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
                     {numPages && renderPages()}
                 </Document>
