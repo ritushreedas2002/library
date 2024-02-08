@@ -36,9 +36,9 @@ const PDFUpload = () => {
                 <input type="file" accept=".pdf,.docx" onChange={handleFileUpload} className="py-2 px-4 border border-gray-300 rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                 <button onClick={close} className="py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">Close</button>
             </div>
-            <div className="drag-drop-box border-dashed border-2 border-gray-300 rounded-lg p-12 text-gray-500 text-center mr-3">
+           {!pdf &&( <div className="drag-drop-box border-dashed border-2 border-gray-300 rounded-lg p-12 text-gray-500 text-center mr-3">
                 <p className="mb-4">Drag and drop your PDF files here</p>
-            </div>
+            </div>)}
             {pdf && <PdfViewer pdf={pdf} />}
         </div>
     );
