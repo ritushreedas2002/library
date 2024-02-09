@@ -14,10 +14,10 @@ const PdfViewer = ({ pdf }) => {
       pages.push(
         <div key={i} className="pdf-page">
           <Page
-            scale={1.0}
             pageNumber={i}
             renderTextLayer={false}
             renderAnnotationLayer={false}
+            scale={1.5}
           />
           <p className="flex justify-center">
             {i} of {numPages}
@@ -29,10 +29,10 @@ const PdfViewer = ({ pdf }) => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex justify-center">
       <div
         className="pdf-div flex justify-center"
-        style={{ width: "1080px", height: "600px", overflowY: "auto" }}
+        style={{ width: "1070px", height: "600px", overflowY: "auto" }}
       >
         <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
           {numPages && renderPages()}
