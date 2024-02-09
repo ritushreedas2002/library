@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 
 import * as Components from "./Components";
 import "./style.css";
-import { auth, provider } from "../utils/Firebase";
+import { auth, provider,db } from "../utils/Firebase";
 import * as Yup from "yup";
 import {
   createUserWithEmailAndPassword,
@@ -11,7 +11,15 @@ import {
   signInWithPopup,
   updateProfile,
   GoogleAuthProvider,
-} from "@firebase/auth"; // Replace with actual import from your firebase auth library
+} from "@firebase/auth";
+import {
+  getFirestore,
+  query,
+  getDocs,
+  collection,
+  where,
+  addDoc,
+} from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { addUser, addtheUser } from "../utils/userSlice";
@@ -26,6 +34,7 @@ const Login = () => {
   const [errormessage, seterror] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const googleProvider = new GoogleAuthProvider();
 
   //const selector=useSelector(store=>store.user);
   const signUpValues = {
@@ -95,43 +104,60 @@ const Login = () => {
       handleSignInSubmit(values, resetSignInForm);
     },
   });
-
+  const registerUserToMongo = async (name, email, uid, displayPicture) => {
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          email,
+          uid,
+          displayPicture,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to register user");
+      }
+  
+      console.log("User registered successfully!");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+  
   const handleSignUpSubmit = async (values, resetForm) => {
     try {
       console.log("SignUp call at first sign up");
       console.log(values);
-
+  
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         values.email,
         values.password
       );
       const user = userCredential.user;
-
+  
       console.log(user);
-      updateProfile(user, {
+      await updateProfile(user, {
         displayName: values.name,
-      })
-        .then(() => {
-          // Profile updated!
-          // ...
-          const { uid, email, displayName } = auth.currentUser; //updated value
-          dispatch(
-            addUser({ uid: uid, email: email, displayName: displayName })
-          );
-          localStorage.setItem("userAuthenticated", "true");
-          navigate("/MainBody");
-          // Redirect to MainBody
-
-          //navigate("/MainBody")
-          
-        })
-        .catch((error) => {
-          // An error occurred
-
-          seterror(error.message);
-        });
-
+      });
+  
+      const { uid, email, displayName } = auth.currentUser; //updated value
+      dispatch(
+        addUser({ uid: uid, email: email, displayName: displayName })
+      );
+  
+      const profilePic = "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+      await registerUserToMongo(values.name, email, user.uid, profilePic);
+  
+      localStorage.setItem("userAuthenticated", "true");
+      navigate("/MainBody");
+      // Redirect to MainBody
+  
       console.log("Sign Up Successful");
       resetForm();
     } catch (error) {
@@ -142,32 +168,35 @@ const Login = () => {
       setSignUpErrors({}); // Clear form errors
     }
   };
+  
   const handleGoogleSignIn = async () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        const token = credential.accessToken;
-        console.log(token);
-        // The signed-in user info.
-        const user = result.user;
-        console.log(user);
-        localStorage.setItem("userAuthenticated", "true");
-        navigate("/MainBody");
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
+    try {
+      const response = await signInWithPopup(auth, googleProvider);
+      const user = response.user;
+      console.log(user);
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+      const docs = await getDocs(q);
+      await registerUserToMongo(
+        user.displayName,
+        user.email,
+        user.uid,
+        user.photoURL
+      );
+      // if (docs.docs.length === 0) {
+      //   await addDoc(collection(db, "users"), {
+      //     uid: user.uid,
+      //     name: user.displayName,
+      //     authProvider: "google",
+      //     email: user.email,
+      //     displayPicture: user.photoURL,
+      //   });
+      // }
+      localStorage.setItem("userAuthenticated", "true");
+      navigate("/MainBody");
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
   };
 
   const handleSignInSubmit = async (values, resetForm) => {
