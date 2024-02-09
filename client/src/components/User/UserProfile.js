@@ -2,6 +2,10 @@
 import React from "react";
 
 const UserProfile = ({ user, onEditProfileClick }) => {
+  if (!user) {
+    // If user is null, render a loading state or return null
+    return <div>Loading...</div>;
+  }
   const { name, email, profileImage } = user;
 
   return (
@@ -16,13 +20,8 @@ const UserProfile = ({ user, onEditProfileClick }) => {
               <h2 className="text-2xl font-bold text-blue-500">Profile</h2>
               <div className="flex items-center justify-between p-4">
                 <div className="flex items-center">
-                  <div className="rounded-full h-36 w-36 overflow-hidden mr-4">
-                    <img
-                      src={
-                        profileImage
-                          ? URL.createObjectURL(profileImage)
-                          : "https://via.placeholder.com/150.jpg"
-                      }
+                  <div className="rounded-full h-36 w-36 overflow-hidden mr-4 object-cover">
+                    <img src={profileImage?profileImage:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRImuk1S2k7pdtVjPyBZoOELIz5_wc4kFt0EnzAO7thPw&s"}
                       alt="Profile"
                       className="w-full h-full object-cover rounded-full"
                     />

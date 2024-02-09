@@ -1,5 +1,3 @@
-// app.js (or wherever you configure your Express app)
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -35,6 +33,13 @@ app.use(cors(corsOptions));
 // linking express router
 app.use(require("./router/route"));
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("An error occurred:", err.stack);
+  res.status(500).json({ error: "Internal server error" });
+});
+
 app.listen(port, () => {
   console.log(`server is up and running at the port ${port}.`);
 });
+
