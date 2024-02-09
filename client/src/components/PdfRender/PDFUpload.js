@@ -4,7 +4,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import PdfViewer from './PdfViewer';
 
 const PDFUpload = () => {
-    const [pdf, setPdf] = useState(null);
+  const [pdf, setPdf] = useState(null);
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
