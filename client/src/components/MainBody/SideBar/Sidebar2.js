@@ -7,6 +7,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../utils/Firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../../utils/userSlice";
+import { CiStickyNote } from "react-icons/ci";
 
 const Sidebar2 = ({onSignOut}) => {
   //const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,8 @@ const Sidebar2 = ({onSignOut}) => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        localStorage.setItem("userAuthenticated", "false");
+        localStorage.removeItem("userAuthenticated");
+        localStorage.removeItem("uid");
         dispatch(removeUser());
         navigate("/");
       })
@@ -95,6 +97,18 @@ const Sidebar2 = ({onSignOut}) => {
               </span>
               <span className="ml-4 text-lg group-hover:text-gray-300">
                 PdfRender
+              </span>
+            </div>
+            </Link>
+          </li>
+          <li className="mt-5 group">
+            <Link to="/Note">
+            <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
+              <span className="text-2xl">
+              <CiStickyNote />
+              </span>
+              <span className="ml-4 text-md group-hover:text-gray-300">
+                NoteTaking
               </span>
             </div>
             </Link>

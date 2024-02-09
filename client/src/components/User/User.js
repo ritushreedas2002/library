@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import EditProfileModal from "./EditProfile";
 import UserProfile from "./UserProfile";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import axios from "axios"; 
 
 const User = () => {
-  const dispatch = useDispatch();
   const user1 = useSelector(store => store.user.user);
+
   const [user, setUser] = useState({
     name: "unkown",
     email: "unkonown",

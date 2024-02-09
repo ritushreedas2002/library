@@ -23,6 +23,7 @@ import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchBar/SearchResults";
 import PDFUpload from "./components/PdfRender/PDFUpload";
 import { pdfjs } from 'react-pdf';
+import Notetaking from "./components/NOTE/Notetaking";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -79,6 +80,7 @@ const App = () => {
 
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
         localStorage.setItem("userAuthenticated", "true");
+        localStorage.setItem("uid",encodeURIComponent(user.uid));
         dispatch(setisLoading(false));
       } else {
         // User is signed out
@@ -132,6 +134,7 @@ const App = () => {
           /> */}
           <Route path="/User" element={<User />} />
           <Route path="/Pdf" element={<PDFUpload/>}/>
+          {localStorage?.getItem("uid") && (<Route path="/Note" element={<Notetaking userid={localStorage?.getItem("uid")}/>}/>)}
         </Routes>
       </div>
     </Router>
