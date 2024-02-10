@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const noteSchema = new mongoose.Schema({
   title: String,
   description: String,
+  color:String,
   tags: [String] // Changed to array of strings for multiple tags
 });
 

@@ -95,23 +95,19 @@ router.get('/api/notes/:uid', async (req, res) => {
 router.post("/api/notes/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
-    const { title, description, tags } = req.body;
+    const { title, description, color, tags } = req.body;
 
-    // Find the existing UserNote document associated with the provided UID
     let userNote = await UserNote.findOne({ uid });
 
-    // If user not found, create a new UserNote document
     if (!userNote) {
       userNote = new UserNote({
         uid,
-        notes: [{ title, description, tags }],
+        notes: [{ title, description, color, tags }],
       });
     } else {
-      // If user found, push the new note object to the notes array
-      userNote.notes.push({ title, description, tags });
+      userNote.notes.push({ title, description, color, tags });
     }
 
-    // Save the UserNote document to the database
     await userNote.save();
 
     res.status(201).json({ message: "Note added successfully!!" });
@@ -161,12 +157,15 @@ router.put('/api/notes/:uid/:noteId', async (req, res) => {
     if (!note) {
       return res.status(404).json({ message: 'Note not found' });
     }
-    const { title, description, tags } = req.body;
+    const { title, description, color, tags } = req.body;
     if (title) {
       note.title = title;
     }
     if (description) {
       note.description = description;
+    }
+    if (color) {
+      note.color = color;
     }
     if (tags) {
       note.tags = tags;
@@ -177,6 +176,7 @@ router.put('/api/notes/:uid/:noteId', async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
 
 router.delete('/api/notes/:uid/:noteId', async (req, res) => {
   try {

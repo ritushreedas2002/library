@@ -11,6 +11,15 @@ const Notetaking = ({ userid }) => {
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
   const [noteId, setNoteId] = useState(null);
+  const [color, setSelectedColor] = useState('yellow'); // Default color is yellow
+
+    const colorOptions = [
+        { id: 'yellow', label: 'Yellow' },
+        { id: 'orange', label: 'Orange' },
+        { id: 'green', label: 'Green' },
+        { id: 'blue', label: 'Blue' },
+        { id: 'black', label: 'Black' },
+    ];
   useEffect(() => {
     // Update uid only if user1 and user1.uid are defined
     if (uid) {
@@ -19,6 +28,7 @@ const Notetaking = ({ userid }) => {
       setTag("");
       setTags([]);
       setDescription("");
+      setSelectedColor("yellow")
       fetchNotes();
     }
   }, [uid]);
@@ -43,7 +53,7 @@ const Notetaking = ({ userid }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, description, tags }),
+        body: JSON.stringify({ title, description, color,tags }),
       });
       if (!response.ok) {
         throw new Error("Failed to add note");
@@ -67,7 +77,7 @@ const Notetaking = ({ userid }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ title, description, tags }),
+          body: JSON.stringify({ title, description,color, tags }),
         }
       );
       if (!response.ok) {
@@ -80,6 +90,7 @@ const Notetaking = ({ userid }) => {
       setTag("");
       setTags([]);
       setDescription("");
+      setSelectedColor("yellow")
     } catch (error) {
       console.error(error);
     }
@@ -116,6 +127,7 @@ const Notetaking = ({ userid }) => {
     setDescription(note.description);
     setTags([...note.tags]);
     setNoteId(note._id);
+    setSelectedColor(note.color);
     setShowForm(true);
   };
 
@@ -129,19 +141,20 @@ const Notetaking = ({ userid }) => {
         Add Note
       </button>
       {showForm && (
-        <div className="mt-8">
+        <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white p-8 rounded shadow-md w-96">
           <h2 className="text-xl mb-2">
             {noteId ? "Update Note" : "Add New Note"}
           </h2>
           <input
-            className="border rounded p-2 mb-2"
+            className="border rounded p-2 mb-2 w-full"
             type="text"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <input
-            className="border rounded p-2 mb-2"
+            className="border rounded p-2 mb-2 w-full"
             type="text"
             placeholder="Description"
             value={description}
@@ -171,6 +184,16 @@ const Notetaking = ({ userid }) => {
                 {tag}
               </span>
             ))}
+            {/* Color picker dropdown */}
+            <select
+                        className="border rounded p-2 mb-2"
+                        value={color}
+                        onChange={(e) => setSelectedColor(e.target.value)}
+                    >
+                        {colorOptions.map((option) => (
+                            <option key={option.id} value={option.id}>{option.label}</option>
+                        ))}
+                    </select>
           </div>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -183,20 +206,25 @@ const Notetaking = ({ userid }) => {
             onClick={() => {
               setShowForm(false);
               setNoteId(null); // Reset noteId when canceling
-
               setTitle("");
               setTag("");
               setTags([]);
+              setSelectedColor("yellow");
               setDescription("");
             }}
           >
             Cancel
           </button>
         </div>
+      </div>
       )}
-      <div className="mt-8">
+      <div className="mt-8 flex flex-wrap">
         {notes.map((note) => (
-          <div key={note._id} className="mb-4">
+          <div
+          key={note._id}
+          className="p-4 rounded m-6"
+          style={{ backgroundColor:note.color, width: '200px', height: '200px' }}
+      >
             <h2 className="text-xl">{note.title}</h2>
             <p>{note.description}</p>
             <p>
