@@ -17,7 +17,7 @@ const Notetaking = ({ userid }) => {
         { id: 'yellow', label: 'Yellow' },
         { id: 'orange', label: 'Orange' },
         { id: 'green', label: 'Green' },
-        { id: 'blue', label: 'Blue' },
+        { id: '#00FFFF', label: 'Blue' },
         { id: 'black', label: 'Black' },
     ];
   useEffect(() => {
