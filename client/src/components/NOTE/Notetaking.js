@@ -1,4 +1,288 @@
+// import React, { useState, useEffect } from "react";
+// import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+// import { IoIosAddCircle } from "react-icons/io";
+// import { MdCancel } from "react-icons/md";
+// import Sidebar2 from "../MainBody/SideBar/Sidebar2";
+// const Notetaking = ({ userid }) => {
+//   const uid = decodeURIComponent(userid);
+//   const [notes, setNotes] = useState([]);
+//   const [showForm, setShowForm] = useState(false);
+//   const [title, setTitle] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [tag, setTag] = useState("");
+//   const [tags, setTags] = useState([]);
+//   const [noteId, setNoteId] = useState(null);
+//   const [color, setSelectedColor] = useState("yellow"); // Default color is yellow
+
+//   const colorOptions = [
+//     { id: "yellow", label: "Yellow" },
+//     { id: "orange", label: "Orange" },
+//     { id: "green", label: "Green" },
+//     { id: "#00FFFF", label: "Blue" },
+//     { id: "black", label: "Black" },
+//   ];
+//   useEffect(() => {
+//     // Update uid only if user1 and user1.uid are defined
+//     if (uid) {
+//       setNoteId(null);
+//       setTitle("");
+//       setTag("");
+//       setTags([]);
+//       setDescription("");
+//       setSelectedColor("yellow");
+//       fetchNotes();
+//     }
+//   }, [uid]);
+
+//   const fetchNotes = async () => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/notes/${uid}`);
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch notes");
+//       }
+//       const data = await response.json();
+//       setNotes(data);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const addNote = async () => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/notes/${uid}`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ title, description, color, tags }),
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to add note");
+//       }
+//       setTitle("");
+//       setDescription("");
+//       setTags([]);
+//       fetchNotes();
+//       setShowForm(false);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const updateNote = async () => {
+//     try {
+//       const response = await fetch(
+//         `http://localhost:5000/api/notes/${uid}/${noteId}`,
+//         {
+//           method: "PUT",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ title, description, color, tags }),
+//         }
+//       );
+//       if (!response.ok) {
+//         throw new Error("Failed to update note");
+//       }
+//       fetchNotes();
+//       setShowForm(false);
+//       setNoteId(null);
+//       setTitle("");
+//       setTag("");
+//       setTags([]);
+//       setDescription("");
+//       setSelectedColor("yellow");
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const deleteNote = async (noteId) => {
+//     try {
+//       const response = await fetch(
+//         `http://localhost:5000/api/notes/${uid}/${noteId}`,
+//         {
+//           method: "DELETE",
+//         }
+//       );
+//       if (!response.ok) {
+//         throw new Error("Failed to delete note");
+//       }
+//       fetchNotes();
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const handleTagChange = (e) => {
+//     setTag(e.target.value);
+//   };
+
+//   const handleAddTag = () => {
+//     setTags([...tags, tag]);
+//     setTag("");
+//   };
+
+//   const handleUpdateNote = (note) => {
+//     setTitle(note.title);
+//     setDescription(note.description);
+//     setTags([...note.tags]);
+//     setNoteId(note._id);
+//     setSelectedColor(note.color);
+//     setShowForm(true);
+//   };
+
+//   return (
+//     <div className=" flex">
+// <div className=" w-[13%]">
+//   <Sidebar2 />
+// </div>
+//       <div className=" ml-10 w-[86%]">
+//         <div className="  mt-8">
+//           <h1 className="text-3xl mb-4">Note Taking App</h1>
+//           <button
+//             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+//             onClick={() => setShowForm(true)}
+//           >
+//             Add Note
+//           </button>
+//           <div className="fixed bottom-8 right-8">
+//             <button
+//               onClick={() => setShowForm(true)}
+//               className="bg-blue-500 hover:bg-blue-700 justify-center items-center p-4 text-white text-4xl rounded-full flex "
+//             >
+//               +
+//             </button>
+//           </div>
+//           {showForm && (
+//             <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+//               <div className="bg-white p-8 rounded shadow-md w-96">
+//                 <h2 className="text-xl mb-2">
+//                   {noteId ? "Update Note" : "Add New Note"}
+//                 </h2>
+//                 <input
+//                   className="border rounded p-2 mb-2 w-full"
+//                   type="text"
+//                   placeholder="Title"
+//                   value={title}
+//                   onChange={(e) => setTitle(e.target.value)}
+//                 />
+//                 <input
+//                   className="border rounded p-2 mb-2 w-full"
+//                   type="text"
+//                   placeholder="Description"
+//                   value={description}
+//                   onChange={(e) => setDescription(e.target.value)}
+//                 />
+//                 <div className="mb-2">
+//                   <input
+//                     className="border rounded p-2 mr-2"
+//                     type="text"
+//                     placeholder="Tag"
+//                     value={tag}
+//                     onChange={handleTagChange}
+//                   />
+//                   <button
+//                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+//                     onClick={handleAddTag}
+//                   >
+//                     Add Tag
+//                   </button>
+//                 </div>
+//                 <div className="mb-4">
+//                   {tags.map((tag, index) => (
+//                     <span
+//                       key={index}
+//                       className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+//                     >
+//                       {tag}
+//                     </span>
+//                   ))}
+//                   {/* Color picker dropdown */}
+//                   <select
+//                     className="border rounded p-2 mb-2"
+//                     value={color}
+//                     onChange={(e) => setSelectedColor(e.target.value)}
+//                   >
+//                     {colorOptions.map((option) => (
+//                       <option key={option.id} value={option.id}>
+//                         {option.label}
+//                       </option>
+//                     ))}
+//                   </select>
+//                 </div>
+//                 <button
+//                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+//                   onClick={noteId ? updateNote : addNote}
+//                 >
+//                   {noteId ? "Update" : "Create"}
+//                 </button>
+//                 <button
+//                   className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+//                   onClick={() => {
+//                     setShowForm(false);
+//                     setNoteId(null); // Reset noteId when canceling
+//                     setTitle("");
+//                     setTag("");
+//                     setTags([]);
+//                     setSelectedColor("yellow");
+//                     setDescription("");
+//                   }}
+//                 >
+//                   Cancel
+//                 </button>
+//               </div>
+//             </div>
+//           )}
+//           <div className="mt-8 flex flex-wrap">
+//             {notes.map((note) => (
+//               <div
+//                 key={note._id}
+//                 className="p-4 rounded m-6"
+//                 style={{
+//                   backgroundColor: note.color,
+//                   width: "200px",
+//                   height: "200px",
+//                 }}
+//               >
+//                 <h2 className="text-xl">{note.title}</h2>
+//                 <p>{note.description}</p>
+//                 <p>
+//                   <strong>Tags:</strong> {note.tags.join(", ")}
+//                 </p>
+//                 <div>
+//                   <button
+//                     className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
+//                     onClick={() => handleUpdateNote(note)}
+//                   >
+//                     Update
+//                   </button>
+//                   <button
+//                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+//                     onClick={() => deleteNote(note._id)}
+//                   >
+//                     Delete
+//                   </button>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Notetaking;
+
 import React, { useState, useEffect } from "react";
+import Sidebar2 from "../MainBody/SideBar/Sidebar2";
+import AddButton from "../../assets/AddButton.png";
+import { IoIosAddCircle } from "react-icons/io";
+import { MdAddTask } from "react-icons/md";
+import { RxCrossCircled } from "react-icons/rx";
+import { MdDeleteOutline } from "react-icons/md";
+
 const Notetaking = ({ userid }) => {
   const uid = decodeURIComponent(userid);
   const [notes, setNotes] = useState([]);
@@ -10,13 +294,13 @@ const Notetaking = ({ userid }) => {
   const [noteId, setNoteId] = useState(null);
   const [addNoteClicked, setaddvalues] = useState(false);
   const [color, setSelectedColor] = useState(null); // Default color is yellow
-  const [isDeletedClicked,setisDeletedClicked]=useState(false);
+  const [isDeletedClicked, setisDeletedClicked] = useState(false);
   const colorOptions = [
-    { id: "yellow", label: "Yellow" },
-    { id: "orange", label: "Orange" },
-    { id: "green", label: "Green" },
-    { id: "#00FFFF", label: "Blue" },
-    { id: "black", label: "Black" },
+    { id: "#fec971", label: "Yellow" },
+    { id: "#fe9b72", label: "Orange" },
+    { id: "#e4ee91", label: "none" },
+    { id: "#00d4fe", label: "Blue" },
+    { id: "#b693fd", label: "purple" },
   ];
   useEffect(() => {
     // Update uid only if user1 and user1.uid are defined
@@ -29,7 +313,6 @@ const Notetaking = ({ userid }) => {
       setSelectedColor("");
       setaddvalues(false);
       setShowForm(false);
-      setisDeletedClicked(false);
       fetchNotes();
     }
   }, [uid]);
@@ -136,163 +419,221 @@ const Notetaking = ({ userid }) => {
   };
 
   return (
-    <div className="container mx-auto mt-8 flex">
-      <div>
-      <h1 className="text-3xl mb-4">Note Taking App</h1>
-      <button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => {
-          //setShowForm(true);
-          setaddvalues(!addNoteClicked);
-        }}
-      >
-        Add Note
-      </button>
-
-      {addNoteClicked === true && (
-        <div className="flex flex-col mt-5 ml-5 space-y-2">
-          {colorOptions.map((option, index) => (
-            <div
-              key={index}
-              className={`w-8 h-8 rounded-full border border-gray-300 ${
-                color === option.id ? "border-6" : ""
-              }`}
-              style={{ backgroundColor: option.id, cursor: "pointer" }}
-              onClick={() => {
-                setSelectedColor(option.id);
-                setShowForm(true);
-              }}
-            ></div>
-          ))}
-        </div>
-      )}
+    <div className=" flex">
+      <div className=" w-[13%]">
+        <Sidebar2 />
       </div>
-      {showForm && (
-        <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div
-            className="p-8 rounded shadow-md w-96"
-            style={{
-              backgroundColor: color,
-            }}
-          >
-            <h2 className="text-xl mb-2">
-              {noteId ? "Update Note" : "Add New Note"}
-            </h2>
-            <input className="border-b-2 rounded p-2 mb-2 w-full "style={{ backgroundColor: color}}
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <input
-              className="border-b-2 rounded p-2 mb-2 w-full"style={{ backgroundColor: color}}
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <div className="mb-2">
-              <input
-                className="border-b-2 rounded p-2 mr-2"style={{ backgroundColor: color}}
-                type="text"
-                placeholder="Tag"
-                value={tag}
-                onChange={handleTagChange}
-              />
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleAddTag}
-              >
-                Add Tag
-              </button>
-            </div>
-            <div className="mb-4">
-              {tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            {/* Color picker dropdown */}
-            {noteId?(<select
-                        className="border rounded p-2 mb-2"
-                        value={color}
-                        onChange={(e) => setSelectedColor(e.target.value)}
-                    >
-                        {colorOptions.map((option) => (
-                            <option key={option.id} value={option.id}>{option.label}</option>
-                        ))}
-                    </select>):""}
-
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-              onClick={noteId ? updateNote : addNote}
-            >
-              {noteId ? "Update" : "Create"}
-            </button>
-            <button
-              className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => {
-                setShowForm(false);
-                setNoteId(null); // Reset noteId when canceling
-                setTitle("");
-                setTag("");
-                setTags([]);
-                setSelectedColor("");
-                setDescription("");
-                setaddvalues(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-      <div className="mt-8 flex flex-wrap">
-        {notes.map((note) => (
-          <div
-            key={note._id}
-            className="p-4 rounded m-6"
-            style={{
-              backgroundColor: note.color,
-              color:"white",
-              width: "200px",
-              height: "200px",
-              cursor:"pointer"
-            }}
-            onClick={()=>{
-              if (isDeletedClicked===false) {
-                handleUpdateNote(note);
-              }
-              }}
-          >
-            <h2 className="text-xl">{note.title}</h2>
-            <p>{note.description}</p>
-            <p>
-              <strong>Tags:</strong> {note.tags.join(", ")}
-            </p>
-            <div onClick={(e) => e.stopPropagation()}>
+      <div className="ml-10 w-[86%] mr-10">
+        <div className="container mx-auto mt-4 ">
+          <div>
+            <h1 className="text-4xl font-semibold border-b-4 pb-1 mb-1">
+              Notes
+            </h1>
+            <div className=" flex h-14 items-center">
               {/* <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => {
+                  //setShowForm(true);
+                  setaddvalues(!addNoteClicked);
+                }}
+              >
+                Add Note
+              </button> */}
+              <img
+                src={AddButton}
+                /*className=" w- size-fit cursor-pointer hover:drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]"*/
+                class="zoom"
+                onClick={() => {
+                  //setShowForm(true);
+                  setaddvalues(!addNoteClicked);
+                }}
+              />
+              {addNoteClicked && (
+                <div className="flex mt-1  ml-5 space-x-2">
+                  {colorOptions.map((option, index) => (
+                    <div
+                      key={index}
+                      className={`w-8 h-8 rounded-full border border-gray-300 ${
+                        color === option.id ? "border-6" : ""
+                      }`}
+                      style={{ backgroundColor: option.id, cursor: "pointer" }}
+                      onClick={() => {
+                        setSelectedColor(option.id);
+                        setShowForm(true);
+                      }}
+                    ></div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          {showForm && (
+            <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-40">
+              <div
+                className="p-8 rounded-2xl shadow-md w-[500px]"
+                style={{
+                  backgroundColor: color,
+                }}
+              >
+                <h2 className="text-xl font-semibold text-gray-600 mb-3">
+                  {noteId ? "Update Note" : "Add New Note"}
+                </h2>
+                <input
+                  className="border-b-2 rounded-xl p-2 mb-2 w-full bg-gray-700 "
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  placeholder="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                {/* <input
+                  className="border-b-2 rounded-xl p-2 mb-2 w-full bg-white"
+                  style={{ backgroundColor: "white", height: '100px' }}
+                  type="text"
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                /> */}
+                <textarea
+                  className="border-b-2 rounded-xl p-2 mb-2 w-full bg-white resize-none"
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  style={{ minHeight: "150px" }} // Set minimum height to 100px or any desired value
+                />
+                <div className="mb-2 flex items-center ">
+                  <input
+                    className="border-b-2 rounded-xl p-2 mr-2"
+                    style={{ backgroundColor: "white" }}
+                    type="text"
+                    placeholder="Tag"
+                    value={tag}
+                    onChange={handleTagChange}
+                  />
+                  {/* <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-20"
+                    onClick={handleAddTag}
+                  >
+                    Add Tag
+                  </button> */}
+                  <span className="text-5xl text-sky-700 hover:text-sky-900 cursor-pointer">
+                    <IoIosAddCircle onClick={handleAddTag} />
+                    {/* empty tags are also adding */}
+                  </span>
+                </div>
+                <div className="mb-4">
+                  {tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                {/* Color picker dropdown */}
+                {noteId ? (
+                  <select
+                    className="border rounded p-2 mb-2"
+                    value={color}
+                    onChange={(e) => setSelectedColor(e.target.value)}
+                  >
+                    {colorOptions.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  ""
+                )}
+                <div className=" flex  items-center justify-end">
+                  <button
+                    className="bg-green-500 hover:bg-green-700 text-white text-2xl font-extrabold py-2 px-8 rounded mr-4"
+                    onClick={noteId ? updateNote : addNote}
+                  >
+                    <MdAddTask />
+                  </button>
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white text-2xl font-extrabold py-2 px-8 rounded"
+                    onClick={() => {
+                      setShowForm(false);
+                      setNoteId(null); // Reset noteId when canceling
+                      setTitle("");
+                      setTag("");
+                      setTags([]);
+                      setSelectedColor("");
+                      setDescription("");
+                      setaddvalues(false);
+                    }}
+                  >
+                    <RxCrossCircled />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="mt-2 flex flex-wrap relative">
+            {notes.map((note) => (
+              <div
+                key={note._id}
+                className="p-4 rounded-3xl m-1.5 relative"
+                style={{
+                  backgroundColor: note.color,
+                  color: "white",
+                  width: "300px",
+                  height: "300px",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  if (isDeletedClicked === false) {
+                    handleUpdateNote(note);
+                  }
+                }}
+              >
+                <h2 className="text-xl font-semibold -mt-2">
+                  {note.title && (
+                    <>
+                      {note.title}
+                      <div className="border border-b-2 mt-1"></div>
+                    </>
+                  )}
+                </h2>
+                <p className="text-base mt-1 text-black">{note.description}</p>
+                {/* <p>
+                  <strong>Tags:</strong> {note.tags.join(", ")}
+                </p> */}
+                <div className="mb-4 flex">
+                  {note.tags.map((tag, index) => (
+                    <div
+                      key={index}
+                      className="inline-block bg-gray-200 rounded absolute bottom-4 left-4 px-1 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+                    >
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+                <div onClick={(e) => e.stopPropagation()}>
+                  {/* <button
                 className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
                 onClick={() => handleUpdateNote(note)}
               >
                 Update
               </button> */}
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => {
-                  setisDeletedClicked(true)
-                  deleteNote(note._id)
-                }}
-              >
-                Delete
-              </button>
-            </div>
+                  <button
+                    className="text-2xl font-extrabold bg-red-500 hover:bg-red-700 text-white py-2 px-5 rounded-xl absolute bottom-4 right-4"
+                    onClick={() => {
+                      setisDeletedClicked(true);
+                      deleteNote(note._id);
+                    }}
+                  >
+                    <MdDeleteOutline />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
