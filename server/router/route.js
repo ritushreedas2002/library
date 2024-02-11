@@ -147,35 +147,44 @@ router.get("/api/notes/:uid/:noteId", async (req, res) => {
 });
 
 
-router.put('/api/notes/:uid/:noteId', async (req, res) => {
+router.put("/api/notes/:uid/:noteId", async (req, res) => {
   try {
-    const user = await UserNote.findOne({ uid: req.params.uid });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    const note = user.notes.id(req.params.noteId);
-    if (!note) {
-      return res.status(404).json({ message: 'Note not found' });
-    }
+    const { uid, noteId } = req.params;
     const { title, description, color, tags } = req.body;
-    if (title) {
-      note.title = title;
+
+    // Find the user's notes based on the UID
+    const user = await UserNote.findOne({ uid });
+
+    // If the user is not found, return a 404 error
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    if (description) {
-      note.description = description;
+
+    // Find the index of the note within the user's notes array
+    const noteIndex = user.notes.findIndex((note) => note._id.toString() === noteId);
+
+    // If the note is not found, return a 404 error
+    if (noteIndex === -1) {
+      return res.status(404).json({ message: "Note not found" });
     }
-    if (color) {
-      note.color = color;
-    }
-    if (tags) {
-      note.tags = tags;
-    }
+
+    // Update the note with the new values
+    user.notes[noteIndex].title = title.trim() === "" ? "" : title;
+    user.notes[noteIndex].description = description.trim() === "" ? "" : description;
+    user.notes[noteIndex].color = color;
+    user.notes[noteIndex].tags = tags;
+
+    // Save the updated user document
     await user.save();
-    res.json(user.notes);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+
+    // Return the updated note in the response
+    res.status(200).json(user.notes[noteIndex]);
+  } catch (error) {
+    console.error(`Error occurred: ${error.message}`);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 
 router.delete('/api/notes/:uid/:noteId', async (req, res) => {

@@ -282,6 +282,8 @@ import { IoIosAddCircle } from "react-icons/io";
 import { MdAddTask } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
 import { MdDeleteOutline } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
+
 
 const Notetaking = ({ userid }) => {
   const uid = decodeURIComponent(userid);
@@ -295,6 +297,7 @@ const Notetaking = ({ userid }) => {
   const [addNoteClicked, setaddvalues] = useState(false);
   const [color, setSelectedColor] = useState(null); // Default color is yellow
   const [isDeletedClicked, setisDeletedClicked] = useState(false);
+  //const [showcolor, setshowcolor] = useState(false);
   const colorOptions = [
     { id: "#fec971", label: "Yellow" },
     { id: "#fe9b72", label: "Orange" },
@@ -353,6 +356,8 @@ const Notetaking = ({ userid }) => {
   };
 
   const updateNote = async () => {
+    const updatedTitle = title.trim();
+    const updatedDescription = description.trim();
     try {
       const response = await fetch(
         `http://localhost:5000/api/notes/${uid}/${noteId}`,
@@ -361,7 +366,12 @@ const Notetaking = ({ userid }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ title, description, color, tags }),
+          body: JSON.stringify({
+            title: updatedTitle,
+            description: updatedDescription,
+            color,
+            tags,
+          }),
         }
       );
       if (!response.ok) {
@@ -415,7 +425,11 @@ const Notetaking = ({ userid }) => {
     setNoteId(note._id);
     setSelectedColor(note.color);
     setShowForm(true);
-   
+  };
+  const handleDeleteTag = (index) => {
+    const updatedTags = [...tags];
+    updatedTags.splice(index, 1);
+    setTags(updatedTags);
   };
 
   return (
@@ -442,6 +456,7 @@ const Notetaking = ({ userid }) => {
               <img
                 src={AddButton}
                 /*className=" w- size-fit cursor-pointer hover:drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]"*/
+                alt="+ button"
                 class="zoom"
                 onClick={() => {
                   //setShowForm(true);
@@ -516,23 +531,28 @@ const Notetaking = ({ userid }) => {
                   >
                     Add Tag
                   </button> */}
-                  <span className="text-5xl text-sky-700 hover:text-sky-900 cursor-pointer">
+                  <span className="text-5xl text-gray-800 hover:text-sky-900 cursor-pointer">
                     <IoIosAddCircle onClick={handleAddTag} />
                     {/* empty tags are also adding */}
                   </span>
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 flex flex-wrap">
                   {tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                    >
-                      {tag}
-                    </span>
+                    <div key={index} className="flex items-center mb-2">
+                      <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 ml-1">
+                        {tag}
+                      </span>
+                      <span><IoMdClose
+                        className="text-gray-500 cursor-pointer"
+                        onClick={() => handleDeleteTag(index)}
+                      />
+                      </span>
+                    </div>
                   ))}
                 </div>
+
                 {/* Color picker dropdown */}
-                {noteId ? (
+                {/* {noteId ? (
                   <select
                     className="border rounded p-2 mb-2"
                     value={color}
@@ -540,13 +560,37 @@ const Notetaking = ({ userid }) => {
                   >
                     {colorOptions.map((option) => (
                       <option key={option.id} value={option.id}>
-                        {option.label}
+                        {option.label} 
                       </option>
                     ))}
                   </select>
                 ) : (
                   ""
-                )}
+                )} */}
+                <div className="flex items-center mb-4">
+                  <div className="bg-slate-400 p-2 text-white rounded-xl">
+                    Choose color
+                  </div>
+                  {
+                    <div className="flex mt-1  ml-5 space-x-2">
+                      {colorOptions.map((option, index) => (
+                        <div
+                          key={index}
+                          className={`w-8 h-8 rounded-full border border-gray-300 ${
+                            color === option.id ? "border-6" : ""
+                          }`}
+                          style={{
+                            backgroundColor: option.id,
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            setSelectedColor(option.id);
+                          }}
+                        ></div>
+                      ))}
+                    </div>
+                  }
+                </div>
                 <div className=" flex  items-center justify-end">
                   <button
                     className="bg-green-500 hover:bg-green-700 text-white text-2xl font-extrabold py-2 px-8 rounded mr-4"
@@ -577,13 +621,9 @@ const Notetaking = ({ userid }) => {
             {notes.map((note) => (
               <div
                 key={note._id}
-                className="p-4 rounded-3xl m-1.5 relative"
+                className="p-4 rounded-3xl m-1.5 relative cursor-pointer h-[300px] w-[300px]"
                 style={{
                   backgroundColor: note.color,
-                  color: "white",
-                  width: "300px",
-                  height: "300px",
-                  cursor: "pointer",
                 }}
                 onClick={() => {
                   if (isDeletedClicked === false) {
@@ -599,15 +639,18 @@ const Notetaking = ({ userid }) => {
                     </>
                   )}
                 </h2>
-                <p className="text-base mt-1 text-black">{note.description}</p>
+                <div className="text-base mt-1 h-48 text-black overflow-y-scroll no-scrollbar">
+                  {note.description}
+                </div>
                 {/* <p>
                   <strong>Tags:</strong> {note.tags.join(", ")}
                 </p> */}
-                <div className="mb-4 flex">
+                <div className=" absolute bottom-4 left-4 flex w-48 overflow-x-scroll no-scrollbar ">
                   {note.tags.map((tag, index) => (
                     <div
                       key={index}
-                      className="inline-block bg-gray-200 rounded absolute bottom-4 left-4 px-1 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+                      className=" bg-gray-200 rounded  px-1 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+                      style={{ whiteSpace: "nowrap" }}
                     >
                       {tag}
                     </div>
