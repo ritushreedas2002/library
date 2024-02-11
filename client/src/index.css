@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,23 +9,34 @@
   overflow: hidden;
 }
 
-.no-scrollbar::-webkit-scrollbar{
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.no-scrollbar{
+.no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-#viewerCanvas{  
-  margin-left: 150px;  
-  width: 700px;  
+#viewerCanvas {
+  margin-left: 150px;
+  width: 700px;
   height: 200px;
 }
 
-.pdf-div{
+.pdf-div {
   padding: 50px;
   background-color: #dedede;
   margin-top: 50px;
+}
+
+.zoom {
+  padding: 4px;
+  transition: transform 0.2s; /* Animation */
+  width: 56px;
+  height: 56px;
+}
+
+.zoom:hover {
+  transform: scale(1.2);
 }
