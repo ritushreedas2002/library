@@ -283,7 +283,7 @@ import { MdAddTask } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-
+import { IoAddCircle } from "react-icons/io5";
 
 const Notetaking = ({ userid }) => {
   const uid = decodeURIComponent(userid);
@@ -414,8 +414,10 @@ const Notetaking = ({ userid }) => {
   };
 
   const handleAddTag = () => {
-    setTags([...tags, tag]);
-    setTag("");
+    if (tag !== "") {
+      setTags([...tags, tag]);
+      setTag("");
+    }
   };
 
   const handleUpdateNote = (note) => {
@@ -539,18 +541,18 @@ const Notetaking = ({ userid }) => {
                 <div className="mb-4 flex flex-wrap">
                   {tags.map((tag, index) => (
                     <div key={index} className="flex items-center mb-2">
-                      <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 ml-1">
+                      <span className="bg-gray-200 flex items-center rounded-full px-2 py-1 text-sm font-semibold text-gray-700 mr-2 ml-1">
                         {tag}
-                      </span>
-                      <span><IoMdClose
-                        className="text-gray-500 cursor-pointer"
-                        onClick={() => handleDeleteTag(index)}
-                      />
+                        <div className=" text-lg">
+                          <IoMdClose
+                            className="text-gray-500 cursor-pointer ml-1 "
+                            onClick={() => handleDeleteTag(index)}
+                          />
+                        </div>
                       </span>
                     </div>
                   ))}
                 </div>
-
                 {/* Color picker dropdown */}
                 {/* {noteId ? (
                   <select
@@ -617,65 +619,73 @@ const Notetaking = ({ userid }) => {
               </div>
             </div>
           )}
-          <div className="mt-2 flex flex-wrap relative">
-            {notes.map((note) => (
-              <div
-                key={note._id}
-                className="p-4 rounded-3xl m-1.5 relative cursor-pointer h-[300px] w-[300px]"
-                style={{
-                  backgroundColor: note.color,
-                }}
-                onClick={() => {
-                  if (isDeletedClicked === false) {
-                    handleUpdateNote(note);
-                  }
-                }}
-              >
-                <h2 className="text-xl font-semibold -mt-2">
-                  {note.title && (
-                    <>
-                      {note.title}
-                      <div className="border border-b-2 mt-1"></div>
-                    </>
-                  )}
-                </h2>
-                <div className="text-base mt-1 h-48 text-black overflow-y-scroll no-scrollbar">
-                  {note.description}
-                </div>
-                {/* <p>
+          {notes.length !== 0 ? (
+            <div className="mt-2 flex flex-wrap relative">
+              {notes.map((note) => (
+                <div
+                  key={note._id}
+                  className="p-4 rounded-3xl m-1.5 relative cursor-pointer h-[300px] w-[300px]"
+                  style={{
+                    backgroundColor: note.color,
+                  }}
+                  onClick={() => {
+                    if (isDeletedClicked === false) {
+                      handleUpdateNote(note);
+                    }
+                  }}
+                >
+                  <h2 className="text-xl font-semibold -mt-2">
+                    {note.title && (
+                      <>
+                        {note.title}
+                        <div className="border border-b-2 mt-1"></div>
+                      </>
+                    )}
+                  </h2>
+                  <div className="text-base mt-1 h-48 text-black overflow-y-scroll no-scrollbar">
+                    {note.description}
+                  </div>
+                  {/* <p>
                   <strong>Tags:</strong> {note.tags.join(", ")}
                 </p> */}
-                <div className=" absolute bottom-4 left-4 flex w-48 overflow-x-scroll no-scrollbar ">
-                  {note.tags.map((tag, index) => (
-                    <div
-                      key={index}
-                      className=" bg-gray-200 rounded  px-1 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
-                      style={{ whiteSpace: "nowrap" }}
-                    >
-                      {tag}
-                    </div>
-                  ))}
-                </div>
-                <div onClick={(e) => e.stopPropagation()}>
-                  {/* <button
+                  <div className=" absolute bottom-4 left-4 flex w-48 overflow-x-scroll no-scrollbar ">
+                    {note.tags.map((tag, index) => (
+                      <div
+                        key={index}
+                        className=" bg-gray-200 rounded  px-1 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        {tag}
+                      </div>
+                    ))}
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    {/* <button
                 className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
                 onClick={() => handleUpdateNote(note)}
               >
                 Update
               </button> */}
-                  <button
-                    className="text-2xl font-extrabold bg-red-500 hover:bg-red-700 text-white py-2 px-5 rounded-xl absolute bottom-4 right-4"
-                    onClick={() => {
-                      setisDeletedClicked(true);
-                      deleteNote(note._id);
-                    }}
-                  >
-                    <MdDeleteOutline />
-                  </button>
+                    <button
+                      className="text-2xl font-extrabold bg-red-500 hover:bg-red-700 text-white py-2 px-5 rounded-xl absolute bottom-4 right-4"
+                      onClick={() => {
+                        setisDeletedClicked(true);
+                        deleteNote(note._id);
+                      }}
+                    >
+                      <MdDeleteOutline />
+                    </button>
+                  </div>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-96 mt-10">
+              <div className="text-3xl flex font-semibold items-center">
+                Click <IoAddCircle className=" mx-2" /> to start adding notes
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
