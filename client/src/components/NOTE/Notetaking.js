@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import AddButton from "../../assets/AddButton.png";
@@ -22,11 +23,13 @@ const Notetaking = ({ userid }) => {
   const [isDeletedClicked, setisDeletedClicked] = useState(false);
   //const [showcolor, setshowcolor] = useState(false);
   const colorOptions = [
-    { id: "#fec971", label: "Yellow" },
+    //{ id: "#fec971", label: "Yellow" },
     { id: "#fe9b72", label: "Orange" },
     { id: "#e4ee91", label: "none" },
     { id: "#00d4fe", label: "Blue" },
     { id: "#b693fd", label: "purple" },
+    {id:"#66CDAA", label:"MediumAquaMarine"},
+    {id:"#DB7093", label:"PaleVioletRed"}
   ];
   useEffect(() => {
     // Update uid only if user1 and user1.uid are defined
@@ -169,15 +172,7 @@ const Notetaking = ({ userid }) => {
               Notes
             </h1>
             <div className=" flex h-14 items-center">
-              {/* <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => {
-                  //setShowForm(true);
-                  setaddvalues(!addNoteClicked);
-                }}
-              >
-                Add Note
-              </button> */}
+             
               <img
                 src={AddButton}
                 /*className=" w- size-fit cursor-pointer hover:drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]"*/
@@ -226,14 +221,7 @@ const Notetaking = ({ userid }) => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-                {/* <input
-                  className="border-b-2 rounded-xl p-2 mb-2 w-full bg-white"
-                  style={{ backgroundColor: "white", height: '100px' }}
-                  type="text"
-                  placeholder="Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                /> */}
+               
                 <textarea
                   className="border-b-2 rounded-xl p-2 mb-2 w-full bg-white resize-none"
                   placeholder="Description"
@@ -250,12 +238,7 @@ const Notetaking = ({ userid }) => {
                     value={tag}
                     onChange={handleTagChange}
                   />
-                  {/* <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-20"
-                    onClick={handleAddTag}
-                  >
-                    Add Tag
-                  </button> */}
+                  
                   <span className="text-5xl text-gray-800 hover:text-sky-900 cursor-pointer">
                     <IoIosAddCircle onClick={handleAddTag} />
                     {/* empty tags are also adding */}
@@ -277,21 +260,7 @@ const Notetaking = ({ userid }) => {
                   ))}
                 </div>
                 {/* Color picker dropdown */}
-                {/* {noteId ? (
-                  <select
-                    className="border rounded p-2 mb-2"
-                    value={color}
-                    onChange={(e) => setSelectedColor(e.target.value)}
-                  >
-                    {colorOptions.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.label} 
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  ""
-                )} */}
+                
                 <div className="flex items-center mb-4">
                   <div className="bg-slate-400 p-2 text-white rounded-xl">
                     Choose color
@@ -383,12 +352,7 @@ const Notetaking = ({ userid }) => {
                     ))}
                   </div>
                   <div onClick={(e) => e.stopPropagation()}>
-                    {/* <button
-                className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
-                onClick={() => handleUpdateNote(note)}
-              >
-                Update
-              </button> */}
+                   
                     <button
                       className="text-2xl font-extrabold bg-red-500 hover:bg-red-700 text-white py-2 px-5 rounded-xl absolute bottom-4 right-4"
                       onClick={() => {
