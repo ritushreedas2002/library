@@ -208,8 +208,4 @@ router.delete('/api/notes/:uid/:noteId', async (req, res) => {
   }
 });
 
-
-
-
-
 module.exports = router;

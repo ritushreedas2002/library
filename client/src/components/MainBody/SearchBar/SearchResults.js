@@ -27,24 +27,6 @@ const SearchResults = () => {
   // if (searchResults.length === 0) return <ShimmerSearch />;
 
   return (
-    // <div>
-    //   <button onClick={() => navigate(-1)}>Go Back</button>
-    //   <div className=" bg-slate-600 flex flex-wrap justify-start pl-32">
-    //     {searchResults.map((book, index) => (
-    //       <Link to={`/book/${book.id}`}>
-    //       <div key={index}>
-    //         {/* <h2>{book.volumeInfo.title}</h2> */}
-    //         <img
-    //           src={book.volumeInfo?.imageLinks?.thumbnail}
-    //           alt={book.volumeInfo?.title}
-    //           className="w-48 h-48 m-2"
-    //         />
-    //       </div>
-    //       </Link>
-    //     ))}
-    //   </div>
-    // </div>
-
     <div className="bg-slate-600 flex">
       <div className=" w-[13%]">
         <Sidebar2 />

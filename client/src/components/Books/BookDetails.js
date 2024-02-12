@@ -134,24 +134,11 @@ const BookDetails = () => {
               {"See Preview"}
             </button>
             {/* </Link> */}
-
             {showPreview && (
               <div className="flex items-center justify-center">
                 <BookPreview2 bookId={bookInfo.id} show={ShowPreview} />
               </div>
             )}
-
-            {/* <div className="w-[600px] h-[500px]">
-          <Helmet>
-            <script
-              type="text/javascript"
-              src="https://books.google.com/books/previewlib.js"
-            ></script>
-          </Helmet>
-          <script type="text/javascript">
-            GBS_insertEmbeddedViewer('ISBN:9781101514115',600,500);
-          </script>
-        </div> */}
           </div>
           <div className=" p-4 ml-5 max-h-[630px] bg-gray-500 rounded-2xl w-[22%] flex flex-col">
             <div className=" text-white text-2xl font-semibold mb-4 text-center">
@@ -160,7 +147,6 @@ const BookDetails = () => {
             <div className=" flex flex-col overflow-y-scroll max-h-[620px] no-scrollbar">
               {booklist?.map((book, index) => (
                 <Link key={index} to={"/book/" + book.id}>
-                  {/* link changing but page not updating */}
                   <MiniCard key={index} item={book} />
                 </Link>
               ))}
