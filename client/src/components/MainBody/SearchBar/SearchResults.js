@@ -24,7 +24,7 @@ const SearchResults = () => {
   }, [query]);
   console.log(searchResults);
 
-  if (searchResults.length === 0) return <ShimmerSearch />;
+  // if (searchResults.length === 0) return <ShimmerSearch />;
 
   return (
     // <div>
@@ -44,27 +44,28 @@ const SearchResults = () => {
     //     ))}
     //   </div>
     // </div>
-    <div>
-      <div className="bg-slate-600 flex">
-        <Sidebar2 /> {/* Include the Sidebar */}
-        <div className="flex flex-col pl-32">
-          {" "}
-          {/* Adjust the layout as needed */}
-          <SearchBar /> {/* Include the SearchBar */}
-          <div className="bg-slate-600 flex flex-wrap justify-start mt-4 ml-32">
-            {searchResults.map((book, index) => (
-              <Link to={`/book/${book.id}`} key={index}>
-                <div>
-                  <img
-                    src={book.volumeInfo?.imageLinks?.thumbnail}
-                    alt={book.volumeInfo?.title}
-                    className="w-48 h-48 m-2"
-                  />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+
+    <div className="bg-slate-600 flex">
+      <div className=" w-[13%]">
+        <Sidebar2 />
+      </div>
+      <div className="flex flex-col  w-[87%]">
+        {" "}
+        {/* Adjust the layout as needed */}
+        <SearchBar /> {/* Include the SearchBar */}
+        {searchResults.length !== 0 ? <div className="bg-slate-600 flex flex-wrap justify-start mt-4 ml-32">
+          {searchResults.map((book, index) => (
+            <Link to={`/book/${book.id}`} key={index}>
+              <div>
+                <img
+                  src={book.volumeInfo?.imageLinks?.thumbnail}
+                  alt={book.volumeInfo?.title}
+                  className="w-48 h-48 m-2 rounded-lg"
+                />
+              </div>
+            </Link>
+          ))}
+        </div>:<ShimmerSearch />}
       </div>
     </div>
   );
