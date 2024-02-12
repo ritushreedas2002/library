@@ -6,11 +6,12 @@ import reportWebVitals from "./reportWebVitals";
 import appStore from "./components/utils/appStore";
 import { Provider } from "react-redux";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { CLIENT_ID } from "./components/utils/constant";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <GoogleOAuthProvider clientId="588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId={CLIENT_ID}>
     <Provider store={appStore}>
       <App />
     </Provider>

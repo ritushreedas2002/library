@@ -5,18 +5,6 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   const searchtext = useRef(null);
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const [searchResults, setSearchResults] = useState([]);
-
-  // const SearchBooks = async (query) => {
-  //   const data = await fetch(
-  //     "https://www.googleapis.com/books/v1/volumes?q=" +
-  //       query +
-  //       "&startIndex=0&maxResults=30&key=AIzaSyAHmU-nwtsjbFU7LJgVZ0wY6typtBwzeKw"
-  //   );
-  //   const json = await data.json();
-  //   return json.items;
-  // };
 
   const handleSearchClick = async () => {
     console.log(searchtext.current.value);

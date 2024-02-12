@@ -7,6 +7,7 @@
 //   RxAccessibility,
 // } from "react-icons/rx";
 import { useEffect, useState } from "react";
+import { GOOGLE_BOOK_API_KEY } from "../utils/constant";
 
 const usePopular = () => {
   const [books, setBooks] = useState([]);
@@ -17,7 +18,7 @@ const usePopular = () => {
     if (isLoading) {
       try {
         const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=bestsellers&startIndex=0&maxResults=10&key=AIzaSyBd5eK6KC9hXwSK5Gqu86oJdxFcm-FLBVQ`
+          `https://www.googleapis.com/books/v1/volumes?q=bestsellers&startIndex=0&maxResults=10&key=${GOOGLE_BOOK_API_KEY}`
         );
         const data = await response.json();
         console.log(data);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GOOGLE_BOOK_API_KEY } from "../utils/constant";
 
 const useBooks = (category) => {
   const [books, setBooks] = useState([]);
@@ -11,7 +12,8 @@ const useBooks = (category) => {
         const response = await fetch(
           "https://www.googleapis.com/books/v1/volumes?q=" +
             category +
-            "&startIndex=0&maxResults=10&key=AIzaSyBd5eK6KC9hXwSK5Gqu86oJdxFcm-FLBVQ"
+            "&startIndex=0&maxResults=10&key=" +
+            GOOGLE_BOOK_API_KEY
         );
         const data = await response.json();
         console.log(data);
