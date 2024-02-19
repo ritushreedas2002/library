@@ -9,6 +9,7 @@ import SearchBar from "../MainBody/SearchBar/SearchBar";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { CgHeart } from "react-icons/cg";
 import { useSelector } from "react-redux";
+import { FaHeart } from "react-icons/fa6";
 
 const DemoBookCard = () => {
   return (
@@ -46,12 +47,16 @@ const BookDetails = () => {
   const [showPreview, setShowPreview] = useState(false);
   //const [isRed, setIsRed] = useState(false);
   const uid=useSelector(store=>store.user.user.uid);
+  const [toggle,settoggle]=useState(false)
 
   //console.log(bookInfo.volumeInfo);
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
   console.log(category);
 
-
+ const color=({uid,bookid})=>{
+    settoggle(!toggle);
+    addFavourites({uid,bookid})
+ }
   const addFavourites = async({uid,bookid}) => {
     try {
       // Make the POST request
@@ -140,8 +145,8 @@ const BookDetails = () => {
                   {bookInfo.volumeInfo?.authors.join(", ")}
                 </div>
               </div>
-              <div className="text-4xl ml-48" onClick={() => addFavourites({ uid, bookid })}>
-                  <CgHeart/>
+              <div className="text-4xl ml-48" onClick={() => color({ uid, bookid })}>
+                  {toggle?<FaHeart className="text-red-700"/>:<CgHeart/>}
               </div>
             </div>
             <div className=" flex flex-col overflow-y-scroll max-h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">
