@@ -24,3 +24,5 @@ yarn-error.log*
 
 .env
 
+/src/components/utils/constant.js
+

@@ -61,7 +61,7 @@ const App = () => {
   //   /* global google */
   //   google.accounts.id.initialize({
   //     client_id:
-  //       "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com",
+  //       "",
   //     callback: handleCallbackResponse,
   //   });
 

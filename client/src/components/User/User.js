@@ -74,10 +74,6 @@ const User = () => {
     }
   };
   
-  
-
-  
-
   const handleCancelEdit = () => {
     setIsEditing(false);
   };
