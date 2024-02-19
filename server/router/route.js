@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/User");
 const UserNote=require("../models/Notes");
+const UserFeatures=require("../models/Features")
 const router = express.Router();
 // const multer = require("multer");
 
@@ -210,6 +211,73 @@ router.delete('/api/notes/:uid/:noteId', async (req, res) => {
 
 
 
+router.get('/api/favorites/:uid', async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ favorites: userFeatures.favourites });
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+router.post('/api/favorites/:uid', async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const { bookId } = req.body;
+
+    let userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      userFeatures = new UserFeatures({
+        uid,
+        favourites: [bookId],
+        bookmarks: [] // assuming bookmarks are managed in the same schema
+      });
+    } else {
+      if (!userFeatures.favourites.includes(bookId)) {
+        userFeatures.favourites.push(bookId);
+      }
+    }
+    await userFeatures.save();
+    
+    res.status(201).send();
+  } catch (error) {
+    console.error("Error adding favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete('/api/favorites/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the index of the bookId to remove from favourites
+    const bookIndex = userFeatures.favourites.indexOf(bookId);
+    if (bookIndex === -1) {
+      return res.status(404).json({ message: 'Book not found in favorites' });
+    }
+
+    // Remove the bookId from the favourites array
+    userFeatures.favourites.splice(bookIndex, 1);
+
+    await userFeatures.save();
+    
+    res.json(userFeatures.favourites);
+  } catch (error) {
+    console.error("Error deleting favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 module.exports = router;

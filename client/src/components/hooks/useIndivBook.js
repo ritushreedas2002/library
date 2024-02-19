@@ -16,7 +16,7 @@ const useIndivBook = (bookid) => {
           "https://www.googleapis.com/books/v1/volumes/" + bookid
         );
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setBook(data);
       } catch (error) {
         setError(error);

@@ -8,12 +8,18 @@ import { auth } from "../../utils/Firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../../utils/userSlice";
 import { CiStickyNote } from "react-icons/ci";
+import { useState } from "react";
 
 const Sidebar2 = ({onSignOut}) => {
   //const [isOpen, setIsOpen] = useState(false);
   const user=useSelector(store=>store.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -79,7 +85,8 @@ const Sidebar2 = ({onSignOut}) => {
               </span>
             </Link>
           </li>
-          <li className="mt-5 group">
+          <li className="mt-5 group relative" onClick={toggleDropdown}>
+            <Link to="/favourites">
             <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
               <span className="text-2xl">
                 <FiHeart />
@@ -88,6 +95,7 @@ const Sidebar2 = ({onSignOut}) => {
                 Favourites
               </span>
             </div>
+            </Link>
           </li>
           <li className="mt-5 group">
             <Link to="/pdf">

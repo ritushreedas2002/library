@@ -14,7 +14,7 @@ const useBooks = (category) => {
             "&startIndex=0&maxResults=10&key=AIzaSyBd5eK6KC9hXwSK5Gqu86oJdxFcm-FLBVQ"
         );
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setBooks((prevBooks) => [...prevBooks, ...data.items]);
 
         // Stop fetching if 30 books are reached

@@ -7,6 +7,8 @@ import BookPreview2 from "./BookPreview2";
 import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
 import SearchBar from "../MainBody/SearchBar/SearchBar";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
+import { CgHeart } from "react-icons/cg";
+import { useSelector } from "react-redux";
 
 const DemoBookCard = () => {
   return (
@@ -42,11 +44,34 @@ const BookDetails = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
+  //const [isRed, setIsRed] = useState(false);
+  const uid=useSelector(store=>store.user.user.uid);
 
   //console.log(bookInfo.volumeInfo);
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
   console.log(category);
 
+
+  const addFavourites = async({uid,bookid}) => {
+    try {
+      // Make the POST request
+      const response = await fetch(`http://localhost:5000/api/favorites/${uid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          bookId: bookid
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to add favorite');
+      }
+    } catch (error) {
+      console.error('Error adding favorite:', error.message);
+    }
+  };
   const toggleShowPreview = () => {
     setShowPreview(true);
   };
@@ -114,6 +139,9 @@ const BookDetails = () => {
                 <div className=" mt-4 text-2xl text-white font-bold">
                   {bookInfo.volumeInfo?.authors.join(", ")}
                 </div>
+              </div>
+              <div className="text-4xl ml-48" onClick={() => addFavourites({ uid, bookid })}>
+                  <CgHeart/>
               </div>
             </div>
             <div className=" flex flex-col overflow-y-scroll max-h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">

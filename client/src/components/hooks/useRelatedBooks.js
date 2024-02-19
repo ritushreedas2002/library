@@ -16,7 +16,7 @@ const useRelatedBooks = (related) => {
           "https://www.googleapis.com/books/v1/volumes?q=" + related
         );
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setBook(data);
       } catch (error) {
         setError(error);
