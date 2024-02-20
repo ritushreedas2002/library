@@ -66,9 +66,34 @@ const BookDetails = () => {
     }
   };
 
+  const recentViewed=async()=>{
+    try {
+      // Make the POST request to update the recently viewed book
+      const response = await fetch(
+        `http://localhost:5000/api/recently-viewed`,
+        {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: uid, // Assuming `uid` is the user ID
+            bookId: bookid, // Assuming `bookid` is the ID of the book being viewed
+          })
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update recently viewed book");
+      }
+    } catch (error) {
+      console.error("Error updating recently viewed book:", error.message);
+    }
+  }
+
   useEffect(() => {
     if (category !== null) {
       fetchBookDetail();
+      recentViewed();
     }
   }, [category]);
 

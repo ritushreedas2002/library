@@ -19,6 +19,15 @@ const userFeaturesSchema = new Schema({
       },
       message: props => `The array ${props.value} must have a length of 0 or 1!`
     }
+  },
+  recentlyviewed: {
+    type: [String], // Array of recently viewed book IDs
+    validate: {
+      validator: function(arr) {
+        return arr.length <= 10; // Maximum of 10 recently viewed books
+      },
+      message: props => `The array ${props.value} must have a length of 0 to 10!`
+    }
   }
 });
 

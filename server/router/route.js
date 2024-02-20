@@ -99,14 +99,14 @@ router.post("/api/notes/:uid", async (req, res) => {
     const { title, description, color, tags } = req.body;
 
     let userNote = await UserNote.findOne({ uid });
-
+    const lastEdited = Date.now();
     if (!userNote) {
       userNote = new UserNote({
         uid,
-        notes: [{ title, description, color, tags }],
+        notes: [{ title, description, color, tags,lastEdited }],
       });
     } else {
-      userNote.notes.push({ title, description, color, tags });
+      userNote.notes.push({ title, description, color, tags,lastEdited });
     }
 
     await userNote.save();
@@ -122,7 +122,7 @@ router.post("/api/notes/:uid", async (req, res) => {
 router.get("/api/notes/:uid/:noteId", async (req, res) => {
   try {
     const { uid, noteId } = req.params;
-
+    
     // Find the user's notes based on the UID
     const user = await UserNote.findOne({ uid });
 
@@ -155,7 +155,7 @@ router.put("/api/notes/:uid/:noteId", async (req, res) => {
 
     // Find the user's notes based on the UID
     const user = await UserNote.findOne({ uid });
-
+    const lastEdited = Date.now();
     // If the user is not found, return a 404 error
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -174,7 +174,7 @@ router.put("/api/notes/:uid/:noteId", async (req, res) => {
     user.notes[noteIndex].description = description.trim() === "" ? "" : description;
     user.notes[noteIndex].color = color;
     user.notes[noteIndex].tags = tags;
-
+    user.notes[noteIndex].lastEdited=lastEdited;
     // Save the updated user document
     await user.save();
 
@@ -339,6 +339,64 @@ router.get('/api/current-read/:uid', async (req, res) => {
   } catch (error) {
     console.error('Error fetching current read book ID:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+///recently viewwed
+
+const MAX_RECENTLY_VIEWED = 10;
+
+router.post('/api/recently-viewed', async (req, res) => {
+  const { userId, bookId } = req.body;
+
+  try {
+    let userFeatures = await UserFeatures.findOne({ uid: userId });
+
+    if (!userFeatures) {
+      // If userFeatures document doesn't exist, create a new one with the bookId
+      userFeatures = new UserFeatures({ uid: userId, recentlyviewed: [bookId] });
+    } else {
+      // Check if the bookId already exists in recently viewed
+      const index = userFeatures.recentlyviewed.indexOf(bookId);
+      if (index !== -1) {
+        // If it exists, remove it from the current position
+        userFeatures.recentlyviewed.splice(index, 1);
+      }
+      // Add the bookId to the beginning of the array
+      userFeatures.recentlyviewed.unshift(bookId);
+      // Ensure the array does not exceed the maximum length
+      if (userFeatures.recentlyviewed.length > MAX_RECENTLY_VIEWED) {
+        userFeatures.recentlyviewed.pop(); // Remove the oldest entry
+      }
+    }
+
+    // Save the updated userFeatures document
+    await userFeatures.save();
+
+    res.status(200).json({ success: true, message: 'Recently viewed book added successfully' });
+  } catch (error) {
+    console.error('Error adding recently viewed book:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+router.get('/api/recently-viewed/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userFeatures = await UserFeatures.findOne({ uid: userId });
+
+    if (!userFeatures || !userFeatures.recentlyviewed.length) {
+      return res.status(404).json({ success: false, message: 'No recently viewed books found' });
+    }
+
+    // Reverse the array to show the most recently viewed books first
+    const recentlyViewedBooks = userFeatures.recentlyviewed;
+
+    res.status(200).json({ success: true, recentlyViewed: recentlyViewedBooks });
+  } catch (error) {
+    console.error('Error fetching recently viewed books:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 });
 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import AddButton from "../../assets/AddButton.png";
@@ -28,8 +27,8 @@ const Notetaking = ({ userid }) => {
     { id: "#e4ee91", label: "none" },
     { id: "#00d4fe", label: "Blue" },
     { id: "#b693fd", label: "purple" },
-    {id:"#66CDAA", label:"MediumAquaMarine"},
-    {id:"#DB7093", label:"PaleVioletRed"}
+    { id: "#66CDAA", label: "MediumAquaMarine" },
+    { id: "#DB7093", label: "PaleVioletRed" },
   ];
   useEffect(() => {
     // Update uid only if user1 and user1.uid are defined
@@ -160,6 +159,17 @@ const Notetaking = ({ userid }) => {
     setTags(updatedTags);
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+  const year = date.getFullYear().toString().substr(-2); // Get last two digits of the year
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add leading zero if needed
+  const day = date.getDate().toString().padStart(2, '0'); // Add leading zero if needed
+  const hours = date.getHours().toString().padStart(2, '0'); // Add leading zero if needed
+  const minutes = date.getMinutes().toString().padStart(2, '0'); // Add leading zero if needed
+  const seconds = date.getSeconds().toString().padStart(2, '0'); // Add leading zero if needed
+  return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+  };
+
   return (
     <div className=" flex">
       <div className=" w-[13%]">
@@ -172,7 +182,6 @@ const Notetaking = ({ userid }) => {
               Notes
             </h1>
             <div className=" flex h-14 items-center">
-             
               <img
                 src={AddButton}
                 /*className=" w- size-fit cursor-pointer hover:drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]"*/
@@ -221,7 +230,7 @@ const Notetaking = ({ userid }) => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-               
+
                 <textarea
                   className="border-b-2 rounded-xl p-2 mb-2 w-full bg-white resize-none"
                   placeholder="Description"
@@ -238,7 +247,7 @@ const Notetaking = ({ userid }) => {
                     value={tag}
                     onChange={handleTagChange}
                   />
-                  
+
                   <span className="text-5xl text-gray-800 hover:text-sky-900 cursor-pointer">
                     <IoIosAddCircle onClick={handleAddTag} />
                     {/* empty tags are also adding */}
@@ -260,7 +269,7 @@ const Notetaking = ({ userid }) => {
                   ))}
                 </div>
                 {/* Color picker dropdown */}
-                
+
                 <div className="flex items-center mb-4">
                   <div className="bg-slate-400 p-2 text-white rounded-xl">
                     Choose color
@@ -329,7 +338,10 @@ const Notetaking = ({ userid }) => {
                   <h2 className="text-xl font-semibold -mt-2">
                     {note.title && (
                       <>
-                        {note.title}
+                        <div className="flex flex-col justify-between">
+                          <p>{note.title}</p>
+                          <p className="text-gray-500 text-xs mt-3 ml-28">Edited On {formatDate(note.lastEdited)}</p>
+                        </div>
                         <div className="border border-b-2 mt-1"></div>
                       </>
                     )}
@@ -352,7 +364,6 @@ const Notetaking = ({ userid }) => {
                     ))}
                   </div>
                   <div onClick={(e) => e.stopPropagation()}>
-                   
                     <button
                       className="text-2xl font-extrabold bg-red-500 hover:bg-red-700 text-white py-2 px-5 rounded-xl absolute bottom-4 right-4"
                       onClick={() => {
