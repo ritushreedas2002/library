@@ -22,15 +22,15 @@ import User from "./components/User/User";
 import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchBar/SearchResults";
 import PDFUpload from "./components/PdfRender/PDFUpload";
-import { pdfjs } from 'react-pdf';
+import { pdfjs } from "react-pdf";
 import Notetaking from "./components/NOTE/Notetaking";
 import Favourites from "./components/Features/Favourites/Favourites";
 import CurrentRead from "./components/Features/Current Read/CurrentRead";
 import RecentlyViewed from "./components/Features/RecentlyViewed/RecentlyViewed";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
 ).toString();
 //import { jwtDecode } from "jwt-decode";
 //import Testing from "./components/Testing";
@@ -83,7 +83,7 @@ const App = () => {
 
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
         localStorage.setItem("userAuthenticated", "true");
-        localStorage.setItem("uid",encodeURIComponent(user.uid));
+        localStorage.setItem("uid", encodeURIComponent(user.uid));
         dispatch(setisLoading(false));
       } else {
         // User is signed out
@@ -104,7 +104,12 @@ const App = () => {
       <div className="app">
         <Routes>
           <Route path="/" element={<FirstPage />} />
-          <Route path="/book/:bookid" element={<BookDetails />} />
+          {localStorage?.getItem("uid") && (
+            <Route
+              path="/book/:bookid"
+              element={<BookDetails uid={localStorage?.getItem("uid")} />}
+            />
+          )}
 
           <Route path="/search/:query" element={<SearchResults />} />
           <Route
@@ -136,11 +141,31 @@ const App = () => {
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
           <Route path="/User" element={<User />} />
-          <Route path="/Pdf" element={<PDFUpload/>}/>
-          {localStorage?.getItem("uid") && (<Route path="/Note" element={<Notetaking userid={localStorage?.getItem("uid")}/>}/>)}
-          {localStorage?.getItem("uid") && (<Route path="/favourites" element={<Favourites uid={localStorage?.getItem("uid")}/>}/>)}
-          {localStorage?.getItem("uid") && (<Route path="/current-read" element={<CurrentRead uid={localStorage?.getItem("uid")}/>}/>)}
-          {localStorage?.getItem("uid") && (<Route path="/recent" element={<RecentlyViewed uid={localStorage?.getItem("uid")}/>}/>)}
+          <Route path="/Pdf" element={<PDFUpload />} />
+          {localStorage?.getItem("uid") && (
+            <Route
+              path="/Note"
+              element={<Notetaking userid={localStorage?.getItem("uid")} />}
+            />
+          )}
+          {localStorage?.getItem("uid") && (
+            <Route
+              path="/favourites"
+              element={<Favourites uid={localStorage?.getItem("uid")} />}
+            />
+          )}
+          {localStorage?.getItem("uid") && (
+            <Route
+              path="/current-read"
+              element={<CurrentRead uid={localStorage?.getItem("uid")} />}
+            />
+          )}
+          {localStorage?.getItem("uid") && (
+            <Route
+              path="/recent"
+              element={<RecentlyViewed uid={localStorage?.getItem("uid")} />}
+            />
+          )}
         </Routes>
       </div>
     </Router>

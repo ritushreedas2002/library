@@ -37,7 +37,7 @@ const MiniCard = ({ item }) => {
   );
 };
 
-const BookDetails = () => {
+const BookDetails = ({uid}) => {
   const { bookid } = useParams();
   const bookInfo = useIndivBook(bookid);
   const [booklist, setBookList] = useState([]);
@@ -45,7 +45,7 @@ const BookDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const uid = useSelector((store) => store.user.user.uid);
+  //const uid = useSelector((store) => store.user.user.uid);
   const dispatch = useDispatch();
 
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
@@ -185,10 +185,11 @@ const BookDetails = () => {
                 </div>
               ) : (
                 <img
-                  className="mr-12 w-72 size-fit max-h-[400px]"
+                  className="mr-12 w-72 size-fit "
                   src={
-                    bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
-                    bookInfo?.volumeInfo?.imageLinks?.thumbnail
+                    bookInfo?.volumeInfo?.imageLinks?.large ||
+                    bookInfo?.volumeInfo?.imageLinks?.thumbnail ||
+                    bookInfo?.volumeInfo?.imageLinks?.smallThumbnail
                   }
                   alt=""
                 />
