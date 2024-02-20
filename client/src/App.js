@@ -25,6 +25,7 @@ import PDFUpload from "./components/PdfRender/PDFUpload";
 import { pdfjs } from 'react-pdf';
 import Notetaking from "./components/NOTE/Notetaking";
 import Favourites from "./components/Features/Favourites/Favourites";
+import CurrentRead from "./components/Features/Current Read/CurrentRead";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -137,6 +138,7 @@ const App = () => {
           <Route path="/Pdf" element={<PDFUpload/>}/>
           {localStorage?.getItem("uid") && (<Route path="/Note" element={<Notetaking userid={localStorage?.getItem("uid")}/>}/>)}
           {localStorage?.getItem("uid") && (<Route path="/favourites" element={<Favourites uid={localStorage?.getItem("uid")}/>}/>)}
+          {localStorage?.getItem("uid") && (<Route path="/current-read" element={<CurrentRead uid={localStorage?.getItem("uid")}/>}/>)}
         </Routes>
       </div>
     </Router>

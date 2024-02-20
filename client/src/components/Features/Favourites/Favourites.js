@@ -4,6 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
+
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
 

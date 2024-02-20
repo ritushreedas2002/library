@@ -4,12 +4,21 @@ const Schema = mongoose.Schema;
 const userFeaturesSchema = new Schema({
   uid: String,
   favourites: {
-    type: [String], // Assuming favourites is an array of strings (book IDs)
-    default: [] // Default value is an empty array
+    type: [String],
+    default: []
   },
   bookmarks: {
-    type: [String], // Assuming bookmarks is an array of strings (book IDs)
-    default: [] // Default value is an empty array
+    type: [String],
+    default: []
+  },
+  currentRead: {
+    type: [String], // Assuming currentRead is an array of strings (book IDs)
+    validate: {
+      validator: function(arr) {
+        return arr.length <= 1; // Only allow an array length of 0 or 1
+      },
+      message: props => `The array ${props.value} must have a length of 0 or 1!`
+    }
   }
 });
 

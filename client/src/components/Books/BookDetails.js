@@ -116,8 +116,28 @@ const BookDetails = () => {
     }
   };
 
-  const toggleShowPreview = () => {
+  const toggleShowPreview = async() => {
     setShowPreview(true);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/current-read`,
+        {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: uid,
+            bookId: bookid
+          })
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update current read book");
+      }
+    } catch (error) {
+      console.error("Error updating current read book:", error.message);
+    }
   };
 
   const ShowPreview = () => {
