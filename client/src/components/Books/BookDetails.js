@@ -131,7 +131,7 @@ const BookDetails = () => {
                 <img
                   className="mr-12 w-72 size-fit max-h-[400px]"
                   src={
-                    bookInfo?.volumeInfo?.imageLinks?.small ||
+                    bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
                     bookInfo?.volumeInfo?.imageLinks?.thumbnail
                   }
                   alt=""
