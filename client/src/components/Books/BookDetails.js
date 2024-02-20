@@ -37,7 +37,7 @@ const MiniCard = ({ item }) => {
   );
 };
 
-const BookDetails = ({uid}) => {
+const BookDetails = ({ uid }) => {
   const { bookid } = useParams();
   const bookInfo = useIndivBook(bookid);
   const [booklist, setBookList] = useState([]);
@@ -66,20 +66,20 @@ const BookDetails = ({uid}) => {
     }
   };
 
-  const recentViewed=async()=>{
+  const recentViewed = async () => {
     try {
       // Make the POST request to update the recently viewed book
       const response = await fetch(
         `http://localhost:5000/api/recently-viewed`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             userId: uid, // Assuming `uid` is the user ID
             bookId: bookid, // Assuming `bookid` is the ID of the book being viewed
-          })
+          }),
         }
       );
       if (!response.ok) {
@@ -88,7 +88,7 @@ const BookDetails = ({uid}) => {
     } catch (error) {
       console.error("Error updating recently viewed book:", error.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (category !== null) {
@@ -141,22 +141,19 @@ const BookDetails = ({uid}) => {
     }
   };
 
-  const toggleShowPreview = async() => {
+  const toggleShowPreview = async () => {
     setShowPreview(true);
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/current-read`,
-        {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            uid: uid,
-            bookId: bookid
-          })
-        }
-      );
+      const response = await fetch(`http://localhost:5000/api/current-read`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: uid,
+          bookId: bookid,
+        }),
+      });
       if (!response.ok) {
         throw new Error("Failed to update current read book");
       }
@@ -175,8 +172,8 @@ const BookDetails = ({uid}) => {
       <Sidebar2 /> {/* Sidebar at the side */}
       <div className="flex flex-col flex-grow ml-6">
         <SearchBar />
-        <div className="flex flex-grow mt-6 mr-11">
-          <div className=" p-8 bg-gray-500 rounded-2xl w-[75%]">
+        <div className="flex flex-grow mt-6 mr-8">
+          <div className=" p-8 bg-gray-500 rounded-2xl w-[80%]">
             <div className="flex">
               {bookInfo?.volumeInfo === null ? (
                 // <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
@@ -230,7 +227,7 @@ const BookDetails = ({uid}) => {
               </div>
             )}
           </div>
-          <div className=" p-4 ml-5 max-h-[630px] bg-gray-500 rounded-2xl w-[22%] flex flex-col">
+          <div className=" p-4 ml-5 max-h-[630px] bg-gray-500 rounded-2xl w-[20%] flex flex-col">
             <div className=" text-white text-2xl font-semibold mb-4 text-center">
               Related Books
             </div>
