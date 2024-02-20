@@ -226,10 +226,10 @@ router.get('/api/favorites/:uid', async (req, res) => {
 });
 
 
-router.post('/api/favorites/:uid', async (req, res) => {
+router.post('/api/favorites/:uid/:bookId', async (req, res) => {
   try {
-    const { uid } = req.params;
-    const { bookId } = req.body;
+    const { uid,bookId } = req.params;
+    // const { bookId } = req.body;
 
     let userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
@@ -278,6 +278,22 @@ router.delete('/api/favorites/:uid/:bookId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+router.get('/api/favorites/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const isFavorited = userFeatures.favourites.includes(bookId);
+    res.json({ isFavorited });
+  } catch (error) {
+    console.error("Error checking favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 
 module.exports = router;

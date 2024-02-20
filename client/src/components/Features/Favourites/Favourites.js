@@ -37,7 +37,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
         <img
           className="h-full w-full object-contain pr-16 pt-3"
           src={
-            bookInfo?.volumeInfo?.imageLinks?.small ||
+            bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
             bookInfo?.volumeInfo?.imageLinks?.thumbnail
           }
           alt={bookInfo.title}
