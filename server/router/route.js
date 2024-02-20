@@ -210,7 +210,7 @@ router.delete('/api/notes/:uid/:noteId', async (req, res) => {
 });
 
 
-
+//favourites
 router.get('/api/favorites/:uid', async (req, res) => {
   try {
     const { uid } = req.params;
@@ -226,10 +226,10 @@ router.get('/api/favorites/:uid', async (req, res) => {
 });
 
 
-router.post('/api/favorites/:uid', async (req, res) => {
+router.post('/api/favorites/:uid/:bookId', async (req, res) => {
   try {
-    const { uid } = req.params;
-    const { bookId } = req.body;
+    const { uid,bookId } = req.params;
+    // const { bookId } = req.body;
 
     let userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
@@ -276,6 +276,69 @@ router.delete('/api/favorites/:uid/:bookId', async (req, res) => {
   } catch (error) {
     console.error("Error deleting favorite:", error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+router.get('/api/favorites/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const isFavorited = userFeatures.favourites.includes(bookId);
+    res.json({ isFavorited });
+  } catch (error) {
+    console.error("Error checking favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+//current read
+router.post('/api/current-read', async (req, res) => {
+  try {
+    const { uid, bookId } = req.body;
+
+    // Check if the user exists
+    let userFeatures = await UserFeatures.findOne({ uid });
+
+    // If the user doesn't exist, create a new document
+    if (!userFeatures) {
+      userFeatures = new UserFeatures({ uid, currentRead: [bookId] });
+    } else {
+      // If the user exists, update the currentRead field
+      userFeatures.currentRead = [bookId]; // Replace existing book ID with the new one
+    }
+
+    // Save the userFeatures document
+    await userFeatures.save();
+
+    res.status(200).json({ success: true, message: 'Current read book ID updated successfully' });
+  } catch (error) {
+    console.error('Error updating current read book ID:', error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+
+router.get('/api/current-read/:uid', async (req, res) => {
+  try {
+    const { uid } = req.params;
+
+    // Query the database for the user's currentRead field
+    const userFeatures = await UserFeatures.findOne({ uid });
+
+    // If user not found or currentRead field is empty, return null
+    if (!userFeatures || !userFeatures.currentRead || userFeatures.currentRead.length === 0) {
+      return res.status(200).json({ currentRead: null });
+    }
+
+    // Return the current book ID
+    res.status(200).json({ currentRead: userFeatures.currentRead[0] });
+  } catch (error) {
+    console.error('Error fetching current read book ID:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

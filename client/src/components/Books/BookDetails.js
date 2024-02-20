@@ -3,12 +3,11 @@ import useIndivBook from "../hooks/useIndivBook";
 import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import BookPreview2 from "./BookPreview2";
-//import useRelatedBooks from "../hooks/useRelatedBooks";
 import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
 import SearchBar from "../MainBody/SearchBar/SearchBar";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { CgHeart } from "react-icons/cg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa6";
 
 const DemoBookCard = () => {
@@ -45,52 +44,11 @@ const BookDetails = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
-  //const [isRed, setIsRed] = useState(false);
-  const uid=useSelector(store=>store.user.user.uid);
-  const [toggle,settoggle]=useState(false)
+  const [toggle, setToggle] = useState(false);
+  const uid = useSelector((store) => store.user.user.uid);
+  const dispatch = useDispatch();
 
-  //console.log(bookInfo.volumeInfo);
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
-  console.log(category);
-
- const color=({uid,bookid})=>{
-    settoggle(!toggle);
-    addFavourites({uid,bookid})
- }
-  const addFavourites = async({uid,bookid}) => {
-    try {
-      // Make the POST request
-      const response = await fetch(`http://localhost:5000/api/favorites/${uid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          bookId: bookid
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to add favorite');
-      }
-    } catch (error) {
-      console.error('Error adding favorite:', error.message);
-    }
-  };
-  const toggleShowPreview = () => {
-    setShowPreview(true);
-  };
-  const ShowPreview = () => {
-    setShowPreview(false);
-  };
-
-  useEffect(() => {
-    // Fetch related books only when the category is available
-    if (category !== null) {
-      // Call your useRelatedBooks hook here
-      fetchBookDetail();
-    }
-  }, [category]);
 
   const fetchBookDetail = async () => {
     if (isLoading) {
@@ -99,7 +57,6 @@ const BookDetails = () => {
           "https://www.googleapis.com/books/v1/volumes?q=" + category
         );
         const data = await response.json();
-        console.log(data);
         setBookList(data?.items);
       } catch (error) {
         setError(error);
@@ -108,12 +65,86 @@ const BookDetails = () => {
       }
     }
   };
-  console.log(booklist);
+
+  useEffect(() => {
+    if (category !== null) {
+      fetchBookDetail();
+    }
+  }, [category]);
+
+  useEffect(() => {
+    async function fetchFavoriteStatus() {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/favorites/${uid}/${bookid}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch favorite status");
+        }
+        const data = await response.json();
+        setToggle(data.isFavorited);
+      } catch (error) {
+        console.error("Error fetching favorite status:", error.message);
+      }
+    }
+    fetchFavoriteStatus();
+  }, [uid, bookid]);
+
+  const toggleFavorite = async () => {
+    try {
+      const method = toggle ? "DELETE" : "POST";
+      const response = await fetch(
+        `http://localhost:5000/api/favorites/${uid}/${bookid}`,
+        {
+          // Corrected URL
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // body: JSON.stringify({
+          //   bookId: bookid
+          // })
+        }
+      );
+      if (response.ok) {
+        setToggle(!toggle);
+      } else {
+        throw new Error("Failed to update favorite status");
+      }
+    } catch (error) {
+      console.error("Error updating favorite status:", error.message);
+    }
+  };
+
+  const toggleShowPreview = async() => {
+    setShowPreview(true);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/current-read`,
+        {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: uid,
+            bookId: bookid
+          })
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update current read book");
+      }
+    } catch (error) {
+      console.error("Error updating current read book:", error.message);
+    }
+  };
+
+  const ShowPreview = () => {
+    setShowPreview(false);
+  };
 
   if (bookInfo === null) return <ShimmerBookDetail />;
-  //console.log(bookInfo.volumeInfo?.categories[0]);
-
-  //const related = useRelatedBooks(bookInfo.volumeInfo?.categories[0]);
   return (
     <div className="bg-gray-700 pl-52  pb-10 flex">
       <Sidebar2 /> {/* Sidebar at the side */}
@@ -145,8 +176,8 @@ const BookDetails = () => {
                   {bookInfo.volumeInfo?.authors.join(", ")}
                 </div>
               </div>
-              <div className="text-4xl ml-48" onClick={() => color({ uid, bookid })}>
-                  {toggle?<FaHeart className="text-red-700"/>:<CgHeart/>}
+              <div className="text-4xl ml-48" onClick={() => toggleFavorite()}>
+                {toggle ? <FaHeart className="text-red-500" /> : <CgHeart />}
               </div>
             </div>
             <div className=" flex flex-col overflow-y-scroll max-h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">

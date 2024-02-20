@@ -4,6 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
+
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
 
@@ -37,7 +38,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
         <img
           className="h-full w-full object-contain pr-16 pt-3"
           src={
-            bookInfo?.volumeInfo?.imageLinks?.small ||
+            bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
             bookInfo?.volumeInfo?.imageLinks?.thumbnail
           }
           alt={bookInfo.title}
