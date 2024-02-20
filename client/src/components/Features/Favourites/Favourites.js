@@ -34,7 +34,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   }
 
   return (
-    <div className="w-44 bg-red-200 m-6  flex-col rounded-xl ">
+    <div className="w-44 bg-red-200 m-4  flex-col rounded-xl ">
       <div className="h-60 ">
         <img
           // className="h-full w-full p-3 rounded-xl object-cover "

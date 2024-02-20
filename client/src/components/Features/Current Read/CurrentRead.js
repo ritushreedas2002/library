@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useIndivBook from "../../hooks/useIndivBook";
 import { Link } from "react-router-dom";
+import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 
 const CurrentRead = ({ uid }) => {
   const [currentBookId, setCurrentBookId] = useState(null);
@@ -13,18 +14,20 @@ const CurrentRead = ({ uid }) => {
     }
 
     return (
-      <div className="h-64 w-48 bg-red-200 m-6 flex-col items-center">
-        <div className="h-52 w-64">
-          <Link to={`/book/${bookId}`}>
-            <img
-              className="h-full w-full object-contain pr-16 pt-3"
-              src={
-                bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
-                bookInfo?.volumeInfo?.imageLinks?.thumbnail
-              }
-              alt={bookInfo.title}
-            />
-          </Link>
+      <div>
+        <div className="h-64 w-48 bg-red-200 m-6 flex-col items-center">
+          <div className="h-52 w-64">
+            <Link to={`/book/${bookId}`}>
+              <img
+                className="h-full w-full object-contain pr-16 pt-3"
+                src={
+                  bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
+                  bookInfo?.volumeInfo?.imageLinks?.thumbnail
+                }
+                alt={bookInfo.title}
+              />
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -66,15 +69,16 @@ const CurrentRead = ({ uid }) => {
   }, []); // Dependency array is empty to run this effect only once when the component mounts
 
   return (
-    <div>
-      <h2>Current Read</h2>
-      {currentBookId ? (
-        <p>Current Book ID: {currentBookId}</p>
-      ) : (
-        <p>No book currently being read</p>
-      )}
+    <div className="flex bg-purple-400 w-screen h-screen">
+      <div>
+        <Sidebar2 />
+      </div>
+      <div className="ml-56">
+        <h2 className="mt-7 text-3xl">Currently Reading</h2>
+        {currentBookId ? <p></p> : <p>No book currently being read</p>}
 
-      <BookImage bookId={currentBookId} />
+        <BookImage bookId={currentBookId} />
+      </div>
     </div>
   );
 };
