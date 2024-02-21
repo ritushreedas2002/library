@@ -344,7 +344,7 @@ router.get('/api/current-read/:uid', async (req, res) => {
 
 ///recently viewwed
 
-const MAX_RECENTLY_VIEWED = 10;
+const MAX_RECENTLY_VIEWED = 12;
 
 router.post('/api/recently-viewed', async (req, res) => {
   const { userId, bookId } = req.body;
