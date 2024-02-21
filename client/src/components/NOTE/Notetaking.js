@@ -223,10 +223,7 @@ const Notetaking = ({ userid }) => {
                   <h2 className="text-xl font-semibold text-gray-600 mb-3">
                     {noteId ? "Update Note" : "Add New Note"}
                   </h2>
-                  <h4>
-                    Last edited on 
-                    {/* {formatDate(note.lastEdited)} */}
-                  </h4>
+                  
                 </div>
 
                 <input

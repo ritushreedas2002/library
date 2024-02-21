@@ -33,6 +33,7 @@ app.use(cors(corsOptions));
 // linking express router
 app.use(require("./router/route"));
 
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("An error occurred:", err.stack);

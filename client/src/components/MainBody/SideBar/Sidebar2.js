@@ -74,6 +74,18 @@ const Sidebar2 = ({onSignOut}) => {
             </div>
             </Link>
           </li>
+          <li className=" mt-5 group">
+            <Link to="/bookmark">
+            <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
+              <span className="text-2xl">
+                <FiSettings />
+              </span>
+              <span className="ml-4 text-lg group-hover:text-gray-300">
+                Bookmarks
+              </span>
+            </div>
+            </Link>
+          </li>
           <li className="mt-5 group">
             <Link
               to="/User"

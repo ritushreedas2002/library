@@ -43,12 +43,11 @@ const BookDetails = ({ uid }) => {
   const { bookid } = useParams();
   const bookInfo = useIndivBook(bookid);
   const [booklist, setBookList] = useState([]);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
   const [toggle, setToggle] = useState(false);
-  //const uid = useSelector((store) => store.user.user.uid);
-  const dispatch = useDispatch();
+  const [bookmark,setbookmark]=useState(false);
+  
 
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
 
@@ -61,7 +60,6 @@ const BookDetails = ({ uid }) => {
         const data = await response.json();
         setBookList(data?.items);
       } catch (error) {
-        setError(error);
         console.error("Error fetching books:", error);
         setIsLoading(false);
       }
@@ -114,6 +112,21 @@ const BookDetails = ({ uid }) => {
         console.error("Error fetching favorite status:", error.message);
       }
     }
+    async function fetchbookmarkstatus(){
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/bookmarks/${uid}/${bookid}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch favorite status");
+        }
+        const data = await response.json();
+        setbookmark(data.isbookmarked);
+      } catch (error) {
+        console.error("Error fetching favorite status:", error.message);
+      }
+    }
+    fetchbookmarkstatus();
     fetchFavoriteStatus();
   }, [uid, bookid]);
 
@@ -142,6 +155,32 @@ const BookDetails = ({ uid }) => {
       console.error("Error updating favorite status:", error.message);
     }
   };
+
+  const togglebookmark=async ()=>{
+    try {
+      const method = toggle ? "DELETE" : "POST";
+      const response = await fetch(
+        `http://localhost:5000/api/bookmarks/${uid}/${bookid}`,
+        {
+          // Corrected URL
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // body: JSON.stringify({
+          //   bookId: bookid
+          // })
+        }
+      );
+      if (response.ok) {
+        setbookmark(!bookmark);
+      } else {
+        throw new Error("Failed to update favorite status");
+      }
+    } catch (error) {
+      console.error("Error updating favorite status:", error.message);
+    }
+  }
 
   const toggleShowPreview = async () => {
     setShowPreview(true);
@@ -216,9 +255,9 @@ const BookDetails = ({ uid }) => {
                 <div className=" flex flex-col">
                   <div
                     className="text-6xl  mr-4 -mt-10"
-                    onClick={() => toggleFavorite()}
+                    onClick={() => togglebookmark()}
                   >
-                    {toggle ? (
+                    {bookmark ? (
                       <FaBookmark className="text-white" />
                     ) : (
                       <BsBookmarkPlus />
