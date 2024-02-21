@@ -401,4 +401,90 @@ router.get('/api/recently-viewed/:userId', async (req, res) => {
 });
 
 
+
+//bookmark
+router.get('/api/bookmarks/:uid', async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ bookmarks: userFeatures.bookmarks });
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+router.post('/api/bookmarks/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid,bookId } = req.params;
+    // const { bookId } = req.body;
+
+    let userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      userFeatures = new UserFeatures({
+        uid,
+        bookmarks: [bookId] // assuming bookmarks are managed in the same schema
+      });
+    } else {
+      if (!userFeatures.bookmarks.includes(bookId)) {
+        userFeatures.bookmarks.push(bookId);
+      }
+    }
+    await userFeatures.save();
+    
+    res.status(201).send();
+  } catch (error) {
+    console.error("Error adding favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete('/api/bookmarks/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the index of the bookId to remove from favourites
+    const bookIndex = userFeatures.bookmarks.indexOf(bookId);
+    if (bookIndex === -1) {
+      return res.status(404).json({ message: 'Book not found in favorites' });
+    }
+
+    // Remove the bookId from the favourites array
+    userFeatures.bookmarks.splice(bookIndex, 1);
+
+    await userFeatures.save();
+    
+    res.json(userFeatures.bookmarks);
+  } catch (error) {
+    console.error("Error deleting favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get('/api/bookmarks/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+    const userFeatures = await UserFeatures.findOne({ uid });
+    if (!userFeatures) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const isbookmarked = userFeatures.bookmarks.includes(bookId);
+    res.json({ isbookmarked });
+  } catch (error) {
+    console.error("Error checking favorite:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+
 module.exports = router;

@@ -27,6 +27,7 @@ import Notetaking from "./components/NOTE/Notetaking";
 import Favourites from "./components/Features/Favourites/Favourites";
 import CurrentRead from "./components/Features/Current Read/CurrentRead";
 import RecentlyViewed from "./components/Features/RecentlyViewed/RecentlyViewed";
+import Bookmark from "./components/Features/Bookmark/Bookmark";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -164,6 +165,12 @@ const App = () => {
             <Route
               path="/recent"
               element={<RecentlyViewed uid={localStorage?.getItem("uid")} />}
+            />
+          )}
+          {localStorage?.getItem("uid") && (
+            <Route
+              path="/bookmark"
+              element={<Bookmark uid={localStorage?.getItem("uid")} />}
             />
           )}
         </Routes>
