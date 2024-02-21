@@ -1,3 +1,5 @@
+import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
+
 const ShimmerSearch=()=>{
 
     const DemoCard=()=>{
@@ -11,6 +13,7 @@ const ShimmerSearch=()=>{
     }
     return (
         <div>
+            <Sidebar2/>
         <div className=" bg-slate-600 flex flex-wrap justify-start pl-32 h-full">
             <DemoCard/>
             <DemoCard/>

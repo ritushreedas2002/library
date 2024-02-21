@@ -1,3 +1,5 @@
+import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
+
 const ShimmerBookDetail = () => {
   const MiniCard = () => {
     return (
@@ -6,6 +8,7 @@ const ShimmerBookDetail = () => {
   };
   return (
     <div className="bg-gray-700 pl-52 pt-10 pb-10  flex">
+      <Sidebar2 /> 
       <div className=" p-8  bg-gray-500 rounded-2xl w-[75%]">
         <div className="flex">
           <div className="w-72 h-96 mr-12 bg-gray-700 z-10 flex justify-center items-center"></div>

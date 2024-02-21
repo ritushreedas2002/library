@@ -73,7 +73,7 @@ const CurrentRead = ({ uid }) => {
       <div>
         <Sidebar2 />
       </div>
-      <div className="ml-56">
+      <div className="ml-56 w-screen h-screen  bg-purple-400">
         <h2 className="mt-7 text-3xl">Currently Reading</h2>
         {currentBookId ? <p></p> : <p>No book currently being read</p>}
 

@@ -34,7 +34,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   }
 
   return (
-    <div className="w-44 bg-red-200 m-4  flex-col rounded-xl ">
+    <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
       <div className="h-60 ">
         <img
           // className="h-full w-full p-3 rounded-xl object-cover "
@@ -88,12 +88,12 @@ const Favourites = ({ uid }) => {
   }, [uid]);
 
   return (
-    <div className="flex bg-purple-400 w-screen h-screen">
-      <div>
+    <div className="flex bg-purple-400">
+      <div className="w-[13%]">
         <Sidebar2 />
       </div>
       {/* Include Sidebar2 component */}
-      <div className="ml-56">
+      <div className="ml-10 w-[86%] h-[100%]">
         <h2 className="mt-7 text-3xl">Favorites</h2>
         <div className="flex flex-wrap mt-6">
           {loading ? (
