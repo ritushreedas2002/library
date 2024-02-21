@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 const EditProfileModal = ({ onSaveChanges, onCancel, user }) => {
   const [name, setName] = useState(user.name);
   const [profileImage, setProfileImage] = useState(null);
-
+  
   const handleNameChange = (e) => {
     setName(e.target.value);
   };

@@ -7,6 +7,7 @@ const UserProfile = ({ user, onEditProfileClick }) => {
     return <div>Loading...</div>;
   }
   const { name, email, profileImage } = user;
+  const profileImageUrl =profileImage ? `../../../public${profileImage}` : 'path/to/default/image.jpg';
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">

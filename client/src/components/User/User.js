@@ -43,18 +43,14 @@ const User = () => {
   };
   const handleSaveChanges = async (newName, newProfileImage) => {
     try {
-      const requestBody = {
-        name: newName,
-        // displayPicture: newProfileImage, // You can include this if needed
-      };
+      const formData = new FormData();
+      formData.append('name', newName);
+      formData.append('profileImage', newProfileImage);
   
       const response = await fetch(`http://localhost:5000/profile/${user1.uid}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
+      method: 'PUT',
+      body: formData,
+    });
   
       if (!response.ok) {
         throw new Error('Failed to save changes');

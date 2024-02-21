@@ -2,20 +2,27 @@ const express = require("express");
 const User = require("../models/User");
 const UserNote=require("../models/Notes");
 const UserFeatures=require("../models/Features")
+const path = require('path');
 const router = express.Router();
-// const multer = require("multer");
+const multer = require("multer");
+router.use('../../images', express.static(path.join(__dirname, '../../client/public/images')));
 
-// // Multer configuration for file uploads
-// const upload = multer({
-//   storage: multer.memoryStorage(),
-//   limits: {
-//     fileSize: 5 * 1024 * 1024, // 5 MB file size limit
-//   },
-// });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Adjust the path to point to your client's image directory
+    const dest = path.join(__dirname, '../../client/public/images');
+    cb(null, dest);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
 
+const upload = multer({ storage: storage });
 
 // *adding user details into mongoDB
-router.post("/register", async (req, res) => {
+router.post("/register",async (req, res) => {
   try {
     const { name, email, uid, displayPicture } = req.body;
 
@@ -48,35 +55,56 @@ router.get("/user", async (req, res) => {
   }
 });
 
-router.put("/profile/:uid", async (req, res) => {
-  try {
-    const { uid } = req.params;
-    const { name} = req.body;
-    // let displayPicture;
+// router.put("/profile/:uid", upload.single("profileImage"), async (req, res) => {
+//   try {
+//     const { uid } = req.params;
+//     const { name} = req.body;
+//     const imageName = req.file.filename;
+//     // let displayPicture;
 
-    // Check if a new image file was uploaded
-    // if (req.file) {
-    //   displayPicture = req.file.buffer.toString("base64"); // Convert image buffer to base64 string
+//     // Check if a new image file was uploaded
+//     // if (req.file) {
+//     //   displayPicture = req.file.buffer.toString("base64"); // Convert image buffer to base64 string
     
 
-    // Find user by UID and update profile fields
-    const updatedUser = await User.findOneAndUpdate(
-      { uid },
-      { name },
-      { new: true }
-    );
+//     // Find user by UID and update profile fields
+//     const updatedUser = await User.findOneAndUpdate(
+//       { uid },
+//       { name, displayPicture: imageName },
+//       { new: true }
+//     );
 
+//     if (!updatedUser) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     res.json(updatedUser);
+//   } catch (error) {
+//     console.error(`Error updating user data: ${error.message}`);
+//     res.status(500).json({ error: "Failed to update user data" });
+//   }
+// });
+
+router.put('/profile/:uid', upload.single('profileImage'), async (req, res) => {
+  const { uid } = req.params;
+  const { name } = req.body;
+
+  let updateData = { name };
+  if (req.file) {
+    updateData.displayPicture = `/images/${req.file.filename}`;
+  }
+
+  try {
+    const updatedUser = await User.findOneAndUpdate({ uid }, updateData, { new: true });
     if (!updatedUser) {
       return res.status(404).json({ error: "User not found" });
     }
-
     res.json(updatedUser);
   } catch (error) {
     console.error(`Error updating user data: ${error.message}`);
     res.status(500).json({ error: "Failed to update user data" });
   }
 });
-
 
 //NOTES
 // Routes
