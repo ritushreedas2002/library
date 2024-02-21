@@ -113,20 +113,28 @@ export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
   };
 
   const handleLogout = () => {
-    signOut(auth).then(() => {
-      // Sign-out successful.
-  }).catch((error) => {
-      // An error happened.
-  });
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   return (
     <>
-    <div className={`overlay ${!isOpen ?'visible':''}`} onClick={toggleSidebar}></div>
+      <div
+        className={`overlay ${!isOpen ? "visible" : ""}`}
+        onClick={toggleSidebar}
+      ></div>
       <div className=" ">
         <aside className={`sidebar ${isOpen ? "open" : "open"}`}>
           <header className="sidebar-header">
-            <button type="button" /*onClick={() => setIsOpen(!isOpen)}*/ onClick={toggleSidebar}>
+            <button
+              type="button"
+              /*onClick={() => setIsOpen(!isOpen)}*/ onClick={toggleSidebar}
+            >
               {!isOpen ? <MdOutlineCancel /> : <FiMenu />}
             </button>
             {!isOpen && <span>Admin</span>}
@@ -177,7 +185,6 @@ export const Sidebar = ({ isOpen, toggleSidebar, onSignOut }) => {
           ))}
         </aside>
       </div>
-      
     </>
   );
 };
