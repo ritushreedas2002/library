@@ -1,5 +1,12 @@
 //import { useState } from "react";
-import { FiHome, FiSettings, FiLock, FiHeart } from "react-icons/fi";
+import {
+  FiHome,
+  FiSettings,
+  FiLock,
+  FiHeart,
+  FiChevronDown,
+  FiChevronUp,
+} from "react-icons/fi";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { BiLogOut } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,6 +33,11 @@ const Sidebar2 = ({ onSignOut }) => {
 
   const toggleAccordion = () => {
     setIsAccordionOpen(!isAccordionOpen);
+  };
+
+  const handleDropdownClick = (event) => {
+    // event.preventDefault();
+    event.stopPropagation();
   };
 
   const handleLogout = () => {
@@ -71,80 +83,35 @@ const Sidebar2 = ({ onSignOut }) => {
               </span>
             </Link>
           </li>
-          <li className=" mt-2 group" onClick={toggleAccordion}>
+          <li className=" mt-4 group cursor-pointer" onClick={toggleAccordion}>
             <div className="flex items-center pl-4 pr-2 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
               <span className="text-2xl">
                 <IoMdBookmarks />
               </span>
-              <div className=" ml-4 text-lg group-hover:text-gray-300">
+              <div className=" ml-4 text-lg pr-2 group-hover:text-gray-300">
                 My Books
               </div>
+              {isAccordionOpen ? (
+                <FiChevronUp className="text-2xl" />
+              ) : (
+                <FiChevronDown className="text-2xl" />
+              )}
             </div>
           </li>
-          {/* <li className=" mt-2 group">
-            <Link to="/current-read">
-              <div className="flex items-center pl-4 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
-                <span className="text-2xl">
-                  <FiSettings />
-                </span>
-                <span className="ml-4 text-lg group-hover:text-gray-300">
-                  Currently Reading
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li className=" mt-5 group">
-            <Link to="/bookmark">
-            <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
-              <span className="text-2xl">
-                <FiSettings />
-              </span>
-              <span className="ml-4 text-lg group-hover:text-gray-300">
-                Bookmarks
-              </span>
-            </div>
-            </Link>
-          </li>
-          <li className="mt-5 group">
-            <Link
-              to="/User"
-              className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
-            >
-              <span className="text-2xl">
-                <FiLock />
-              </span>
-              <span className="ml-4 text-lg group-hover:text-gray-300">
-                Account
-              </span>
-            </Link>
-          </li>
-          <li className="mt-5 group relative" onClick={toggleDropdown}>
-            <Link to="/favourites">
-              <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
-                <span className="text-2xl">
-                  <FiHeart />
-                </span>
-                <span className="ml-4 text-lg group-hover:text-gray-300">
-                  Favourites
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li className="mt-2 group relative" onClick={toggleDropdown}>
-            <Link to="/recent">
-              <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
-                <span className="text-2xl">
-                  <FiHeart />
-                </span>
-                <span className="ml-4 text-lg group-hover:text-gray-300">
-                  recently viewed
-                </span>
-              </div>
-            </Link>
-          </li> */}
           {isAccordionOpen && (
-            <>
-              <Link to="/favourites">
+            <div onClick={handleDropdownClick}>
+              <Link to="/bookmark" onClick={() => setIsAccordionOpen(true)}>
+                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
+                  <span className="text-xl">
+                    <FiSettings />
+                  </span>
+                  <span className="ml-4 text-md group-hover:text-gray-300">
+                    Bookmarks
+                  </span>
+                </div>
+              </Link>
+
+              <Link to="/favourites" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
                     <FiHeart />
@@ -154,7 +121,7 @@ const Sidebar2 = ({ onSignOut }) => {
                   </span>
                 </div>
               </Link>
-              <Link to="/current-read">
+              <Link to="/current-read" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
                     <FiSettings />
@@ -164,7 +131,7 @@ const Sidebar2 = ({ onSignOut }) => {
                   </span>
                 </div>
               </Link>
-              <Link to="/recent">
+              <Link to="/recent" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
                     <FiHeart />
@@ -174,9 +141,9 @@ const Sidebar2 = ({ onSignOut }) => {
                   </span>
                 </div>
               </Link>
-            </>
+            </div>
           )}
-          <li className="mt-2 group">
+          <li className="mt-4 group">
             <Link to="/pdf">
               <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
                 <span className="text-2xl">
@@ -188,7 +155,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </div>
             </Link>
           </li>
-          <li className="mt-2 group">
+          <li className="mt-4 group">
             <Link to="/Note">
               <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
                 <span className="text-2xl">
@@ -200,7 +167,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </div>
             </Link>
           </li>
-          <li className="mt-2 group">
+          <li className="mt-4 group">
             <Link
               to="/User"
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
@@ -213,7 +180,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </span>
             </Link>
           </li>
-          <li className=" mt-2 group cursor-pointer">
+          <li className=" mt-4 group cursor-pointer">
             <div
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
               onClick={handleLogout}

@@ -1,12 +1,23 @@
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf";
+import { FaSquarePlus } from "react-icons/fa6";
+import { FaMinusSquare } from "react-icons/fa";
 
 const PdfViewer = ({ pdf }) => {
   const [numPages, setNumPages] = useState(null);
+  const [scale, setScale] = useState(1.5);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
+
+  const zoomIn = () => {
+    if (scale < 2.5) setScale(scale + 0.1);
+  };
+
+  const zoomOut = () => {
+    if (scale > 0.5) setScale(scale - 0.1); // Prevent scale from becoming too small
+  };
 
   const renderPages = () => {
     const pages = [];
@@ -17,7 +28,7 @@ const PdfViewer = ({ pdf }) => {
             pageNumber={i}
             renderTextLayer={false}
             renderAnnotationLayer={false}
-            scale={1.5}
+            scale={scale}
           />
           <p className="flex justify-center">
             {i} of {numPages}
@@ -29,11 +40,25 @@ const PdfViewer = ({ pdf }) => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center relative">
       <div
-        className="pdf-div flex justify-center"
+        className="pdf-div  justify-center relative"
         style={{ width: "1070px", height: "600px", overflowY: "auto" }}
       >
+        <div className="buttons mb-8 flex items-center justify-end -mt-5  z-10 sticky top-0  ">
+          <button
+            onClick={zoomIn}
+            className="zoom-in-button mr-4 bg-blue-600 text-white text-2xl px-2 -mt-10 rounded-lg "
+          >
+            <FaSquarePlus />
+          </button>
+          <button
+            onClick={zoomOut}
+            className="zoom-out-button bg-blue-600 text-white text-2xl px-2 -mt-10 rounded-lg"
+          >
+            <FaMinusSquare />
+          </button>
+        </div>
         <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
           {numPages && renderPages()}
         </Document>
