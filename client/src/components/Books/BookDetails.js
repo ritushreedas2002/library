@@ -168,7 +168,7 @@ const BookDetails = ({ uid }) => {
 
   if (bookInfo === null) return <ShimmerBookDetail />;
   return (
-    <div className="bg-gray-700 pl-52  pb-10 flex">
+    <div className="bg-gray-700 pl-52  pb-10 flex min-h-screen">
       <Sidebar2 /> {/* Sidebar at the side */}
       <div className="flex flex-col flex-grow ml-6">
         <SearchBar />
