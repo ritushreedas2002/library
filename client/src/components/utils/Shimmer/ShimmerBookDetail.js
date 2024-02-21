@@ -7,9 +7,8 @@ const ShimmerBookDetail = () => {
     );
   };
   return (
-    <div className="bg-gray-700 pl-52 pt-10 pb-10  flex">
-      <Sidebar2 /> 
-      <div className=" p-8  bg-gray-500 rounded-2xl w-[75%]">
+    <div className="flex flex-grow mt-6 mr-8">
+      <div className=" p-8  bg-gray-500 rounded-2xl w-[80%]">
         <div className="flex">
           <div className="w-72 h-96 mr-12 bg-gray-700 z-10 flex justify-center items-center"></div>
           <div></div>
@@ -20,7 +19,7 @@ const ShimmerBookDetail = () => {
           </div>
         </div>
       </div>
-      <div className=" p-4 ml-5 bg-gray-500 rounded-2xl w-[22%] flex flex-col">
+      <div className=" p-4 ml-5 max-h-[630px] bg-gray-500 rounded-2xl w-[20%] flex flex-col">
         <div className=" text-white text-2xl font-semibold mb-4 text-center">
           Related Books
         </div>
@@ -29,7 +28,7 @@ const ShimmerBookDetail = () => {
           <MiniCard />
           <MiniCard />
           <MiniCard />
-          <MiniCard/>
+          <MiniCard />
         </div>
       </div>
     </div>

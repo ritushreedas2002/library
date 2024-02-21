@@ -82,13 +82,13 @@ const RecentlyViewed = ({ uid }) => {
     fetchRecentlyViewedBooks();
   }, [uid]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error.message}</div>;
+  // }
 
   return (
     <div className="flex bg-purple-400 min-h-screen">
