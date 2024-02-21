@@ -161,13 +161,13 @@ const Notetaking = ({ userid }) => {
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
-  const year = date.getFullYear().toString().substr(-2); // Get last two digits of the year
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add leading zero if needed
-  const day = date.getDate().toString().padStart(2, '0'); // Add leading zero if needed
-  const hours = date.getHours().toString().padStart(2, '0'); // Add leading zero if needed
-  const minutes = date.getMinutes().toString().padStart(2, '0'); // Add leading zero if needed
-  const seconds = date.getSeconds().toString().padStart(2, '0'); // Add leading zero if needed
-  return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+    const year = date.getFullYear().toString().substr(-2); // Get last two digits of the year
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Add leading zero if needed
+    const day = date.getDate().toString().padStart(2, "0"); // Add leading zero if needed
+    const hours = date.getHours().toString().padStart(2, "0"); // Add leading zero if needed
+    const minutes = date.getMinutes().toString().padStart(2, "0"); // Add leading zero if needed
+    const seconds = date.getSeconds().toString().padStart(2, "0"); // Add leading zero if needed
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
 
   return (
@@ -219,9 +219,16 @@ const Notetaking = ({ userid }) => {
                   backgroundColor: color,
                 }}
               >
-                <h2 className="text-xl font-semibold text-gray-600 mb-3">
-                  {noteId ? "Update Note" : "Add New Note"}
-                </h2>
+                <div className=" flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-gray-600 mb-3">
+                    {noteId ? "Update Note" : "Add New Note"}
+                  </h2>
+                  <h4>
+                    Last edited on 
+                    {/* {formatDate(note.lastEdited)} */}
+                  </h4>
+                </div>
+
                 <input
                   className="border-b-2 rounded-xl p-2 mb-2 w-full bg-gray-700 "
                   style={{ backgroundColor: "white" }}
@@ -340,7 +347,9 @@ const Notetaking = ({ userid }) => {
                       <>
                         <div className="flex flex-col justify-between">
                           <p>{note.title}</p>
-                          <p className="text-gray-500 text-xs mt-3 ml-28">Edited On {formatDate(note.lastEdited)}</p>
+                          <p className="text-gray-500 text-xs mt-3 flex justify-end">
+                            {formatDate(note.lastEdited)}
+                          </p>
                         </div>
                         <div className="border border-b-2 mt-1"></div>
                       </>
