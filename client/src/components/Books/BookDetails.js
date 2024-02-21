@@ -9,6 +9,8 @@ import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { CgHeart } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa6";
+import { BsBookmarkPlus } from "react-icons/bs";
+import { FaBookmark } from "react-icons/fa6";
 
 const DemoBookCard = () => {
   return (
@@ -200,12 +202,29 @@ const BookDetails = ({ uid }) => {
                   <div className=" mt-4 text-2xl text-white font-bold">
                     {bookInfo.volumeInfo?.authors.join(", ")}
                   </div>
+                  <div
+                    className="text-4xl mt-6"
+                    onClick={() => toggleFavorite()}
+                  >
+                    {toggle ? (
+                      <FaHeart className="text-red-500" />
+                    ) : (
+                      <CgHeart />
+                    )}
+                  </div>
                 </div>
-                <div
-                  className="text-4xl ml-48"
-                  onClick={() => toggleFavorite()}
-                >
-                  {toggle ? <FaHeart className="text-red-500" /> : <CgHeart />}
+                <div className=" flex flex-col">
+                  <div
+                    className="text-6xl  mr-4 -mt-10"
+                    onClick={() => toggleFavorite()}
+                  >
+                    {toggle ? (
+                      <FaBookmark className="text-white" />
+                    ) : (
+                      <BsBookmarkPlus />
+                    )}
+                  </div>
+                  
                 </div>
               </div>
               <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">
