@@ -5,11 +5,13 @@ import useIndivBook from "../../hooks/useIndivBook";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import { AiOutlineRead } from "react-icons/ai";
+import Notification from "../../utils/Notification/Notification";
 
 
 function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
     const bookInfo = useIndivBook(bookId);
-  
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
     const handleBookDelete = async () => {
       try {
         const response = await fetch(
@@ -24,7 +26,17 @@ function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
         // Handle deletion in parent component by updating favorites state
         //setFavorites(prevFavorites => prevFavorites.filter(id => id !== bookId));
         // Trigger refetch of favorites
-        fetchBookmarks();
+        setNotificationMessage('Book deleted successfully!');
+        setShowNotification(true);
+
+        // You might want to hide the notification automatically after a few seconds
+        setTimeout(() => {
+          setShowNotification(false);
+    
+          // Delay the fetchFavorites call until after the notification has been dismissed
+          fetchBookmarks();
+        }, 800);
+        
       } catch (error) {
         console.error("Error deleting favorite:", error.message);
       }
@@ -36,6 +48,12 @@ function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
   
     return (
       <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
+         {showNotification && (
+                <Notification
+                    message={notificationMessage}
+                    onClose={() => setShowNotification(false)}
+                />
+            )}
         <div className="h-60 ">
           <img
             // className="h-full w-full p-3 rounded-xl object-cover "
@@ -89,6 +107,7 @@ function Bookmark({ uid }) {
 
   return (
     <div className="flex bg-purple-400 min-h-screen">
+     
       <div className="w-[13%]">
         <Sidebar2 />
       </div>

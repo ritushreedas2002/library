@@ -3,20 +3,31 @@ import useIndivBook from "../../hooks/useIndivBook";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import { AiOutlineRead } from "react-icons/ai";
-import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
+import Notification from "../../utils/Notification/Notification";
 
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
-  const notify = () => toast("Removed from favourites", {
-    autoClose: 5000 // This will keep the toast visible for 5000ms (5 seconds)
-  });
+  const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+  
+  // useEffect(() => {
+  //   if (showToast) {
+  //     toast("Removed from favourites", {
+  //       autoClose: 5000
+  //     });
+  //     setShowToast(false); // Reset the state
+  //   }
+  // }, [showToast]);
+ 
+
   const handleBookDelete = async () => {
     try {
-      notify();
-      
+      //setShowToast(true);
+
       const response = await fetch(
         `http://localhost:5000/api/favorites/${uid}/${bookId}`,
         {
@@ -26,10 +37,19 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
       if (!response.ok) {
         throw new Error("Failed to delete favorite");
       }
-      // Handle deletion in parent component by updating favorites state
-      //setFavorites(prevFavorites => prevFavorites.filter(id => id !== bookId));
-      // Trigger refetch of favorites
-      fetchFavorites();
+      
+      setNotificationMessage('Book deleted successfully!');
+        setShowNotification(true);
+
+        // You might want to hide the notification automatically after a few seconds
+        setTimeout(() => {
+          setShowNotification(false);
+    
+          // Delay the fetchFavorites call until after the notification has been dismissed
+          fetchFavorites();
+        }, 800);
+      //fetchFavorites();
+     
     } catch (error) {
       console.error("Error deleting favorite:", error.message);
     }
@@ -41,7 +61,12 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
 
   return (
     <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
-      <ToastContainer/>
+      {showNotification && (
+                <Notification
+                    message={notificationMessage}
+                    onClose={() => setShowNotification(false)}
+                />
+            )}
       <div className="h-60 ">
         <img
           // className="h-full w-full p-3 rounded-xl object-cover "
@@ -61,7 +86,10 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
         </Link>
         <button
           className="w-14 h-7 bg-slate-400 text-xl rounded-lg pl-5 mr-4"
-          onClick={handleBookDelete}
+          onClick={() => {
+            toast('Test toast'); // This will display the toast notification
+            handleBookDelete(); // This will execute your delete function
+          }}
         >
           <MdDeleteOutline />
         </button>
@@ -106,20 +134,24 @@ const Favourites = ({ uid }) => {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            favorites.map((bookId, index) => (
-              <BookImage
-                key={index}
-                bookId={bookId}
-                uid={uid}
-                setFavorites={setFavorites}
-                fetchFavorites={fetchFavorites}
-              />
-            ))
+            favorites.length > 0 ? (
+              favorites.map((bookId, index) => (
+                <BookImage
+                  key={index}
+                  bookId={bookId}
+                  uid={uid}
+                  setFavorites={setFavorites}
+                  fetchFavorites={fetchFavorites}
+                />
+              ))
+            ) : (
+              <div>No favourites found.</div>
+            )
           )}
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Favourites;

@@ -7,10 +7,10 @@ import ShimmerBookDetail from "../utils/Shimmer/ShimmerBookDetail";
 import SearchBar from "../MainBody/SearchBar/SearchBar";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { CgHeart } from "react-icons/cg";
-import { useDispatch, useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa6";
 import { BsBookmarkPlus } from "react-icons/bs";
 import { FaBookmark } from "react-icons/fa6";
+import Notification from "../utils/Notification/Notification";
 
 const DemoBookCard = () => {
   return (
@@ -47,6 +47,8 @@ const BookDetails = ({ uid }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [bookmark,setbookmark]=useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
   
 
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
@@ -148,6 +150,14 @@ const BookDetails = ({ uid }) => {
       );
       if (response.ok) {
         setToggle(!toggle);
+        setNotificationMessage(toggle ? 'Removed from favourites' : 'Added to favourites');
+        setShowNotification(true);
+
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+          setShowNotification(false);
+        }, 800);
+
       } else {
         throw new Error("Failed to update favorite status");
       }
@@ -158,7 +168,7 @@ const BookDetails = ({ uid }) => {
 
   const togglebookmark=async ()=>{
     try {
-      const method = toggle ? "DELETE" : "POST";
+      const method = bookmark ? "DELETE" : "POST";
       const response = await fetch(
         `http://localhost:5000/api/bookmarks/${uid}/${bookid}`,
         {
@@ -174,6 +184,13 @@ const BookDetails = ({ uid }) => {
       );
       if (response.ok) {
         setbookmark(!bookmark);
+        setNotificationMessage(bookmark ? 'Removed from bookmarks' : 'Added to bookmarks');
+        setShowNotification(true);
+
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+          setShowNotification(false);
+        }, 800);
       } else {
         throw new Error("Failed to update favorite status");
       }
@@ -305,6 +322,14 @@ const BookDetails = ({ uid }) => {
           </div>
         ) : (
           <ShimmerBookDetail />
+        )}
+        {showNotification && (
+          
+          <Notification
+            message={notificationMessage}
+            onClose={() => setShowNotification(false)}
+          />
+         
         )}
       </div>
     </div>
