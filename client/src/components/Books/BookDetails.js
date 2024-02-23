@@ -235,10 +235,10 @@ const BookDetails = ({ uid }) => {
                   />
                 )}
                 <div>
-                  <div className=" text-5xl text-white font-bold">
+                  <div className=" text-5xl text-white font-bold w-96">
                     {bookInfo.volumeInfo?.title}
                   </div>
-                  <div className=" mt-4 text-2xl text-white font-bold">
+                  <div className=" mt-4 text-2xl text-white font-bold w-96">
                     {bookInfo.volumeInfo?.authors.join(", ")}
                   </div>
                   <div
@@ -252,9 +252,9 @@ const BookDetails = ({ uid }) => {
                     )}
                   </div>
                 </div>
-                <div className=" flex flex-col">
+                <div className="relative">
                   <div
-                    className="text-6xl  mr-4 -mt-10"
+                    className="text-6xl -mt-10 absolute left-28"
                     onClick={() => togglebookmark()}
                   >
                     {bookmark ? (

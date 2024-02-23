@@ -29,7 +29,6 @@ import React, { useEffect, useState } from "react";
 
 const BookPreview2 = ({ bookId, show }) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
   useEffect(() => {
     embedBookPreview(bookId);
   }, [bookId]);
@@ -70,9 +69,7 @@ const BookPreview2 = ({ bookId, show }) => {
     show();
   };
 
-  const openSecondModal = () => {
-    setIsSecondModalOpen(true);
-  };
+ 
 
   return (
     <div>
@@ -94,12 +91,7 @@ const BookPreview2 = ({ bookId, show }) => {
               >
                 Close
               </button>
-              <button
-                onClick={openSecondModal}
-                className="py-2 mt-6 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-              >
-                Write Notes
-              </button>
+              
             </div>
             
           </div>

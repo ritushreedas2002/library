@@ -3,14 +3,20 @@ import useIndivBook from "../../hooks/useIndivBook";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import { AiOutlineRead } from "react-icons/ai";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
-
+  const notify = () => toast("Removed from favourites", {
+    autoClose: 5000 // This will keep the toast visible for 5000ms (5 seconds)
+  });
   const handleBookDelete = async () => {
     try {
+      notify();
+      
       const response = await fetch(
         `http://localhost:5000/api/favorites/${uid}/${bookId}`,
         {
@@ -35,6 +41,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
 
   return (
     <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
+      <ToastContainer/>
       <div className="h-60 ">
         <img
           // className="h-full w-full p-3 rounded-xl object-cover "
