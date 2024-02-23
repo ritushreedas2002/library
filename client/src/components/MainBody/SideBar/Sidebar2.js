@@ -17,6 +17,8 @@ import { removeUser } from "../../utils/userSlice";
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdBookmarks } from "react-icons/io";
 import { useState } from "react";
+import JoyRide from "react-joyride";
+import { steps } from "../../utils/constantsJoy";
 
 const Sidebar2 = ({ onSignOut }) => {
   //const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +85,11 @@ const Sidebar2 = ({ onSignOut }) => {
               </span>
             </Link>
           </li>
-          <li className=" mt-4 group cursor-pointer" onClick={toggleAccordion}>
+          <li
+            className=" mt-4 group cursor-pointer"
+            onClick={toggleAccordion}
+            id="mybooks"
+          >
             <div className="flex items-center pl-4 pr-2 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
               <span className="text-2xl">
                 <IoMdBookmarks />
@@ -143,15 +149,15 @@ const Sidebar2 = ({ onSignOut }) => {
               </Link>
             </div>
           )}
-          <li className="mt-4 group">
+          <li className="mt-4 group" id="pdf">
             <Link to="/pdf">
               <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
                 <span className="text-2xl">
                   <FaRegFilePdf />
                 </span>
-                <span className="ml-4 text-lg group-hover:text-gray-300">
-                  PdfRender
-                </span>
+                <div className="ml-4 text-lg group-hover:text-gray-300 flex">
+                  PDF Viewer
+                </div>
               </div>
             </Link>
           </li>
