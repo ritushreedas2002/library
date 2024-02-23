@@ -1,12 +1,13 @@
 //import { useState } from "react";
 import {
   FiHome,
-  FiSettings,
-  FiLock,
-  FiHeart,
   FiChevronDown,
   FiChevronUp,
 } from "react-icons/fi";
+import { MdMiscellaneousServices } from "react-icons/md";
+import { MdNoteAlt } from "react-icons/md";
+import { ImHome } from "react-icons/im";
+import { FaBookmark, FaHeart,FaBookReader, FaHistory ,FaUserCog  } from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { BiLogOut } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +15,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../utils/Firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../../utils/userSlice";
-import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdBookmarks } from "react-icons/io";
 import { useState } from "react";
 import JoyRide from "react-joyride";
@@ -25,11 +25,6 @@ const Sidebar2 = ({ onSignOut }) => {
   const user = useSelector((store) => store.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
@@ -71,14 +66,14 @@ const Sidebar2 = ({ onSignOut }) => {
         </h6>
       </div>
       <nav>
-        <ul className="mt-5">
+        <ul className="mt-10">
           <li className="mt-5 group">
             <Link
               to="/MainBody"
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
             >
               <span className="text-2xl">
-                <FiHome />
+                <ImHome />
               </span>
               <span className="ml-4 text-lg group-hover:text-gray-300">
                 Home
@@ -98,9 +93,9 @@ const Sidebar2 = ({ onSignOut }) => {
                 My Books
               </div>
               {isAccordionOpen ? (
-                <FiChevronUp className="text-2xl" />
+                <FiChevronUp className="text-lg" />
               ) : (
-                <FiChevronDown className="text-2xl" />
+                <FiChevronDown className="text-lg" />
               )}
             </div>
           </li>
@@ -109,7 +104,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/bookmark" onClick={() => setIsAccordionOpen(true)}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                    <FiSettings />
+                  <FaBookmark />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Bookmarks
@@ -120,7 +115,8 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/favourites" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                    <FiHeart />
+                  <FaHeart />
+
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Favourites
@@ -130,7 +126,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/current-read" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                    <FiSettings />
+                  <FaBookReader />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Currently Reading
@@ -140,7 +136,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/recent" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                    <FiHeart />
+                  <FaHistory />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Recently Viewed
@@ -165,10 +161,10 @@ const Sidebar2 = ({ onSignOut }) => {
             <Link to="/Note">
               <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
                 <span className="text-2xl">
-                  <FaRegStickyNote />
+                <MdNoteAlt />
                 </span>
                 <span className="ml-4 text-lg group-hover:text-gray-300">
-                  NoteTaking
+                  Notes
                 </span>
               </div>
             </Link>
@@ -179,10 +175,23 @@ const Sidebar2 = ({ onSignOut }) => {
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
             >
               <span className="text-2xl">
-                <FiLock />
+                <FaUserCog />
               </span>
               <span className="ml-4 text-lg group-hover:text-gray-300">
                 Account
+              </span>
+            </Link>
+          </li>
+          <li className="mt-4 group">
+            <Link
+              to="/gpt"
+              className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
+            >
+              <span className="text-2xl">
+              <MdMiscellaneousServices />
+              </span>
+              <span className="ml-4 text-lg group-hover:text-gray-300">
+               GPTService
               </span>
             </Link>
           </li>

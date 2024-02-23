@@ -1,0 +1,13 @@
+/* NotificationStyles.css */
+@keyframes shrink {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+.timebar-animation {
+    animation: shrink 1s linear forwards;
+}
