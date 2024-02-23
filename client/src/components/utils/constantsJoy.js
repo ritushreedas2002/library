@@ -24,14 +24,38 @@ export const steps = [
     },
   },
   {
-    title: "Search",
-    content: "search",
-    target: "#search",
-    placement: "top-right",
+    title: "Notes",
+    content: "Keep your notes organized in one single place",
+    target: "#notes",
+    placement: "right",
     styles: {
       options: {
-        width: "180px", // Set the maximum width
-        height: "50px",
+        width: "220px", // Set the maximum width
+        height: "60px",
+      },
+    },
+  },
+  {
+    title: "Account",
+    content: "You can update your profile here",
+    target: "#account",
+    placement: "right",
+    styles: {
+      options: {
+        width: "220px", // Set the maximum width
+        height: "60px",
+      },
+    },
+  },
+  {
+    title: "BookGPT",
+    content: "Unleash the power of AI to get any book summary and personalized recommendations",
+    target: "#book",
+    placement: "right",
+    styles: {
+      options: {
+        width: "220px", // Set the maximum width
+        height: "60px",
       },
     },
   },

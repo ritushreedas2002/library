@@ -1,13 +1,15 @@
 //import { useState } from "react";
-import {
-  FiHome,
-  FiChevronDown,
-  FiChevronUp,
-} from "react-icons/fi";
+import { FiHome, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { MdNoteAlt } from "react-icons/md";
 import { ImHome } from "react-icons/im";
-import { FaBookmark, FaHeart,FaBookReader, FaHistory ,FaUserCog  } from "react-icons/fa";
+import {
+  FaBookmark,
+  FaHeart,
+  FaBookReader,
+  FaHistory,
+  FaUserCog,
+} from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { BiLogOut } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../../utils/userSlice";
 import { IoMdBookmarks } from "react-icons/io";
 import { useState } from "react";
+import { BsRobot } from "react-icons/bs";
 import JoyRide from "react-joyride";
 import { steps } from "../../utils/constantsJoy";
 
@@ -104,7 +107,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/bookmark" onClick={() => setIsAccordionOpen(true)}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                  <FaBookmark />
+                    <FaBookmark />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Bookmarks
@@ -115,8 +118,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/favourites" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                  <FaHeart />
-
+                    <FaHeart />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Favourites
@@ -126,7 +128,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/current-read" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                  <FaBookReader />
+                    <FaBookReader />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Currently Reading
@@ -136,7 +138,7 @@ const Sidebar2 = ({ onSignOut }) => {
               <Link to="/recent" onClick={handleDropdownClick}>
                 <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
                   <span className="text-xl">
-                  <FaHistory />
+                    <FaHistory />
                   </span>
                   <span className="ml-4 text-md group-hover:text-gray-300">
                     Recently Viewed
@@ -157,11 +159,11 @@ const Sidebar2 = ({ onSignOut }) => {
               </div>
             </Link>
           </li>
-          <li className="mt-4 group">
+          <li className="mt-4 group" id="notes">
             <Link to="/Note">
               <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
                 <span className="text-2xl">
-                <MdNoteAlt />
+                  <MdNoteAlt />
                 </span>
                 <span className="ml-4 text-lg group-hover:text-gray-300">
                   Notes
@@ -169,7 +171,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </div>
             </Link>
           </li>
-          <li className="mt-4 group">
+          <li className="mt-4 group" id="account">
             <Link
               to="/User"
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
@@ -182,16 +184,16 @@ const Sidebar2 = ({ onSignOut }) => {
               </span>
             </Link>
           </li>
-          <li className="mt-4 group">
+          <li className="mt-4 group" id="book">
             <Link
               to="/gpt"
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
             >
               <span className="text-2xl">
-              <MdMiscellaneousServices />
+                <BsRobot />
               </span>
               <span className="ml-4 text-lg group-hover:text-gray-300">
-               GPTService
+                BookGPT
               </span>
             </Link>
           </li>
