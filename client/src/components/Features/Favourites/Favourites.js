@@ -12,8 +12,8 @@ import Notification from "../../utils/Notification/Notification";
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
   const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-  
+  const [notificationMessage, setNotificationMessage] = useState("");
+
   // useEffect(() => {
   //   if (showToast) {
   //     toast("Removed from favourites", {
@@ -22,7 +22,6 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   //     setShowToast(false); // Reset the state
   //   }
   // }, [showToast]);
- 
 
   const handleBookDelete = async () => {
     try {
@@ -37,19 +36,18 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
       if (!response.ok) {
         throw new Error("Failed to delete favorite");
       }
-      
-      setNotificationMessage('Book deleted successfully!');
-        setShowNotification(true);
 
-        // You might want to hide the notification automatically after a few seconds
-        setTimeout(() => {
-          setShowNotification(false);
-    
-          // Delay the fetchFavorites call until after the notification has been dismissed
-          fetchFavorites();
-        }, 800);
+      setNotificationMessage("Book deleted successfully!");
+      setShowNotification(true);
+
+      // You might want to hide the notification automatically after a few seconds
+      setTimeout(() => {
+        setShowNotification(false);
+
+        // Delay the fetchFavorites call until after the notification has been dismissed
+        fetchFavorites();
+      }, 800);
       //fetchFavorites();
-     
     } catch (error) {
       console.error("Error deleting favorite:", error.message);
     }
@@ -62,11 +60,11 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   return (
     <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
       {showNotification && (
-                <Notification
-                    message={notificationMessage}
-                    onClose={() => setShowNotification(false)}
-                />
-            )}
+        <Notification
+          message={notificationMessage}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
       <div className="h-60 ">
         <img
           // className="h-full w-full p-3 rounded-xl object-cover "
@@ -87,7 +85,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
         <button
           className="w-14 h-7 bg-slate-400 text-xl rounded-lg pl-5 mr-4"
           onClick={() => {
-            toast('Test toast'); // This will display the toast notification
+            toast("Test toast"); // This will display the toast notification
             handleBookDelete(); // This will execute your delete function
           }}
         >
@@ -133,25 +131,23 @@ const Favourites = ({ uid }) => {
         <div className="flex flex-wrap mt-6">
           {loading ? (
             <div>Loading...</div>
+          ) : favorites.length > 0 ? (
+            favorites.map((bookId, index) => (
+              <BookImage
+                key={index}
+                bookId={bookId}
+                uid={uid}
+                setFavorites={setFavorites}
+                fetchFavorites={fetchFavorites}
+              />
+            ))
           ) : (
-            favorites.length > 0 ? (
-              favorites.map((bookId, index) => (
-                <BookImage
-                  key={index}
-                  bookId={bookId}
-                  uid={uid}
-                  setFavorites={setFavorites}
-                  fetchFavorites={fetchFavorites}
-                />
-              ))
-            ) : (
-              <div>No favourites found.</div>
-            )
+            <div>No favourites found.</div>
           )}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Favourites;
