@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { openai } from "../utils/openai";
+import { ThreeDots} from 'react-loader-spinner'
 const Gpt = () => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [searchresult, setsearchresult] = useState([]);
@@ -82,7 +83,17 @@ const Gpt = () => {
           Search
         </button>
       </form>
-      <div>{results}</div>
+      {results===null?(<ThreeDots
+  visible={true}
+  height="80"
+  width="80"
+  color="#4fa94d"
+  radius="9"
+  ariaLabel="three-dots-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />):<div>{results}</div>}
+      
 
       <button
         onClick={handlerecommnedation}
@@ -94,6 +105,7 @@ const Gpt = () => {
       <div>{searchresult}</div>
 
     </div>
+    
   );
 };
 
