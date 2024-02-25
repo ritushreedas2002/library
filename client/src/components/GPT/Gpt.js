@@ -231,6 +231,7 @@ const Gpt = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 
