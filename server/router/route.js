@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/User");
 const UserNote=require("../models/Notes");
 const UserFeatures=require("../models/Features");
+const SearchHistory=require("../models/search");
 const Note=require("../models/Indibooknotes");
 const path = require('path');
 const router = express.Router();
@@ -583,6 +584,53 @@ router.put('/api/booknotes/:uid/:bookId', async (req, res) => {
 });
 
 
+//search
+router.get('/api/search-history/:uid', async (req, res) => {
+  const { uid } = req.params;
+  try {
+    const searchHistory = await SearchHistory.findOne({ uid });
+    res.json(searchHistory);
+  } catch (error) {
+    console.error('Error retrieving search history:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+  router.post('/api/search-history/:uid', async (req, res) => {
+    const { uid } = req.params;
+    const { search } = req.body;
+    try {
+      let searchHistory = await SearchHistory.findOne({ uid });
+      if (!searchHistory) {
+        // Create new search history entry if it doesn't exist
+        searchHistory = new SearchHistory({ uid, search: [search] });
+      }else{
+        
+          // Check if the bookId already exists in recently viewed
+          const index = searchHistory.search.indexOf(search);
+          if (index !== -1) {
+            // If it exists, remove it from the current position
+            searchHistory.search.splice(index, 1);
+          }
+
+          // Add new search to the beginning of the array
+          searchHistory.search.unshift(search);
+
+          // Limit the length of the array to 3
+          if (searchHistory.search.length > 4) {
+            searchHistory.search.pop(); // Remove the last item
+          }
+      }
+      // Save updated search history
+      await searchHistory.save();
+  
+      res.json(searchHistory);
+    } catch (error) {
+      console.error('Error updating search history:', error.message);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
 
 
 module.exports = router;
