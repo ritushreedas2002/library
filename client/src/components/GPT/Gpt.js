@@ -4,10 +4,12 @@ import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/background-pic-1.webp";
+import { ThreeDots } from "react-loader-spinner";
 
 const Gpt = () => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [searchresult, setsearchresult] = useState([]);
+  const [toggleView, setToggleView] = useState(true);
   const searchtext = useRef(null);
   const [results, setresult] = useState(null);
   const uid = localStorage.getItem("uid");
@@ -23,6 +25,7 @@ const Gpt = () => {
         }
         const data = await response.json();
         setSearchHistory(data.search);
+        // console.log(data.search);
       } catch (error) {
         console.error("Error fetching search history:", error.message);
         // Handle error if needed
@@ -33,6 +36,7 @@ const Gpt = () => {
   }, [uid]);
 
   const handleGptSearchClick = async () => {
+    setToggleView(true);
     console.log(searchtext.current.value);
     const gptQuery =
       "Provide a succinct summary of " +
@@ -51,22 +55,73 @@ const Gpt = () => {
   };
 
   const handlerecommnedation = async () => {
-    const gptQuery =
-      "according to the books provided in the array " +
-      searchHistory +
-      "provide me the list of 10 best recommended books related to the array provided";
+    setToggleView(false);
+    const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
+    //   "according to the books provided in the array " +
+    //   searchHistory +
+    //   "provide me a list of 10 best recommended books related to the array provided in a comma seperated format like the example result given ahead. Example Result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya. Give me the names only. Put the name of the 10 books in an array from indexes 0 to 9 and return it.";
 
-    const gptResults = await openai.chat.completions.create({
-      messages: [{ role: "user", content: gptQuery }],
-      model: "gpt-3.5-turbo",
-    });
-    if (!gptResults.choices) {
-      // TODO: Write Error Handling
+    // const gptResults = await openai.chat.completions.create({
+    //   messages: [{ role: "user", content: gptQuery }],
+    //   model: "gpt-3.5-turbo",
+    // });
+    // if (!gptResults.choices) {
+    //   // TODO: Write Error Handling
+    // }
+
+    // console.log(gptResults.choices?.[0]?.message?.content);
+    // setsearchresult(gptResults.choices?.[0]?.message?.content);
+    // const searchmap = gptResults.choices?.[0]?.message?.content.split(",");
+    // console.log(searchmap);
+    // setsearchresult(searchmap);
+
+    try {
+      // Making the API call
+      const gptResults = await openai.chat.completions.create({
+        messages: [{ role: "user", content: gptQuery }],
+        model: "gpt-3.5-turbo",
+        // response_format: { type: "json_object" }
+      });
+
+      // Checking if the API returned any results
+      if (gptResults.choices && gptResults.choices.length > 0) {
+        // const recommendations = gptResults.choices[0].message.content;
+        // console.log(recommendations);
+        const recommendationsJson = JSON.parse(
+          gptResults.choices[0].message.content
+        );
+        console.log(recommendationsJson);
+
+        // Splitting the returned string into an array of book names
+        // const bookList = recommendations
+        //   .split("", "")
+        //   .map((book) => book.trim());
+        // console.log(bookList);
+        if (recommendationsJson && recommendationsJson.books) {
+          const bookList = recommendationsJson.books; // This should already be an array of book titles
+          console.log(bookList);
+
+          // Setting the array of book names in the state to use in your component for rendering
+          setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
+        } else {
+          console.error("Books array not found in the recommendations");
+          // Handle the case where the 'books' array is not in the response
+        }
+
+        // Setting the array of book names in the state to use in your component for rendering
+        // setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
+      } else {
+        console.error("No results found");
+        // Handle the case where there are no recommendations
+      }
+    } catch (error) {
+      console.error("Error handling the recommendation:", error);
+      // Implement error handling
     }
-
-    console.log(gptResults.choices?.[0]?.message?.content);
-    setsearchresult(gptResults.choices?.[0]?.message?.content);
   };
+  // if (searchresult.length > 0) {
+  //   console.log(searchresult.split(","));
+  // }
 
   return (
     <div className="flex bg-purple-400 min-h-screen">
@@ -104,7 +159,7 @@ const Gpt = () => {
       </div> */}
       <div className="bg-gray-800 min-h-screen flex items-center justify-center w-screen">
         <div
-          className="bg-gray-700 w-[90%] h-[90%] bg-cover p-12 rounded-2xl shadow-xl text-white"
+          className="bg-gray-700 w-[90%] min-h-[90%] bg-cover p-12 rounded-2xl shadow-xl text-white"
           style={{ backgroundImage: `url(${image})` }}
         >
           <div className="flex justify-between mb-6">
@@ -113,30 +168,66 @@ const Gpt = () => {
           <div className="relative">
             <input
               type="text"
+              ref={searchtext}
               placeholder="Book name"
               className="w-full p-4 pl-5 bg-gray-600 rounded-full focus:outline-none opacity-75 placeholder-white"
             />
           </div>
           <div className="flex space-x-4 mt-6">
             <button
-              className="bg-gray-600 px-4 py-2 rounded-full focus:outline-none hover:bg-gray-500 opacity-85"
+              className={`px-4 py-2 rounded-full focus:outline-none hover:bg-gray-500 opacity-85 ${
+                toggleView ? "bg-red-500" : "bg-gray-600"
+              }`}
               onClick={handleGptSearchClick}
             >
               Get summaries
               <FontAwesomeIcon icon={faSearch} className="text-gray-300 pl-2" />
             </button>
-            <button className="bg-gray-600 px-4 py-2 rounded-full focus:outline-none hover:bg-gray-500 opacity-85">
+            <button
+              className={`px-4 py-2 rounded-full focus:outline-none hover:bg-gray-500 opacity-85 ${
+                !toggleView ? "bg-red-500" : "bg-gray-600"
+              }`}
+              onClick={handlerecommnedation}
+            >
               Personalized book suggestions
             </button>
           </div>
-          <div className="mt-6">
-            <div>{results !== null ? results : ""}</div>
-            {/* <img
-              src="https://placehold.co/700x400"
-              alt="Decorative image placeholder for book search feature"
-              className="w-full h-40 bg-gray-600 rounded-xl"
-            /> */}
-          </div>
+          {results && toggleView && (
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 ">
+              <div className=" text-white font-semibold">{results}</div>
+            </div>
+          )}
+          {searchresult.length > 0 && !toggleView && (
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 ">
+              <div className=" text-white font-semibold">
+                {/* {searchresult?.split(",").map((index, book) => {
+                  <li key={index}>{book}</li>;
+                })} */}
+                {/* {searchresult} */}
+                <ul>
+                  {searchresult.map((book, index) => (
+                    <div className=" flex">
+                      {index + 1}:
+                      <li key={index} className=" pl-2">
+                        {book}
+                      </li>
+                    </div>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#4fa94d"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+          {/* <div>{searchresult}</div> */}
         </div>
       </div>
     </div>
