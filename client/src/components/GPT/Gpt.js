@@ -8,16 +8,17 @@ const Gpt = () => {
         console.log(searchtext.current.value);
         const gptQuery = "Act as a Book Summary system and suggest some gist summary of the book " +
             searchtext.current.value;
-        //get the open ai call and get the movie results
-        const gptResults = await openai.completions.create({
-            messages: [{ role: 'user', content: gptQuery  }],
-            model: 'gpt-3.5-turbo',
-        });
-        if (!gptResults.choices) {
-            // TODO: Write Error Handling
-            
-        }
-        console.log(gptResults);
+        
+    const gptResults = await openai.chat.completions.create({
+        messages: [{ role: 'user', content: gptQuery  }],
+        model: 'gpt-3.5-turbo',
+      });
+      if (!gptResults.choices) {
+        // TODO: Write Error Handling
+      }
+      
+
+      console.log(gptResults.choices?.[0]?.message?.content);
     }
 
     return (
