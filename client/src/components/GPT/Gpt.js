@@ -35,9 +35,9 @@ const Gpt = () => {
   const handleGptSearchClick = async () => {
     console.log(searchtext.current.value);
     const gptQuery =
-      "Act as a Book Summary system and suggest some gist summary of the book " +
-      searchtext.current.value;
-
+      "Provide a succinct summary of " +
+      searchtext.current.value +
+      " in approximately 300 words, focusing on the main plot, key characters, and significant themes. Start by introducing the setting and the protagonist, then outline the central conflict or challenge they face. Highlight any notable twists, turns, or climaxes in the narrative, ensuring to convey the emotional and thematic depth of the story without divulging any crucial spoilers. Conclude with the resolution or the moral lesson, if applicable, and the impact the story aims to leave on the reader. Aim for clarity and conciseness while capturing the essence and unique aspects of the book.";
     const gptResults = await openai.chat.completions.create({
       messages: [{ role: "user", content: gptQuery }],
       model: "gpt-3.5-turbo",
@@ -69,35 +69,76 @@ const Gpt = () => {
   };
 
   return (
-    <div className="pt-[35%] md:pt-[10%] flex justify-center">
-      <form
-        className="w-full md:w-1/2 bg-black grid grid-cols-12"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <input
-          ref={searchtext}
-          type="text"
-          className="p-4 m-4 col-span-9"
-          placeholder="Enter the book name :"
-        />
-        <button
-          className="col-span-3 m-4 py-2 px-4 bg-red-700 text-white rounded-lg"
-          onClick={handleGptSearchClick}
+    <div className="flex bg-purple-400 min-h-screen">
+      <div className="w-[13%]">
+        <Sidebar2 />
+      </div>
+      {/* <div className="pt-[35%] md:pt-[10%] flex justify-center">
+        <form
+          className="w-full md:w-1/2 bg-black grid grid-cols-12"
+          onSubmit={(e) => e.preventDefault()}
         >
-          Search
+          <input
+            ref={searchtext}
+            type="text"
+            className="p-4 m-4 col-span-9"
+            placeholder="Enter the book name :"
+          />
+          <button
+            className="col-span-3 m-4 py-2 px-4 bg-red-700 text-white rounded-lg"
+            onClick={handleGptSearchClick}
+          >
+            Search
+          </button>
+        </form>
+        <div>{results}</div>
+
+        <button
+          onClick={handlerecommnedation}
+          className="w-56 bg-blue-500 text-white text-md rounded-xl"
+        >
+          {" "}
+          Personalised Recommended books
         </button>
-      </form>
-      <div>{results}</div>
-
-      <button
-        onClick={handlerecommnedation}
-        className="w-56 bg-blue-500 text-white text-md rounded-xl"
-      >
-        {" "}
-        Personalised Recommended books
-      </button>
-      <div>{searchresult}</div>
-
+        <div>{searchresult}</div>
+      </div> */}
+      <div className="bg-gray-800 min-h-screen flex items-center justify-center w-screen">
+        <div
+          className="bg-gray-700 w-[90%] h-[90%] bg-cover p-12 rounded-2xl shadow-xl text-white"
+          style={{ backgroundImage: `url(${image})` }}
+        >
+          <div className="flex justify-between mb-6">
+            <div className="font-semibold text-lg">Search</div>
+          </div>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Book name"
+              className="w-full p-4 pl-5 bg-gray-600 rounded-full focus:outline-none opacity-75 placeholder-white"
+            />
+          </div>
+          <div className="flex space-x-4 mt-6">
+            <button
+              className="bg-gray-600 px-4 py-2 rounded-full focus:outline-none hover:bg-gray-500 opacity-85"
+              onClick={handleGptSearchClick}
+            >
+              Get summaries
+              <FontAwesomeIcon icon={faSearch} className="text-gray-300 pl-2" />
+            </button>
+            <button className="bg-gray-600 px-4 py-2 rounded-full focus:outline-none hover:bg-gray-500 opacity-85">
+              Personalized book suggestions
+            </button>
+          </div>
+          <div className="mt-6">
+            <div>{results !== null ? results : ""}</div>
+            {/* <img
+              src="https://placehold.co/700x400"
+              alt="Decorative image placeholder for book search feature"
+              className="w-full h-40 bg-gray-600 rounded-xl"
+            /> */}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
