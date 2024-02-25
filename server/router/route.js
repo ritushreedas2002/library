@@ -1,7 +1,8 @@
 const express = require("express");
 const User = require("../models/User");
 const UserNote=require("../models/Notes");
-const UserFeatures=require("../models/Features")
+const UserFeatures=require("../models/Features");
+const Note=require("../models/Indibooknotes");
 const path = require('path');
 const router = express.Router();
 const multer = require("multer");
@@ -55,35 +56,6 @@ router.get("/user", async (req, res) => {
   }
 });
 
-// router.put("/profile/:uid", upload.single("profileImage"), async (req, res) => {
-//   try {
-//     const { uid } = req.params;
-//     const { name} = req.body;
-//     const imageName = req.file.filename;
-//     // let displayPicture;
-
-//     // Check if a new image file was uploaded
-//     // if (req.file) {
-//     //   displayPicture = req.file.buffer.toString("base64"); // Convert image buffer to base64 string
-    
-
-//     // Find user by UID and update profile fields
-//     const updatedUser = await User.findOneAndUpdate(
-//       { uid },
-//       { name, displayPicture: imageName },
-//       { new: true }
-//     );
-
-//     if (!updatedUser) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     res.json(updatedUser);
-//   } catch (error) {
-//     console.error(`Error updating user data: ${error.message}`);
-//     res.status(500).json({ error: "Failed to update user data" });
-//   }
-// });
 
 router.put('/profile/:uid', upload.single('profileImage'), async (req, res) => {
   const { uid } = req.params;
@@ -512,6 +484,104 @@ router.get('/api/bookmarks/:uid/:bookId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+
+//book-notes
+
+
+router.get('/api/booknotes/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+    
+
+    const noteDocument = await Note.findOne({ uid });
+    if (!noteDocument) {
+      
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const note = noteDocument.notes.find(note => note.bookId.toString() === bookId.toString());
+    if (!note) {
+     
+      return res.status(404).json({ message: 'No note found for this book' });
+    }
+
+    
+    res.status(200).json({content:note.content});
+  } catch (error) {
+    //console.error('Error fetching note:', error); // Error log
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+
+// POST a new note
+router.post('/api/notes/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid ,bookId } = req.params;
+    const { content } = req.body;
+
+    let noteDocument = await Note.findOne({ uid });
+
+    if (!noteDocument) {
+      
+      noteDocument = new Note({
+        uid,
+        notes: [{ bookId, content }]
+      });
+    } else {
+      // If the user document exists, check if the note for the bookId already exists
+      const noteIndex = noteDocument.notes.findIndex(note => note.bookId === bookId);
+
+      if (noteIndex === -1) {
+        // If the note doesn't exist, add it to the notes array
+        noteDocument.notes.push({ bookId, content });
+      } 
+    }
+
+    const savedDocument = await noteDocument.save();
+    res.status(201).json(savedDocument);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// PUT an existing note
+router.put('/api/booknotes/:uid/:bookId', async (req, res) => {
+  try {
+    const { uid, bookId } = req.params;
+    const { content } = req.body;
+
+    // Find the user's note document
+    const noteDocument = await Note.findOne({ uid });
+
+    if (!noteDocument) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the index of the note to be updated
+    const noteIndex = noteDocument.notes.findIndex(note => note.bookId.toString() === bookId.toString());
+    
+    if (noteIndex === -1) {
+      // Note not found for the given bookId
+      return res.status(404).json({ message: 'Note not found for this book' });
+    }
+
+    // Update the note's content
+    noteDocument.notes[noteIndex].content = content;
+
+    // Save the updated note document
+    const updatedDocument = await noteDocument.save();
+
+    // Respond with the updated note
+    res.json(updatedDocument.notes[noteIndex]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 
 

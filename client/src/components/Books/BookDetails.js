@@ -11,7 +11,7 @@ import { FaHeart } from "react-icons/fa6";
 import { BsBookmarkPlus } from "react-icons/bs";
 import { FaBookmark } from "react-icons/fa6";
 import Notification from "../utils/Notification/Notification";
-
+import { IoBookmark } from "react-icons/io5";
 const DemoBookCard = () => {
   return (
     <div className="w-32 p-2 size-fit bg-gray-800 flex justify-center items-center ">
@@ -277,7 +277,7 @@ const BookDetails = ({ uid }) => {
                     {bookmark ? (
                       <FaBookmark className="text-white" />
                     ) : (
-                      <BsBookmarkPlus />
+                      <IoBookmark />
                     )}
                   </div>
                   
@@ -303,7 +303,7 @@ const BookDetails = ({ uid }) => {
               {/* </Link> */}
               {showPreview && (
                 <div className="flex items-center justify-center">
-                  <BookPreview2 bookId={bookInfo.id} show={ShowPreview} />
+                  <BookPreview2 bookId={bookInfo.id} userId={uid} show={ShowPreview} />
                 </div>
               )}
             </div>

@@ -20,8 +20,7 @@ import { removeUser } from "../../utils/userSlice";
 import { IoMdBookmarks } from "react-icons/io";
 import { useState } from "react";
 import { BsRobot } from "react-icons/bs";
-import JoyRide from "react-joyride";
-import { steps } from "../../utils/constantsJoy";
+
 
 const Sidebar2 = ({ onSignOut }) => {
   //const [isOpen, setIsOpen] = useState(false);
