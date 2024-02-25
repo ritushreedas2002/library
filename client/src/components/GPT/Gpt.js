@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { openai } from "../utils/openai";
-
 const Gpt = () => {
     const searchtext = useRef(null);
+    const [results,setresult]=useState(null);
 
     const handleGptSearchClick = async () => {
         console.log(searchtext.current.value);
@@ -19,6 +19,7 @@ const Gpt = () => {
       
 
       console.log(gptResults.choices?.[0]?.message?.content);
+      setresult(gptResults.choices?.[0]?.message?.content);
     }
 
     return (
@@ -34,6 +35,7 @@ const Gpt = () => {
                     Search
                 </button>
             </form>
+            <div>{results}</div>
         </div>
     );
 }
