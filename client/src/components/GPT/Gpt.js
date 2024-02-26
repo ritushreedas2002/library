@@ -12,6 +12,8 @@ const Gpt = () => {
   const [toggleView, setToggleView] = useState(true);
   const searchtext = useRef(null);
   const [results, setresult] = useState(null);
+  const [error,seterror]=useState("");
+  const [loading,isloading]=useState(false);
   const uid = localStorage.getItem("uid");
 
   useEffect(() => {
@@ -36,8 +38,18 @@ const Gpt = () => {
   }, [uid]);
 
   const handleGptSearchClick = async () => {
+
+    if (!searchtext.current.value) {
+      // If search text is empty, show error message and return early
+      //alert("Please enter the book name");
+      seterror("Please enter the book name")
+      return;
+    }
+    seterror("");
+    
     setToggleView(true);
     console.log(searchtext.current.value);
+    isloading(true);
     const gptQuery =
       "Provide a succinct summary of " +
       searchtext.current.value +
@@ -46,16 +58,26 @@ const Gpt = () => {
       messages: [{ role: "user", content: gptQuery }],
       model: "gpt-3.5-turbo",
     });
+    
     if (!gptResults.choices) {
       // TODO: Write Error Handling
     }
 
     console.log(gptResults.choices?.[0]?.message?.content);
     setresult(gptResults.choices?.[0]?.message?.content);
+    isloading(false);
+    searchtext.current.value = "";
   };
 
   const handlerecommnedation = async () => {
+    if (searchHistory.length === 0) {
+      seterror("You have not performed any searches yet");
+      return;
+    }
+    seterror("");
+    
     setToggleView(false);
+    isloading(true);
     const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
     //   "according to the books provided in the array " +
     //   searchHistory +
@@ -103,6 +125,8 @@ const Gpt = () => {
 
           // Setting the array of book names in the state to use in your component for rendering
           setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
+          isloading(false);
+          searchtext.current.value = "";
         } else {
           console.error("Books array not found in the recommendations");
           // Handle the case where the 'books' array is not in the response
@@ -169,9 +193,10 @@ const Gpt = () => {
             <input
               type="text"
               ref={searchtext}
-              placeholder="Book name"
+              placeholder="Enter the book name :"
               className="w-full p-4 pl-5 bg-gray-600 rounded-full focus:outline-none opacity-75 placeholder-white"
             />
+            <p className="text-red-700 m-2 font-semibold">{error}</p>
           </div>
           <div className="flex space-x-4 mt-6">
             <button
@@ -206,7 +231,7 @@ const Gpt = () => {
                 {/* {searchresult} */}
                 <ul>
                   {searchresult.map((book, index) => (
-                    <div className=" flex">
+                    <div className=" flex" key={index}>
                       {index + 1}:
                       <li key={index} className=" pl-2">
                         {book}
@@ -217,17 +242,19 @@ const Gpt = () => {
               </div>
             </div>
           )}
+          {loading && (<div className="flex justify-center items-center w-full h-full">
           <ThreeDots
             visible={true}
             height="80"
             width="80"
-            color="#4fa94d"
+            color="#ff0000"
             radius="9"
             ariaLabel="three-dots-loading"
             wrapperStyle={{}}
             wrapperClass=""
           />
-          {/* <div>{searchresult}</div> */}
+          </div>)}
+         
         </div>
       </div>
     </div>
