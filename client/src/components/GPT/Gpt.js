@@ -12,8 +12,8 @@ const Gpt = () => {
   const [toggleView, setToggleView] = useState(true);
   const searchtext = useRef(null);
   const [results, setresult] = useState(null);
-  const [error,seterror]=useState("");
-  const [loading,isloading]=useState(false);
+  const [error, seterror] = useState("");
+  const [loading, isloading] = useState(false);
   const uid = localStorage.getItem("uid");
 
   useEffect(() => {
@@ -38,17 +38,17 @@ const Gpt = () => {
   }, [uid]);
 
   const handleGptSearchClick = async () => {
-
+    setToggleView(true);
     if (!searchtext.current.value) {
       // If search text is empty, show error message and return early
       //alert("Please enter the book name");
       setsearchresult([]);
-      seterror("Please enter the book name")
+      seterror("Please enter the book name");
       return;
     }
     seterror("");
     setsearchresult([]);
-    setToggleView(true);
+    //
     console.log(searchtext.current.value);
     isloading(true);
     const gptQuery =
@@ -59,7 +59,7 @@ const Gpt = () => {
       messages: [{ role: "user", content: gptQuery }],
       model: "gpt-3.5-turbo",
     });
-    
+
     if (!gptResults.choices) {
       // TODO: Write Error Handling
     }
@@ -71,6 +71,7 @@ const Gpt = () => {
   };
 
   const handlerecommnedation = async () => {
+    setToggleView(false);
     if (searchHistory.length === 0) {
       setresult(null);
       seterror("You have not performed any searches yet");
@@ -78,26 +79,8 @@ const Gpt = () => {
     }
     seterror("");
     setresult(null);
-    setToggleView(false);
     isloading(true);
     const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
-    //   "according to the books provided in the array " +
-    //   searchHistory +
-    //   "provide me a list of 10 best recommended books related to the array provided in a comma seperated format like the example result given ahead. Example Result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya. Give me the names only. Put the name of the 10 books in an array from indexes 0 to 9 and return it.";
-
-    // const gptResults = await openai.chat.completions.create({
-    //   messages: [{ role: "user", content: gptQuery }],
-    //   model: "gpt-3.5-turbo",
-    // });
-    // if (!gptResults.choices) {
-    //   // TODO: Write Error Handling
-    // }
-
-    // console.log(gptResults.choices?.[0]?.message?.content);
-    // setsearchresult(gptResults.choices?.[0]?.message?.content);
-    // const searchmap = gptResults.choices?.[0]?.message?.content.split(",");
-    // console.log(searchmap);
-    // setsearchresult(searchmap);
 
     try {
       // Making the API call
@@ -116,11 +99,6 @@ const Gpt = () => {
         );
         console.log(recommendationsJson);
 
-        // Splitting the returned string into an array of book names
-        // const bookList = recommendations
-        //   .split("", "")
-        //   .map((book) => book.trim());
-        // console.log(bookList);
         if (recommendationsJson && recommendationsJson.books) {
           const bookList = recommendationsJson.books; // This should already be an array of book titles
           console.log(bookList);
@@ -145,44 +123,13 @@ const Gpt = () => {
       // Implement error handling
     }
   };
-  // if (searchresult.length > 0) {
-  //   console.log(searchresult.split(","));
-  // }
 
   return (
     <div className="flex bg-purple-400 min-h-screen">
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
-      {/* <div className="pt-[35%] md:pt-[10%] flex justify-center">
-        <form
-          className="w-full md:w-1/2 bg-black grid grid-cols-12"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <input
-            ref={searchtext}
-            type="text"
-            className="p-4 m-4 col-span-9"
-            placeholder="Enter the book name :"
-          />
-          <button
-            className="col-span-3 m-4 py-2 px-4 bg-red-700 text-white rounded-lg"
-            onClick={handleGptSearchClick}
-          >
-            Search
-          </button>
-        </form>
-        <div>{results}</div>
 
-        <button
-          onClick={handlerecommnedation}
-          className="w-56 bg-blue-500 text-white text-md rounded-xl"
-        >
-          {" "}
-          Personalised Recommended books
-        </button>
-        <div>{searchresult}</div>
-      </div> */}
       <div className="bg-gray-800 min-h-screen flex items-center justify-center w-screen">
         <div
           className="bg-gray-700 w-[90%] min-h-[90%] bg-cover p-12 rounded-2xl shadow-xl text-white"
@@ -227,10 +174,6 @@ const Gpt = () => {
           {searchresult.length > 0 && !toggleView && (
             <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 ">
               <div className=" text-white font-semibold">
-                {/* {searchresult?.split(",").map((index, book) => {
-                  <li key={index}>{book}</li>;
-                })} */}
-                {/* {searchresult} */}
                 <ul>
                   {searchresult.map((book, index) => (
                     <div className=" flex" key={index}>
@@ -244,23 +187,23 @@ const Gpt = () => {
               </div>
             </div>
           )}
-          {loading && (<div className="flex justify-center items-center w-full h-full">
-          <ThreeDots
-            visible={true}
-            height="80"
-            width="80"
-            color="#ff0000"
-            radius="9"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-          </div>)}
-         
+          {loading && (
+            <div className="flex justify-center items-center w-full h-full">
+              <ThreeDots
+                visible={true}
+                height="80"
+                width="80"
+                color="#ff0000"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
-    
   );
 };
 
