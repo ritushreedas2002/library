@@ -42,11 +42,12 @@ const Gpt = () => {
     if (!searchtext.current.value) {
       // If search text is empty, show error message and return early
       //alert("Please enter the book name");
+      setsearchresult([]);
       seterror("Please enter the book name")
       return;
     }
     seterror("");
-    
+    setsearchresult([]);
     setToggleView(true);
     console.log(searchtext.current.value);
     isloading(true);
@@ -71,11 +72,12 @@ const Gpt = () => {
 
   const handlerecommnedation = async () => {
     if (searchHistory.length === 0) {
+      setresult(null);
       seterror("You have not performed any searches yet");
       return;
     }
     seterror("");
-    
+    setresult(null);
     setToggleView(false);
     isloading(true);
     const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
@@ -218,7 +220,7 @@ const Gpt = () => {
             </button>
           </div>
           {results && toggleView && (
-            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 ">
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar ">
               <div className=" text-white font-semibold">{results}</div>
             </div>
           )}
