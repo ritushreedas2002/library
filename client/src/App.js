@@ -3,7 +3,7 @@ import FirstPage from "./components/Home/FirstPage";
 import { useSelector } from "react-redux";
 import MainBody from "./components/MainBody/MainBody";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./components/utils/Firebase";
 import {
@@ -29,6 +29,7 @@ import CurrentRead from "./components/Features/Current Read/CurrentRead";
 import RecentlyViewed from "./components/Features/RecentlyViewed/RecentlyViewed";
 import Bookmark from "./components/Features/Bookmark/Bookmark";
 import Gpt from "./components/GPT/Gpt";
+import Chatbot from "./components/chatbot/Chatbot";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
