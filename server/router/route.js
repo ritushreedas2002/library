@@ -1,30 +1,37 @@
 const express = require("express");
 const User = require("../models/User");
-const UserNote=require("../models/Notes");
-const UserFeatures=require("../models/Features");
-const SearchHistory=require("../models/search");
-const Note=require("../models/Indibooknotes");
-const path = require('path');
+const UserNote = require("../models/Notes");
+const UserFeatures = require("../models/Features");
+const SearchHistory = require("../models/search");
+const Note = require("../models/Indibooknotes");
+const chatbot = require("../Chatbot/Chatbot");
+const path = require("path");
 const router = express.Router();
 const multer = require("multer");
-router.use('../../images', express.static(path.join(__dirname, '../../client/public/images')));
+router.use(
+  "../../images",
+  express.static(path.join(__dirname, "../../client/public/images"))
+);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Adjust the path to point to your client's image directory
-    const dest = path.join(__dirname, '../../client/public/images');
+    const dest = path.join(__dirname, "../../client/public/images");
     cb(null, dest);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
   },
 });
 
 const upload = multer({ storage: storage });
 
 // *adding user details into mongoDB
-router.post("/register",async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { name, email, uid, displayPicture } = req.body;
 
@@ -57,8 +64,7 @@ router.get("/user", async (req, res) => {
   }
 });
 
-
-router.put('/profile/:uid', upload.single('profileImage'), async (req, res) => {
+router.put("/profile/:uid", upload.single("profileImage"), async (req, res) => {
   const { uid } = req.params;
   const { name } = req.body;
 
@@ -68,7 +74,9 @@ router.put('/profile/:uid', upload.single('profileImage'), async (req, res) => {
   }
 
   try {
-    const updatedUser = await User.findOneAndUpdate({ uid }, updateData, { new: true });
+    const updatedUser = await User.findOneAndUpdate({ uid }, updateData, {
+      new: true,
+    });
     if (!updatedUser) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -81,16 +89,16 @@ router.put('/profile/:uid', upload.single('profileImage'), async (req, res) => {
 
 //NOTES
 // Routes
-router.get('/api/notes/:uid', async (req, res) => {
+router.get("/api/notes/:uid", async (req, res) => {
   try {
-      const { uid } = req.params;
-      const user = await UserNote.findOne({ uid });
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
-      res.status(200).json(user.notes);
+    const { uid } = req.params;
+    const user = await UserNote.findOne({ uid });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.notes);
   } catch (err) {
-      res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 });
 
@@ -104,10 +112,10 @@ router.post("/api/notes/:uid", async (req, res) => {
     if (!userNote) {
       userNote = new UserNote({
         uid,
-        notes: [{ title, description, color, tags,lastEdited }],
+        notes: [{ title, description, color, tags, lastEdited }],
       });
     } else {
-      userNote.notes.push({ title, description, color, tags,lastEdited });
+      userNote.notes.push({ title, description, color, tags, lastEdited });
     }
 
     await userNote.save();
@@ -123,7 +131,7 @@ router.post("/api/notes/:uid", async (req, res) => {
 router.get("/api/notes/:uid/:noteId", async (req, res) => {
   try {
     const { uid, noteId } = req.params;
-    
+
     // Find the user's notes based on the UID
     const user = await UserNote.findOne({ uid });
 
@@ -148,7 +156,6 @@ router.get("/api/notes/:uid/:noteId", async (req, res) => {
   }
 });
 
-
 router.put("/api/notes/:uid/:noteId", async (req, res) => {
   try {
     const { uid, noteId } = req.params;
@@ -163,7 +170,9 @@ router.put("/api/notes/:uid/:noteId", async (req, res) => {
     }
 
     // Find the index of the note within the user's notes array
-    const noteIndex = user.notes.findIndex((note) => note._id.toString() === noteId);
+    const noteIndex = user.notes.findIndex(
+      (note) => note._id.toString() === noteId
+    );
 
     // If the note is not found, return a 404 error
     if (noteIndex === -1) {
@@ -172,10 +181,11 @@ router.put("/api/notes/:uid/:noteId", async (req, res) => {
 
     // Update the note with the new values
     user.notes[noteIndex].title = title.trim() === "" ? "" : title;
-    user.notes[noteIndex].description = description.trim() === "" ? "" : description;
+    user.notes[noteIndex].description =
+      description.trim() === "" ? "" : description;
     user.notes[noteIndex].color = color;
     user.notes[noteIndex].tags = tags;
-    user.notes[noteIndex].lastEdited=lastEdited;
+    user.notes[noteIndex].lastEdited = lastEdited;
     // Save the updated user document
     await user.save();
 
@@ -187,19 +197,19 @@ router.put("/api/notes/:uid/:noteId", async (req, res) => {
   }
 });
 
-
-
-router.delete('/api/notes/:uid/:noteId', async (req, res) => {
+router.delete("/api/notes/:uid/:noteId", async (req, res) => {
   try {
     const { uid, noteId } = req.params;
     const user = await UserNote.findOne({ uid });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     // Find the index of the note to remove
-    const noteIndex = user.notes.findIndex(note => note._id.toString() === noteId);
+    const noteIndex = user.notes.findIndex(
+      (note) => note._id.toString() === noteId
+    );
     if (noteIndex === -1) {
-      return res.status(404).json({ message: 'Note not found' });
+      return res.status(404).json({ message: "Note not found" });
     }
     // Remove the note from the array
     user.notes.splice(noteIndex, 1);
@@ -210,14 +220,13 @@ router.delete('/api/notes/:uid/:noteId', async (req, res) => {
   }
 });
 
-
 //favourites
-router.get('/api/favorites/:uid', async (req, res) => {
+router.get("/api/favorites/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
     const userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.json({ favorites: userFeatures.favourites });
   } catch (error) {
@@ -226,10 +235,9 @@ router.get('/api/favorites/:uid', async (req, res) => {
   }
 });
 
-
-router.post('/api/favorites/:uid/:bookId', async (req, res) => {
+router.post("/api/favorites/:uid/:bookId", async (req, res) => {
   try {
-    const { uid,bookId } = req.params;
+    const { uid, bookId } = req.params;
     // const { bookId } = req.body;
 
     let userFeatures = await UserFeatures.findOne({ uid });
@@ -237,7 +245,7 @@ router.post('/api/favorites/:uid/:bookId', async (req, res) => {
       userFeatures = new UserFeatures({
         uid,
         favourites: [bookId],
-        bookmarks: [] // assuming bookmarks are managed in the same schema
+        bookmarks: [], // assuming bookmarks are managed in the same schema
       });
     } else {
       if (!userFeatures.favourites.includes(bookId)) {
@@ -245,7 +253,7 @@ router.post('/api/favorites/:uid/:bookId', async (req, res) => {
       }
     }
     await userFeatures.save();
-    
+
     res.status(201).send();
   } catch (error) {
     console.error("Error adding favorite:", error);
@@ -253,26 +261,26 @@ router.post('/api/favorites/:uid/:bookId', async (req, res) => {
   }
 });
 
-router.delete('/api/favorites/:uid/:bookId', async (req, res) => {
+router.delete("/api/favorites/:uid/:bookId", async (req, res) => {
   try {
     const { uid, bookId } = req.params;
 
     const userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Find the index of the bookId to remove from favourites
     const bookIndex = userFeatures.favourites.indexOf(bookId);
     if (bookIndex === -1) {
-      return res.status(404).json({ message: 'Book not found in favorites' });
+      return res.status(404).json({ message: "Book not found in favorites" });
     }
 
     // Remove the bookId from the favourites array
     userFeatures.favourites.splice(bookIndex, 1);
 
     await userFeatures.save();
-    
+
     res.json(userFeatures.favourites);
   } catch (error) {
     console.error("Error deleting favorite:", error);
@@ -280,12 +288,12 @@ router.delete('/api/favorites/:uid/:bookId', async (req, res) => {
   }
 });
 
-router.get('/api/favorites/:uid/:bookId', async (req, res) => {
+router.get("/api/favorites/:uid/:bookId", async (req, res) => {
   try {
     const { uid, bookId } = req.params;
     const userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     const isFavorited = userFeatures.favourites.includes(bookId);
     res.json({ isFavorited });
@@ -295,9 +303,8 @@ router.get('/api/favorites/:uid/:bookId', async (req, res) => {
   }
 });
 
-
 //current read
-router.post('/api/current-read', async (req, res) => {
+router.post("/api/current-read", async (req, res) => {
   try {
     const { uid, bookId } = req.body;
 
@@ -315,15 +322,19 @@ router.post('/api/current-read', async (req, res) => {
     // Save the userFeatures document
     await userFeatures.save();
 
-    res.status(200).json({ success: true, message: 'Current read book ID updated successfully' });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Current read book ID updated successfully",
+      });
   } catch (error) {
-    console.error('Error updating current read book ID:', error.message);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error("Error updating current read book ID:", error.message);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
 
-
-router.get('/api/current-read/:uid', async (req, res) => {
+router.get("/api/current-read/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
 
@@ -331,15 +342,19 @@ router.get('/api/current-read/:uid', async (req, res) => {
     const userFeatures = await UserFeatures.findOne({ uid });
 
     // If user not found or currentRead field is empty, return null
-    if (!userFeatures || !userFeatures.currentRead || userFeatures.currentRead.length === 0) {
+    if (
+      !userFeatures ||
+      !userFeatures.currentRead ||
+      userFeatures.currentRead.length === 0
+    ) {
       return res.status(200).json({ currentRead: null });
     }
 
     // Return the current book ID
     res.status(200).json({ currentRead: userFeatures.currentRead[0] });
   } catch (error) {
-    console.error('Error fetching current read book ID:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching current read book ID:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -347,7 +362,7 @@ router.get('/api/current-read/:uid', async (req, res) => {
 
 const MAX_RECENTLY_VIEWED = 12;
 
-router.post('/api/recently-viewed', async (req, res) => {
+router.post("/api/recently-viewed", async (req, res) => {
   const { userId, bookId } = req.body;
 
   try {
@@ -355,7 +370,10 @@ router.post('/api/recently-viewed', async (req, res) => {
 
     if (!userFeatures) {
       // If userFeatures document doesn't exist, create a new one with the bookId
-      userFeatures = new UserFeatures({ uid: userId, recentlyviewed: [bookId] });
+      userFeatures = new UserFeatures({
+        uid: userId,
+        recentlyviewed: [bookId],
+      });
     } else {
       // Check if the bookId already exists in recently viewed
       const index = userFeatures.recentlyviewed.indexOf(bookId);
@@ -374,42 +392,49 @@ router.post('/api/recently-viewed', async (req, res) => {
     // Save the updated userFeatures document
     await userFeatures.save();
 
-    res.status(200).json({ success: true, message: 'Recently viewed book added successfully' });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Recently viewed book added successfully",
+      });
   } catch (error) {
-    console.error('Error adding recently viewed book:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error("Error adding recently viewed book:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
 
-router.get('/api/recently-viewed/:userId', async (req, res) => {
+router.get("/api/recently-viewed/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {
     const userFeatures = await UserFeatures.findOne({ uid: userId });
 
     if (!userFeatures || !userFeatures.recentlyviewed.length) {
-      return res.status(404).json({ success: false, message: 'No recently viewed books found' });
+      return res
+        .status(404)
+        .json({ success: false, message: "No recently viewed books found" });
     }
 
     // Reverse the array to show the most recently viewed books first
     const recentlyViewedBooks = userFeatures.recentlyviewed;
 
-    res.status(200).json({ success: true, recentlyViewed: recentlyViewedBooks });
+    res
+      .status(200)
+      .json({ success: true, recentlyViewed: recentlyViewedBooks });
   } catch (error) {
-    console.error('Error fetching recently viewed books:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error("Error fetching recently viewed books:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
 
-
-
 //bookmark
-router.get('/api/bookmarks/:uid', async (req, res) => {
+router.get("/api/bookmarks/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
     const userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.json({ bookmarks: userFeatures.bookmarks });
   } catch (error) {
@@ -418,17 +443,16 @@ router.get('/api/bookmarks/:uid', async (req, res) => {
   }
 });
 
-
-router.post('/api/bookmarks/:uid/:bookId', async (req, res) => {
+router.post("/api/bookmarks/:uid/:bookId", async (req, res) => {
   try {
-    const { uid,bookId } = req.params;
+    const { uid, bookId } = req.params;
     // const { bookId } = req.body;
 
     let userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
       userFeatures = new UserFeatures({
         uid,
-        bookmarks: [bookId] // assuming bookmarks are managed in the same schema
+        bookmarks: [bookId], // assuming bookmarks are managed in the same schema
       });
     } else {
       if (!userFeatures.bookmarks.includes(bookId)) {
@@ -436,7 +460,7 @@ router.post('/api/bookmarks/:uid/:bookId', async (req, res) => {
       }
     }
     await userFeatures.save();
-    
+
     res.status(201).send();
   } catch (error) {
     console.error("Error adding favorite:", error);
@@ -444,26 +468,26 @@ router.post('/api/bookmarks/:uid/:bookId', async (req, res) => {
   }
 });
 
-router.delete('/api/bookmarks/:uid/:bookId', async (req, res) => {
+router.delete("/api/bookmarks/:uid/:bookId", async (req, res) => {
   try {
     const { uid, bookId } = req.params;
 
     const userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Find the index of the bookId to remove from favourites
     const bookIndex = userFeatures.bookmarks.indexOf(bookId);
     if (bookIndex === -1) {
-      return res.status(404).json({ message: 'Book not found in favorites' });
+      return res.status(404).json({ message: "Book not found in favorites" });
     }
 
     // Remove the bookId from the favourites array
     userFeatures.bookmarks.splice(bookIndex, 1);
 
     await userFeatures.save();
-    
+
     res.json(userFeatures.bookmarks);
   } catch (error) {
     console.error("Error deleting favorite:", error);
@@ -471,12 +495,12 @@ router.delete('/api/bookmarks/:uid/:bookId', async (req, res) => {
   }
 });
 
-router.get('/api/bookmarks/:uid/:bookId', async (req, res) => {
+router.get("/api/bookmarks/:uid/:bookId", async (req, res) => {
   try {
     const { uid, bookId } = req.params;
     const userFeatures = await UserFeatures.findOne({ uid });
     if (!userFeatures) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     const isbookmarked = userFeatures.bookmarks.includes(bookId);
     res.json({ isbookmarked });
@@ -486,60 +510,54 @@ router.get('/api/bookmarks/:uid/:bookId', async (req, res) => {
   }
 });
 
-
-
 //book-notes
 
-
-router.get('/api/booknotes/:uid/:bookId', async (req, res) => {
+router.get("/api/booknotes/:uid/:bookId", async (req, res) => {
   try {
     const { uid, bookId } = req.params;
-    
 
     const noteDocument = await Note.findOne({ uid });
     if (!noteDocument) {
-      
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    const note = noteDocument.notes.find(note => note.bookId.toString() === bookId.toString());
+    const note = noteDocument.notes.find(
+      (note) => note.bookId.toString() === bookId.toString()
+    );
     if (!note) {
-     
-      return res.status(404).json({ message: 'No note found for this book' });
+      return res.status(404).json({ message: "No note found for this book" });
     }
 
-    
-    res.status(200).json({content:note.content});
+    res.status(200).json({ content: note.content });
   } catch (error) {
     //console.error('Error fetching note:', error); // Error log
     res.status(500).json({ message: error.message });
   }
 });
 
-
-
 // POST a new note
-router.post('/api/notes/:uid/:bookId', async (req, res) => {
+router.post("/api/notes/:uid/:bookId", async (req, res) => {
   try {
-    const { uid ,bookId } = req.params;
+    const { uid, bookId } = req.params;
     const { content } = req.body;
 
     let noteDocument = await Note.findOne({ uid });
 
     if (!noteDocument) {
-      
       noteDocument = new Note({
         uid,
-        notes: [{ bookId, content }]
+        notes: [{ bookId, content }],
       });
     } else {
       // If the user document exists, check if the note for the bookId already exists
-      const noteIndex = noteDocument.notes.findIndex(note => note.bookId === bookId);
+      const noteIndex = noteDocument.notes.findIndex(
+        (note) => note.bookId === bookId
+      );
 
       if (noteIndex === -1) {
         // If the note doesn't exist, add it to the notes array
         noteDocument.notes.push({ bookId, content });
-      } 
+      }
     }
 
     const savedDocument = await noteDocument.save();
@@ -550,7 +568,7 @@ router.post('/api/notes/:uid/:bookId', async (req, res) => {
 });
 
 // PUT an existing note
-router.put('/api/booknotes/:uid/:bookId', async (req, res) => {
+router.put("/api/booknotes/:uid/:bookId", async (req, res) => {
   try {
     const { uid, bookId } = req.params;
     const { content } = req.body;
@@ -559,15 +577,17 @@ router.put('/api/booknotes/:uid/:bookId', async (req, res) => {
     const noteDocument = await Note.findOne({ uid });
 
     if (!noteDocument) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Find the index of the note to be updated
-    const noteIndex = noteDocument.notes.findIndex(note => note.bookId.toString() === bookId.toString());
-    
+    const noteIndex = noteDocument.notes.findIndex(
+      (note) => note.bookId.toString() === bookId.toString()
+    );
+
     if (noteIndex === -1) {
       // Note not found for the given bookId
-      return res.status(404).json({ message: 'Note not found for this book' });
+      return res.status(404).json({ message: "Note not found for this book" });
     }
 
     // Update the note's content
@@ -583,54 +603,63 @@ router.put('/api/booknotes/:uid/:bookId', async (req, res) => {
   }
 });
 
-
 //search
-router.get('/api/search-history/:uid', async (req, res) => {
+router.get("/api/search-history/:uid", async (req, res) => {
   const { uid } = req.params;
   try {
     const searchHistory = await SearchHistory.findOne({ uid });
     res.json(searchHistory);
   } catch (error) {
-    console.error('Error retrieving search history:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error retrieving search history:", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-  router.post('/api/search-history/:uid', async (req, res) => {
-    const { uid } = req.params;
-    const { search } = req.body;
-    try {
-      let searchHistory = await SearchHistory.findOne({ uid });
-      if (!searchHistory) {
-        // Create new search history entry if it doesn't exist
-        searchHistory = new SearchHistory({ uid, search: [search] });
-      }else{
-        
-          // Check if the bookId already exists in recently viewed
-          const index = searchHistory.search.indexOf(search);
-          if (index !== -1) {
-            // If it exists, remove it from the current position
-            searchHistory.search.splice(index, 1);
-          }
-
-          // Add new search to the beginning of the array
-          searchHistory.search.unshift(search);
-
-          // Limit the length of the array to 3
-          if (searchHistory.search.length > 4) {
-            searchHistory.search.pop(); // Remove the last item
-          }
+router.post("/api/search-history/:uid", async (req, res) => {
+  const { uid } = req.params;
+  const { search } = req.body;
+  try {
+    let searchHistory = await SearchHistory.findOne({ uid });
+    if (!searchHistory) {
+      // Create new search history entry if it doesn't exist
+      searchHistory = new SearchHistory({ uid, search: [search] });
+    } else {
+      // Check if the bookId already exists in recently viewed
+      const index = searchHistory.search.indexOf(search);
+      if (index !== -1) {
+        // If it exists, remove it from the current position
+        searchHistory.search.splice(index, 1);
       }
-      // Save updated search history
-      await searchHistory.save();
-  
-      res.json(searchHistory);
-    } catch (error) {
-      console.error('Error updating search history:', error.message);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
-  
 
+      // Add new search to the beginning of the array
+      searchHistory.search.unshift(search);
+
+      // Limit the length of the array to 3
+      if (searchHistory.search.length > 4) {
+        searchHistory.search.pop(); // Remove the last item
+      }
+    }
+    // Save updated search history
+    await searchHistory.save();
+
+    res.json(searchHistory);
+  } catch (error) {
+    console.error("Error updating search history:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//chatbot
+router.post("/text-query", async (req, res) => {
+  const { text, userId } = req.body;
+  const resultQuery = await chatbot.textQuery(text, userId); //function  to chatbot
+  const resObj = {
+   name:resultQuery[0].queryResult.intent.displayName,
+    userQuery: resultQuery[0].queryResult.queryText,
+    fulfillmentText: resultQuery[0].queryResult.fulfillmentText,
+  };
+  //console.log(resObj);
+  res.send(resObj);
+});
 
 module.exports = router;

@@ -30,6 +30,7 @@ import RecentlyViewed from "./components/Features/RecentlyViewed/RecentlyViewed"
 import Bookmark from "./components/Features/Bookmark/Bookmark";
 import Gpt from "./components/GPT/Gpt";
 import Chatbot from "./components/chatbot/Chatbot";
+import Sidebar2 from "./components/MainBody/SideBar/Sidebar2";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -114,7 +115,7 @@ const App = () => {
             />
           )}
 
-          <Route path="/search/:query" element={<SearchResults />} />
+          {localStorage?.getItem("uid") && (<Route path="/search/:query" element={<SearchResults />} />)}
           <Route
             path="/Login"
             element={
@@ -143,8 +144,8 @@ const App = () => {
             path="/MainBody"
             element={theuser ? <MainBody /> : <Navigate to="/Login" />}
           /> */}
-          <Route path="/User" element={<User />} />
-          <Route path="/Pdf" element={<PDFUpload />} />
+          {localStorage?.getItem("uid") && (<Route path="/User" element={<User />} />)}
+          {localStorage?.getItem("uid") && (<Route path="/Pdf" element={<PDFUpload />} />)}
           {localStorage?.getItem("uid") && (
             <Route
               path="/Note"
@@ -182,6 +183,7 @@ const App = () => {
             />
           )}
         </Routes>
+        <Chatbot/>
       </div>
     </Router>
   );

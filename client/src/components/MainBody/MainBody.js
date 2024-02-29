@@ -4,7 +4,7 @@ import Test from "./Test";
 import SearchBar from "./SearchBar/SearchBar";
 import Sidebar2 from "./SideBar/Sidebar2";
 import { steps } from "../utils/constantsJoy";
-import Chatbot from "../chatbot/Chatbot";
+
 
 const MainBody = ({ onSignOut }) => {
   return (
@@ -34,7 +34,7 @@ const MainBody = ({ onSignOut }) => {
       <div className="bg-[#6c34af] w-[87%] " id="search">
         <SearchBar />
         <Test />
-        <Chatbot/>
+        
         {/* <div className="bg-[#6c34af]"> <BookSearch /></div> */}
       </div>
       <JoyRide
