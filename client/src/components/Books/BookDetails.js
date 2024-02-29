@@ -12,6 +12,7 @@ import { BsBookmarkPlus } from "react-icons/bs";
 import { FaBookmark } from "react-icons/fa6";
 import Notification from "../utils/Notification/Notification";
 import { IoBookmark } from "react-icons/io5";
+import Chatbot from "../chatbot/Chatbot";
 const DemoBookCard = () => {
   return (
     <div className="w-32 p-2 size-fit bg-gray-800 flex justify-center items-center ">
@@ -332,6 +333,7 @@ const BookDetails = ({ uid }) => {
          
         )}
       </div>
+      <Chatbot/>
     </div>
   );
 };

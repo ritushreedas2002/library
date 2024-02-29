@@ -5,6 +5,7 @@ const UserFeatures = require("../models/Features");
 const SearchHistory = require("../models/search");
 const Note = require("../models/Indibooknotes");
 const chatbot = require("../Chatbot/Chatbot");
+const ChatMessage=require("../models/chatmessage")
 const path = require("path");
 const router = express.Router();
 const multer = require("multer");
@@ -766,6 +767,22 @@ router.post('/api/chat-messages', async (req, res) => {
     res.status(201).json(chatMessage);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+
+router.get('/api/chat-messages/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const chatMessage = await ChatMessage.findOne({ userId });
+    if (!chatMessage) {
+      return res.status(404).json({ message: "No chat history found for this user." });
+    }
+
+    res.json(chatMessage.messages);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

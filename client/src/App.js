@@ -23,14 +23,13 @@ import BookDetails from "./components/Books/BookDetails";
 import SearchResults from "./components/MainBody/SearchBar/SearchResults";
 import PDFUpload from "./components/PdfRender/PDFUpload";
 import { pdfjs } from "react-pdf";
-import Notetaking from "./components/NOTE/Notetaking";
 import Favourites from "./components/Features/Favourites/Favourites";
 import CurrentRead from "./components/Features/Current Read/CurrentRead";
 import RecentlyViewed from "./components/Features/RecentlyViewed/RecentlyViewed";
 import Bookmark from "./components/Features/Bookmark/Bookmark";
 import Gpt from "./components/GPT/Gpt";
 import Chatbot from "./components/chatbot/Chatbot";
-import Sidebar2 from "./components/MainBody/SideBar/Sidebar2";
+
 import Note from "./components/NOTE/Note";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -43,7 +42,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const App = () => {
   //const [theuser, setTheUser] = useState(null);
   const dispatch = useDispatch();
-
+const [activemenu,setactivemenu]=useState();
   // const handleCallbackResponse = (response) => {
   //   console.log("Encoded JWT token:" + response.credential);
   //   var userObject = jwtDecode(response.credential);
@@ -183,7 +182,7 @@ const App = () => {
             />
           )}
         </Routes>
-        <Chatbot/>
+        
       </div>
     </Router>
   );

@@ -190,7 +190,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
         throw new Error("Failed to add note to favorites");
       }
       setNotification({ show: true, message: "Note added favourites" });
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setTimeout(() => setNotification({ show: false, message: "" }), 1000);
       fetchNotes(); // Refresh notes to reflect favorite status
     } catch (error) {
       console.error(error);
@@ -210,7 +210,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
         throw new Error("Failed to remove note from favorites");
       }
       setNotification({ show: true, message: "Note removed favourites" });
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setTimeout(() => setNotification({ show: false, message: "" }), 1000);
       fetchNotes(); // Refresh notes to update the UI accordingly
     } catch (error) {
       console.error(error);
