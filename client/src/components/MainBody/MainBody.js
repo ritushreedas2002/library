@@ -4,6 +4,7 @@ import Test from "./Test";
 import SearchBar from "./SearchBar/SearchBar";
 import Sidebar2 from "./SideBar/Sidebar2";
 import { steps } from "../utils/constantsJoy";
+import UserLogo from "../User/UserLogo";
 
 
 const MainBody = ({ onSignOut }) => {

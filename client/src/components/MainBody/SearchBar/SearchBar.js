@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import UserLogo from "../../User/UserLogo";
 
 const SearchBar = () => {
   const searchtext = useRef(null);
@@ -35,7 +36,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="mt-2">
+    <div>
+    <div className="mt-4 mr-3">
       <div className=" flex justify-center">
         <form
           className="ml-14 pt-4 w-3/5 grid grid-cols-12"
@@ -56,18 +58,22 @@ const SearchBar = () => {
         </form>
       </div>
     </div>
+    <UserLogo/>
+    </div>
   );
 };
 
 export default SearchBar;
 
-<div>
-  {/* {searchResults && searchResults.map((book, index) => ( */}
-  {/* <div key={index}> */}
-  {/* <h2>{book.volumeInfo.title}</h2> */}
-  {/* <p>{book.volumeInfo.description}</p> */}
-</div>;
-{
-  /* ))} */
-}
-// </div>
+// <div>
+//   {/* {searchResults && searchResults.map((book, index) => ( */}
+//   {/* <div key={index}> */}
+//   {/* <h2>{book.volumeInfo.title}</h2> */}
+//   {/* <p>{book.volumeInfo.description}</p> */}
+// </div>;
+// {
+//   /* ))} */
+// }
+// // </div>
+
+

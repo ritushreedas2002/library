@@ -7,11 +7,12 @@ import { RxCrossCircled } from "react-icons/rx";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { IoAddCircle } from "react-icons/io5";
+import { IoMdStar } from "react-icons/io";
+import Notification from "../utils/Notification/Notification";
 
-const Notetaking = ({ userid }) => {
+const Notetaking = ({ userid, show, notshow, showForm }) => {
   const uid = decodeURIComponent(userid);
   const [notes, setNotes] = useState([]);
-  const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -20,7 +21,7 @@ const Notetaking = ({ userid }) => {
   const [addNoteClicked, setaddvalues] = useState(false);
   const [color, setSelectedColor] = useState(null); // Default color is yellow
   const [isDeletedClicked, setisDeletedClicked] = useState(false);
-  //const [showcolor, setshowcolor] = useState(false);
+  const [notification, setNotification] = useState({ show: false, message: "" });
   const colorOptions = [
     //{ id: "#fec971", label: "Yellow" },
     { id: "#fe9b72", label: "Orange" },
@@ -40,7 +41,8 @@ const Notetaking = ({ userid }) => {
       setDescription("");
       setSelectedColor("");
       setaddvalues(false);
-      setShowForm(false);
+      // setShowForm(false);
+      notshow();
       fetchNotes();
     }
   }, [uid]);
@@ -74,7 +76,8 @@ const Notetaking = ({ userid }) => {
       setDescription("");
       setTags([]);
       fetchNotes();
-      setShowForm(false);
+      // setShowForm(false);
+      notshow();
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +106,8 @@ const Notetaking = ({ userid }) => {
         throw new Error("Failed to update note");
       }
       fetchNotes();
-      setShowForm(false);
+      // setShowForm(false);
+      notshow();
       setNoteId(null);
       setTitle("");
       setTag("");
@@ -130,7 +134,8 @@ const Notetaking = ({ userid }) => {
     } catch (error) {
       console.error(error);
     }
-    setShowForm(false);
+    // setShowForm(false);
+    notshow();
     setisDeletedClicked(false);
   };
 
@@ -151,7 +156,8 @@ const Notetaking = ({ userid }) => {
     setTags([...note.tags]);
     setNoteId(note._id);
     setSelectedColor(note.color);
-    setShowForm(true);
+    // setShowForm(true);
+    show();
   };
   const handleDeleteTag = (index) => {
     const updatedTags = [...tags];
@@ -166,12 +172,54 @@ const Notetaking = ({ userid }) => {
     const day = date.getDate().toString().padStart(2, "0"); // Add leading zero if needed
     const hours = date.getHours().toString().padStart(2, "0"); // Add leading zero if needed
     const minutes = date.getMinutes().toString().padStart(2, "0"); // Add leading zero if needed
-    const seconds = date.getSeconds().toString().padStart(2, "0"); // Add leading zero if needed
     return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
+
+  const addToFavorites = async (noteId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/notes/favorite/${uid}/${noteId}`,
+        {
+          method: "PUT", // Assuming PUT for adding to favorites
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to add note to favorites");
+      }
+      setNotification({ show: true, message: "Note added favourites" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      fetchNotes(); // Refresh notes to reflect favorite status
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Function to remove a note from favorites
+  const removeFromFavorites = async (noteId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/notes/unfavorite/${uid}/${noteId}`,
+        {
+          method: "DELETE", // Assuming DELETE for removing from favorites
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to remove note from favorites");
+      }
+      setNotification({ show: true, message: "Note removed favourites" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      fetchNotes(); // Refresh notes to update the UI accordingly
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className=" flex">
+      {notification.show && <Notification message={notification.message} />}
       <div className=" w-[13%]">
         <Sidebar2 />
       </div>
@@ -203,7 +251,8 @@ const Notetaking = ({ userid }) => {
                       style={{ backgroundColor: option.id, cursor: "pointer" }}
                       onClick={() => {
                         setSelectedColor(option.id);
-                        setShowForm(true);
+                        // setShowForm(true);
+                        show();
                       }}
                     ></div>
                   ))}
@@ -223,7 +272,6 @@ const Notetaking = ({ userid }) => {
                   <h2 className="text-xl font-semibold text-gray-600 mb-3">
                     {noteId ? "Update Note" : "Add New Note"}
                   </h2>
-                  
                 </div>
 
                 <input
@@ -308,7 +356,8 @@ const Notetaking = ({ userid }) => {
                   <button
                     className="bg-red-500 hover:bg-red-700 text-white text-2xl font-extrabold py-2 px-8 rounded"
                     onClick={() => {
-                      setShowForm(false);
+                      // setShowForm(false);
+                      notshow();
                       setNoteId(null); // Reset noteId when canceling
                       setTitle("");
                       setTag("");
@@ -340,21 +389,41 @@ const Notetaking = ({ userid }) => {
                   }}
                 >
                   <h2 className="text-xl font-semibold -mt-2">
-                    {note.title && (
-                      <>
                         <div className="flex flex-col justify-between">
-                          <p>{note.title}</p>
+                          <div className="flex justify-between">
+                            <p className="h-4 mt-1">{note.title}</p>
+                            <div className="absolute top-2 right-4">
+                              {note.favorite ? (
+                                <IoMdStar
+                                  className="text-yellow-200 text-3xl cursor-pointer"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeFromFavorites(note._id);
+                                  }}
+                                />
+                              ) : (
+                                <IoMdStar
+                                  className="text-white text-3xl cursor-pointer"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    addToFavorites(note._id);
+                                  }}
+                                />
+                              )}
+                            </div>
+                          </div>
                           <p className="text-gray-500 text-xs mt-3 flex justify-end">
                             {formatDate(note.lastEdited)}
                           </p>
                         </div>
                         <div className="border border-b-2 mt-1"></div>
-                      </>
-                    )}
+                    
+                    
                   </h2>
                   <div className="text-base mt-1 h-48 text-black overflow-y-scroll no-scrollbar">
                     {note.description}
                   </div>
+
                   {/* <p>
                   <strong>Tags:</strong> {note.tags.join(", ")}
                 </p> */}

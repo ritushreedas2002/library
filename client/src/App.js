@@ -3,7 +3,7 @@ import FirstPage from "./components/Home/FirstPage";
 import { useSelector } from "react-redux";
 import MainBody from "./components/MainBody/MainBody";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./components/utils/Firebase";
 import {
@@ -31,6 +31,7 @@ import Bookmark from "./components/Features/Bookmark/Bookmark";
 import Gpt from "./components/GPT/Gpt";
 import Chatbot from "./components/chatbot/Chatbot";
 import Sidebar2 from "./components/MainBody/SideBar/Sidebar2";
+import Note from "./components/NOTE/Note";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -41,7 +42,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const App = () => {
   //const [theuser, setTheUser] = useState(null);
-
   const dispatch = useDispatch();
 
   // const handleCallbackResponse = (response) => {
@@ -149,7 +149,7 @@ const App = () => {
           {localStorage?.getItem("uid") && (
             <Route
               path="/Note"
-              element={<Notetaking userid={localStorage?.getItem("uid")} />}
+              element={<Note userid={localStorage?.getItem("uid")} />}
             />
           )}
           {localStorage?.getItem("uid") && (

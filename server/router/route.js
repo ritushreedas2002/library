@@ -96,7 +96,8 @@ router.get("/api/notes/:uid", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json(user.notes);
+    const combinedNotes = [...user.favorites, ...user.notes];
+    res.status(200).json(combinedNotes);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -204,21 +205,103 @@ router.delete("/api/notes/:uid/:noteId", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    // Find the index of the note to remove
-    const noteIndex = user.notes.findIndex(
-      (note) => note._id.toString() === noteId
-    );
-    if (noteIndex === -1) {
-      return res.status(404).json({ message: "Note not found" });
+
+    // Check and remove the note from the notes array
+    let noteIndex = user.notes.findIndex(note => note._id.toString() === noteId);
+    let noteFoundInNotes = noteIndex !== -1;
+    if (noteFoundInNotes) {
+      user.notes.splice(noteIndex, 1);
     }
-    // Remove the note from the array
-    user.notes.splice(noteIndex, 1);
+
+    // Check and remove the note from the favorites array if not found in notes
+    if (!noteFoundInNotes) {
+      noteIndex = user.favorites.findIndex(note => note._id.toString() === noteId);
+      if (noteIndex !== -1) {
+        user.favorites.splice(noteIndex, 1);
+      } else {
+        // If the note is not found in both arrays, return an error
+        return res.status(404).json({ message: "Note not found" });
+      }
+    }
+
     await user.save();
-    res.json(user.notes);
+    res.json({notes: user.notes, favorites: user.favorites});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
+
+//favourite notes
+// Route to add a note to favorites
+// Route to add a note to favorites using PUT or PATCH method
+router.put('/api/notes/favorite/:uid/:noteId', async (req, res) => {
+  const { uid, noteId } = req.params;
+  
+  try {
+    const userNote = await UserNote.findOne({ uid: uid });
+    if (!userNote) {
+      return res.status(404).send('User not found');
+    }
+
+    // Find the note to favorite
+    const noteIndex = userNote.notes.findIndex(note => note._id.toString() === noteId);
+    if (noteIndex === -1) {
+      return res.status(404).send('Note not found');
+    }
+
+    // Retrieve the note to favorite
+    const [noteToFavorite] = userNote.notes.splice(noteIndex, 1);
+    noteToFavorite.favorite = true;
+
+    userNote.favorites.push(noteToFavorite); // Add to favorites array
+
+    await userNote.save();
+    res.status(200).send('Note added to favorites');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
+// Route to remove a note from favorites using DELETE method
+router.delete('/api/notes/unfavorite/:uid/:noteId', async (req, res) => {
+  const { uid, noteId } = req.params;
+  
+  try {
+    const userNote = await UserNote.findOne({ uid: uid });
+    if (!userNote) {
+      return res.status(404).send('User not found');
+    }
+
+    // Find the note in favorites
+    const noteToUnfavoriteIndex = userNote.favorites.findIndex(note => note._id.toString() === noteId);
+    if (noteToUnfavoriteIndex === -1) {
+      return res.status(404).send('Favorite note not found');
+    }
+    
+    // Retrieve the note to unfavorite
+    const [noteToUnfavorite] = userNote.favorites.splice(noteToUnfavoriteIndex, 1);
+
+    // Set note as not favorite and move it back to notes array
+    noteToUnfavorite.favorite = false;
+    userNote.notes.push(noteToUnfavorite);
+
+    await userNote.save();
+    res.status(200).send('Note removed from favorites');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 
 //favourites
 router.get("/api/favorites/:uid", async (req, res) => {
@@ -661,5 +744,31 @@ router.post("/text-query", async (req, res) => {
   //console.log(resObj);
   res.send(resObj);
 });
+
+
+
+//chatmessages
+
+// Assuming you have Express setup
+router.post('/api/chat-messages', async (req, res) => {
+  const { userId, text, type } = req.body;
+
+  try {
+    let chatMessage = await ChatMessage.findOne({ userId });
+    if (!chatMessage) {
+      // If no chat history exists for this user, create a new one
+      chatMessage = new ChatMessage({ userId, messages: [] });
+    }
+    // Add the new message
+    chatMessage.messages.push({ text, type });
+    await chatMessage.save();
+
+    res.status(201).json(chatMessage);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 
 module.exports = router;
