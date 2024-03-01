@@ -1,15 +1,15 @@
 /* styles.css (or your preferred style file) */
 
 .flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  #bookViewer {
-    width: 600px; /* Adjust width as needed */
-    height: 400px; /* Adjust height as needed */
-    border: 1px solid #ccc;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#bookViewer {
+  width: 600px; /* Adjust width as needed */
+  height: 400px; /* Adjust height as needed */
+  border: 1px solid #ccc;
+}
+

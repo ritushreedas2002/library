@@ -151,9 +151,9 @@ const Chatbot = () => {
   
 
   return (
-    <div className="relative">
+    <div className="relative" >
       <button onClick={() => setIsOpen(!isOpen)} className="fixed bottom-5 right-5 bg-blue-500 text-white rounded-full p-3 shadow-xl z-10">
-        <SiWechat className="text-4xl" />
+        <SiWechat className="text-4xl" id="chatbot" />
       </button>
       {isOpen && (
         <div className="fixed bottom-20 right-5 bg-white rounded-lg p-4 shadow-lg z-10 w-96 h-[390px] flex flex-col">

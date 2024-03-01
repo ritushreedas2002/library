@@ -59,4 +59,16 @@ export const steps = [
       },
     },
   },
+  {
+    title: "Chatty",
+    content: "Chatty is your virtual assisstant. In case you need help, Chatty is there for you!",
+    target: "#chatbot",
+    placement: "top-start",
+    styles: {
+      options: {
+        width: "220px", // Set the maximum width
+        height: "60px",
+      },
+    },
+  },
 ];

@@ -1,5 +1,5 @@
 //import { useState } from "react";
-import {  FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 import { MdNoteAlt } from "react-icons/md";
 import { ImHome } from "react-icons/im";
@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { BiLogOut } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../utils/Firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +21,14 @@ import { IoMdBookmarks } from "react-icons/io";
 import { useState } from "react";
 import { BsRobot } from "react-icons/bs";
 
-
 const Sidebar2 = ({ onSignOut }) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const isActive = (pathOrPaths) => {
+    const paths = Array.isArray(pathOrPaths) ? pathOrPaths : [pathOrPaths];
+    return paths.some((path) => currentPath.startsWith(path));
+  };
+
   //const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((store) => store.user.user);
   const navigate = useNavigate();
@@ -72,7 +78,9 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-5 group">
             <Link
               to="/MainBody"
-              className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+                isActive("/MainBody") ? "bg-purple-700" : ""
+              }`}
             >
               <span className="text-2xl">
                 <ImHome />
@@ -87,7 +95,18 @@ const Sidebar2 = ({ onSignOut }) => {
             onClick={toggleAccordion}
             id="mybooks"
           >
-            <div className="flex items-center pl-4 pr-2 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
+            <div
+              className={`flex items-center pl-4 pr-2 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+                isActive([
+                  "/favourites",
+                  "/current-read",
+                  "/bookmark",
+                  "/recent",
+                ])
+                  ? "bg-purple-700"
+                  : ""
+              }`}
+            >
               <span className="text-2xl">
                 <IoMdBookmarks />
               </span>
@@ -148,7 +167,11 @@ const Sidebar2 = ({ onSignOut }) => {
           )}
           <li className="mt-4 group" id="pdf">
             <Link to="/pdf">
-              <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
+              <div
+                className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+                  isActive("/pdf") ? "bg-purple-700" : ""
+                }`}
+              >
                 <span className="text-2xl">
                   <FaRegFilePdf />
                 </span>
@@ -160,7 +183,11 @@ const Sidebar2 = ({ onSignOut }) => {
           </li>
           <li className="mt-4 group" id="notes">
             <Link to="/Note">
-              <div className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded">
+            <div
+                className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+                  isActive("/Note") ? "bg-purple-700" : ""
+                }`}
+              >
                 <span className="text-2xl">
                   <MdNoteAlt />
                 </span>
@@ -173,7 +200,9 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-4 group" id="account">
             <Link
               to="/User"
-              className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+                isActive("/User") ? "bg-purple-700" : ""
+              }`}
             >
               <span className="text-2xl">
                 <FaUserCog />
@@ -186,7 +215,9 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-4 group" id="book">
             <Link
               to="/gpt"
-              className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+                isActive("/gpt") ? "bg-purple-700" : ""
+              }`}
             >
               <span className="text-2xl">
                 <BsRobot />
