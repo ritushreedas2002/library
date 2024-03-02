@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 
 import * as Components from "./Components";
 import "./style.css";
-import { auth, provider,db } from "../utils/Firebase";
+import { auth, db } from "../utils/Firebase";
 import * as Yup from "yup";
 import {
   createUserWithEmailAndPassword,
@@ -13,19 +13,18 @@ import {
   GoogleAuthProvider,
 } from "@firebase/auth";
 import {
-  getFirestore,
+  
   query,
   getDocs,
   collection,
   where,
-  addDoc,
+  
 } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { addUser, addtheUser } from "../utils/userSlice";
+import { Link,  useNavigate } from "react-router-dom";
+import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+
 
 //import { addUser, removeUser } from "../utils/userSlice";
 
@@ -151,7 +150,7 @@ const Login = () => {
         addUser({ uid: uid, email: email, displayName: displayName })
       );
   
-      const profilePic = "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+      const profilePic = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRImuk1S2k7pdtVjPyBZoOELIz5_wc4kFt0EnzAO7thPw&s";
       await registerUserToMongo(values.name, email, user.uid, profilePic);
   
       localStorage.setItem("userAuthenticated", "true");
@@ -176,11 +175,12 @@ const Login = () => {
       console.log(user);
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
       const docs = await getDocs(q);
+      const profilePic = "https://as1.ftcdn.net/v2/jpg/03/53/11/00/1000_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg";
       await registerUserToMongo(
         user.displayName,
         user.email,
         user.uid,
-        user.photoURL
+        profilePic
       );
       // if (docs.docs.length === 0) {
       //   await addDoc(collection(db, "users"), {

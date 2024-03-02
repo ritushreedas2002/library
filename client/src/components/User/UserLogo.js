@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { removeUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ const UserLogo = () => {
   const uid=localStorage.getItem("uid");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
   const [user, setUser] = useState({
     name: "unkown",
     email: "unkonown",
@@ -26,6 +27,9 @@ const UserLogo = () => {
         console.log(response.data);
         console.log(uid);
         setUser({name:response.data.name,email:response.data.email,profileImage:response.data.displayPicture});
+
+
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
         // Handle error
@@ -34,6 +38,25 @@ const UserLogo = () => {
 
     fetchUserData();
   }, [uid]); // Include user1.uid in dependency array
+
+  
+  useEffect(() => {
+    // ... fetching user data
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    // Add click event listener to the document
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      // Remove click event listener from the document
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     signOut(auth)
@@ -72,23 +95,27 @@ const UserLogo = () => {
 };
 
   // Toggle the dropdown menu
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  // const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
-    <div className="flex justify-end items-center">
+    <div className="flex justify-end items-center" ref={dropdownRef}>
       {/* User Image */}
       <div className="absolute top-7 right-10">
-        <div onClick={toggleDropdown} className="cursor-pointer">
-          <img src={user.profileImage} alt="User" className="rounded-full w-16 h-16 border-2 border-gray-300" />
+        <div onClick={(e) => {
+          // Prevents the click handler on document from firing when the dropdown is opened
+          e.stopPropagation();
+          setIsDropdownOpen((isOpen) => !isOpen);
+        }} className="cursor-pointer bg-cover">
+          <img src={user.profileImage} alt="User" className="rounded-full w-16 h-16 object-cover" />
         </div>
         </div>
         {isDropdownOpen && (
         <div>
-        <div className={`transform rotate-180 transition absolute right-16 top-[87px] text-white`}>
+        <div className={`absolute right-16 top-[79px] text-white`}>
           {/* Triangle icon can be replaced with an SVG or another icon */}
           ▲
         </div>
-        <div className="absolute right-4 top-[104px] w-28 bg-white rounded-lg shadow-lg z-10">
+        <div className="absolute right-4 top-[96px] w-28 bg-white rounded-lg shadow-lg z-10">
           <ul className="text-center text-gray-800">
             <li className="px-4 py-2 hover:bg-purple-600 hover:text-white transition-colors cursor-pointer" onClick={handleLogout}>
               Log out

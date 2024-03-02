@@ -1,12 +1,12 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SiWechat } from "react-icons/si";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
-
+  const dropdownRef = useRef(null);
   const fetchMessages = async () => {
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set based on the logged-in user
@@ -24,6 +24,23 @@ const Chatbot = () => {
     
   
     fetchMessages();
+    
+      
+  
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsOpen(false);
+        }
+      };
+  
+      // Add click event listener to the document
+      document.addEventListener('click', handleClickOutside);
+  
+      return () => {
+        // Remove click event listener from the document
+        document.removeEventListener('click', handleClickOutside);
+      };
+    
   }, []);
 
   // const handleSendClick = async () => {
@@ -151,7 +168,7 @@ const Chatbot = () => {
   
 
   return (
-    <div className="relative" >
+    <div className="relative" ref={dropdownRef} >
       <button onClick={() => setIsOpen(!isOpen)} className="fixed bottom-5 right-5 bg-blue-500 text-white rounded-full p-3 shadow-xl z-10">
         <SiWechat className="text-4xl" id="chatbot" />
       </button>
