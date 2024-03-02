@@ -6,11 +6,12 @@ import Sidebar2 from "./SideBar/Sidebar2";
 import { steps } from "../utils/constantsJoy";
 import UserLogo from "../User/UserLogo";
 import Chatbot from "../chatbot/Chatbot";
+import Footer from "../Footer/Footer";
 
 
 const MainBody = ({ onSignOut }) => {
   return (
-    <div className="h-screen flex bg-[#6c34af] ">
+    <div className="min-h-screen flex bg-[#6c34af] ">
       <div className="h-full bg-[#6c34af] w-[13%] " >
         {/* <div
           onClick={() => setClicked(!clicked)}
@@ -38,7 +39,8 @@ const MainBody = ({ onSignOut }) => {
         <Test />
         <Chatbot/>
         
-        {/* <div className="bg-[#6c34af]"> <BookSearch /></div> */}
+        <div className="bg-[#6c34af]"> <BookSearch /></div>
+        <div className="mt-3"><Footer/></div>
       </div>
       <JoyRide
         continuous

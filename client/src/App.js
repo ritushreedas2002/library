@@ -31,6 +31,7 @@ import Gpt from "./components/GPT/Gpt";
 import Chatbot from "./components/chatbot/Chatbot";
 
 import Note from "./components/NOTE/Note";
+import ContactUs from "./components/Contact/ContactUs";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -106,7 +107,9 @@ const [activemenu,setactivemenu]=useState();
     <Router>
       <div className="app">
         <Routes>
+          
           <Route path="/" element={<FirstPage />} />
+          <Route path="/contact" element={<ContactUs/>}/>
           {localStorage?.getItem("uid") && (
             <Route
               path="/book/:bookid"

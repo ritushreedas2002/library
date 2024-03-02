@@ -12,9 +12,8 @@ const Navbar=()=>{
           <div className="relative group">
             <button className="text-white px-4 py-2">Browse</button>
           </div>
-          <a href="#" className="text-white px-4 py-2">My Books</a>
           <div className="relative group">
-            <button className="text-white px-4 py-2">Contact Us</button>
+            <Link to ="/contact"><button className="text-white px-4 py-2">Contact Us</button></Link>
           </div>
           <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"><Link to="/Login">Login</Link></button>
         </div>

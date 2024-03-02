@@ -787,5 +787,25 @@ router.get('/api/chat-messages/:userId', async (req, res) => {
 });
 
 
+router.delete('/api/chat-messages/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Attempt to delete the user's messages
+    const result = await ChatMessage.deleteOne({ userId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'No messages found for the specified user.' });
+    }
+
+    res.status(200).json({ message: 'All messages for the user have been deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting messages:', error);
+    res.status(500).json({ message: 'Failed to delete messages due to an internal error.' });
+  }
+});
+
+
+
 
 module.exports = router;
