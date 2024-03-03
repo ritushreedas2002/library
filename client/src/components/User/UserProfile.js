@@ -1,16 +1,59 @@
 // UserProfile.js
-import React from "react";
-
+import React, { useState } from "react";
+import Notification from "../utils/Notification/Notification"
+import { auth } from "../utils/Firebase";
+import { removeUser } from '../utils/userSlice';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 const UserProfile = ({ user, onEditProfileClick }) => {
+  const [message,setmessage]=useState("");
+  const uid=localStorage.getItem("uid");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const User = auth.currentUser;
+  console.log(User);
   if (!user) {
     // If user is null, render a loading state or return null
     return <div>Loading...</div>;
   }
   const { name, email, profileImage } = user;
-  
+  async function deleteUserFromBackend(uid) {
+    try {
+      const response = await fetch(`http://localhost:5000/delete/${uid}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete user data');
+      return await response.json();
+    } catch (error) {
+      console.error("Error deleting user data:", error);
+      throw error;
+    }
+  }
+  const ondeleteProfileClick = async (password) => {
+    if (!User) return;
+    try {
+      auth.currentUser.delete();
+      await deleteUserFromBackend(uid); // Call backend to delete user data
+      // console.log('User account deleted successfully');
+      alert('Your account has been successfully deleted.');
+      //setmessage("Your account has been deleted successfully");
+      localStorage.removeItem("userAuthenticated");
+        localStorage.removeItem("uid");
+        dispatch(removeUser());
+        navigate("/");
+      // Handle post-deletion logic (e.g., redirect to home page)
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+      setmessage('Failed to delete your account. Please try again.');
+    }
+  };
 
+  const onClose=()=>{
+    setmessage("");
+  }
   return (
     <div className="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      {message && <Notification message={message} onClose={onClose}/>}
       <div className="md:flex">
         <div className="w-full p-4">
           <h1 className="text-3xl font-semibold text-blue-600">Account</h1>
@@ -55,12 +98,20 @@ const UserProfile = ({ user, onEditProfileClick }) => {
           </div>
         </div>
       </div>
+      <div className="flex justify-between">
       <button
         onClick={onEditProfileClick}
-        className="bg-blue-500 text-white px-4 py-2 ml-96 mb-12 rounded"
+        className="bg-blue-500 text-white px-4 py-2 ml-10 mb-12 rounded"
       >
         Edit Profile
       </button>
+      <button
+        onClick={ondeleteProfileClick}
+        className="bg-red-600 text-white px-4 py-2 mr-10 mb-12 rounded"
+      >
+        Delete Profile
+      </button>
+      </div>
     </div>
   );
 };

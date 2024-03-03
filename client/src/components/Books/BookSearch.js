@@ -46,7 +46,7 @@ const BookSearch = () => {
     return <h1>Still empty</h1>;
   }
 
-  console.log("Books fetched:", programming);
+  //console.log("Books fetched:", programming);
 
   return (
     <div className="pl-12 w-full flex flex-col bg-[#a673e1]">
