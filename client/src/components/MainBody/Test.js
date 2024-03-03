@@ -44,7 +44,7 @@ const Test = () => {
   };
 
   return (
-    <div className="flex w-full items-center justify-center pt-32  flex-col h-[600px] bg-[#6c34af]">
+    <div className="flex w-full items-center justify-center pt-32  flex-col h-[600px]">
       <Swiper
         effect={"coverflow"}
         grabCursor={true}

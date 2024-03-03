@@ -111,13 +111,13 @@ const UserLogo = () => {
         </div>
         {isDropdownOpen && (
         <div>
-        <div className={`absolute right-16 top-[79px] text-white`}>
+        <div className={`absolute right-16 top-[79px] text-black`}>
           {/* Triangle icon can be replaced with an SVG or another icon */}
           ▲
         </div>
         <div className="absolute right-4 top-[96px] w-28 bg-white rounded-lg shadow-lg z-10">
           <ul className="text-center text-gray-800">
-            <li className="px-4 py-2 hover:bg-purple-600 hover:text-white transition-colors cursor-pointer" onClick={handleLogout}>
+            <li className="px-4 py-2 text-white bg-black transition-colors cursor-pointer" onClick={handleLogout}>
               Log out
             </li>
           </ul>

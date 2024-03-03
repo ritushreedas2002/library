@@ -33,6 +33,7 @@ import Chatbot from "./components/chatbot/Chatbot";
 import Note from "./components/NOTE/Note";
 import ContactUs from "./components/Contact/ContactUs";
 
+
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
   import.meta.url
@@ -81,7 +82,7 @@ const [activemenu,setactivemenu]=useState();
   console.log(isLoading);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user?.emailVerified) {
         // User is signed in
         const { uid, email, displayName } = user;
 

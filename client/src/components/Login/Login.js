@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { useFormik } from "formik";
 
 import * as Components from "./Components";
@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendEmailVerification,
   signInWithPopup,
   updateProfile,
   GoogleAuthProvider,
@@ -22,8 +23,8 @@ import {
 } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import { Link,  useNavigate } from "react-router-dom";
-import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
+import Notification from "../utils/Notification/Notification";
 
 
 //import { addUser, removeUser } from "../utils/userSlice";
@@ -31,10 +32,14 @@ import { useDispatch } from "react-redux";
 const Login = () => {
   const [signIn, setsignIn] = useState(true);
   const [errormessage, seterror] = useState(null);
+ const [message,setmessage]=useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
 
+
+  
+  
   //const selector=useSelector(store=>store.user);
   const signUpValues = {
     name: "",
@@ -128,45 +133,86 @@ const Login = () => {
     }
   };
   
+  // const handleSignUpSubmit = async (values, resetForm) => {
+  //   try {
+  //     console.log("SignUp call at first sign up");
+  //     console.log(values);
+  
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       auth,
+  //       values.email,
+  //       values.password
+  //     );
+  //     const user = userCredential.user;
+  
+  //     console.log(user);
+  //     await updateProfile(user, {
+  //       displayName: values.name,
+  //     });
+  
+  //     const { uid, email, displayName } = auth.currentUser; //updated value
+  //     dispatch(
+  //       addUser({ uid: uid, email: email, displayName: displayName })
+  //     );
+  
+  //     const profilePic = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRImuk1S2k7pdtVjPyBZoOELIz5_wc4kFt0EnzAO7thPw&s";
+  //     await registerUserToMongo(values.name, email, user.uid, profilePic);
+  
+  //     localStorage.setItem("userAuthenticated", "true");
+  //     navigate("/MainBody");
+  //     // Redirect to MainBody
+  
+  //     console.log("Sign Up Successful");
+  //     resetForm();
+  //   } catch (error) {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     console.error(errorCode, errorMessage);
+  //     seterror(`${errorCode} - ${errorMessage}`);
+  //     setSignUpErrors({}); // Clear form errors
+  //   }
+  // };
+
+
+
+  
+
+
   const handleSignUpSubmit = async (values, resetForm) => {
     try {
-      console.log("SignUp call at first sign up");
-      console.log(values);
-  
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         values.email,
         values.password
       );
       const user = userCredential.user;
-  
-      console.log(user);
+      
+      // Update the user profile with the display name
       await updateProfile(user, {
         displayName: values.name,
       });
   
-      const { uid, email, displayName } = auth.currentUser; //updated value
-      dispatch(
-        addUser({ uid: uid, email: email, displayName: displayName })
-      );
+      // Send an email verification
+      await sendEmailVerification(user);
   
-      const profilePic = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRImuk1S2k7pdtVjPyBZoOELIz5_wc4kFt0EnzAO7thPw&s";
-      await registerUserToMongo(values.name, email, user.uid, profilePic);
+      // Inform the user
+      setmessage('A verification email has been sent. Please verify your email.');
   
-      localStorage.setItem("userAuthenticated", "true");
-      navigate("/MainBody");
-      // Redirect to MainBody
+      // Save the name to localStorage as a fallback
+      localStorage.setItem('userName', values.name);
   
-      console.log("Sign Up Successful");
+      // Navigate to the email verification page with the name as state
+      //navigate('/email', { state: { name: values.name } });
+  
       resetForm();
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode, errorMessage);
-      seterror(`${errorCode} - ${errorMessage}`);
-      setSignUpErrors({}); // Clear form errors
+      console.error("Sign Up Error:", error);
+      seterror(error.message);
     }
   };
+  
+
+
   
   const handleGoogleSignIn = async () => {
     try {
@@ -182,16 +228,9 @@ const Login = () => {
         user.uid,
         profilePic
       );
-      // if (docs.docs.length === 0) {
-      //   await addDoc(collection(db, "users"), {
-      //     uid: user.uid,
-      //     name: user.displayName,
-      //     authProvider: "google",
-      //     email: user.email,
-      //     displayPicture: user.photoURL,
-      //   });
-      // }
+      
       localStorage.setItem("userAuthenticated", "true");
+      
       navigate("/MainBody");
     } catch (error) {
       console.log(error);
@@ -199,31 +238,107 @@ const Login = () => {
     }
   };
 
-  const handleSignInSubmit = async (values, resetForm) => {
+  // const handleSignInSubmit = async (values, resetForm) => {
+  //   try {
+  //     console.log(values);
+
+  //     const userCredential = await signInWithEmailAndPassword(
+  //       auth,
+  //       values.email,
+  //       values.password
+  //     );
+  //     const user = userCredential.user;
+  //     localStorage.setItem("userAuthenticated", "true");
+  //     console.log(user);
+  //     navigate("/MainBody");
+  //     console.log("Sign In Successful");
+  //     resetForm();
+
+  //     // Redirect to MainBody
+  //   } catch (error) {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     console.error(errorCode, errorMessage);
+  //     seterror(`${errorCode} - ${errorMessage}`);
+  //     setSignInErrors({}); // Clear form errors
+  //   }
+  // };
+
+
+  // const handleSignInSubmit = async (values, resetForm) => {
+  //   try {
+  //     const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+  //     const user = userCredential.user;
+  
+  //     // Check if the user's email is verified
+  //     if (user.emailVerified) {
+  //       console.log("Email is verified.");
+  //       localStorage.setItem("userAuthenticated", "true");
+      
+  //       // Proceed with backend registration
+  //       try {
+  //         // Assuming you're fetching the name from localStorage where it was saved during signup
+  //         const name = localStorage.getItem('userName');
+  //         const profilePic = "https://i0.wp.com/imagineab.se/wp-content/uploads/2017/11/human-icon.png?fit=750%2C750&ssl=1"; // Set a default or use the user's photoURL if available
+  
+  //         await registerUserToMongo(name, user.email, user.uid, profilePic);
+  
+  //         console.log("User registered successfully in backend.");
+  //         localStorage.removeItem("userName");
+  //         // setTimeout(() => navigate("/MainBody"), 1000);// Navigate to MainBody
+  //       } catch (registrationError) {
+  //         console.error("Backend registration failed: ", registrationError);
+  //         // Handle registration failure (e.g., display a message to the user)
+  //       }
+  //     } else {
+  //       alert('Please verify your email before logging in.');
+  //       // Optionally sign out the user to enforce email verification
+  //       // auth.signOut();
+  //     }
+      
+  //     resetForm();
+  //     navigate("/MainBody");
+  //   } catch (error) {
+  //     console.error("Sign In Error:", error);
+  //     seterror(`${error.code} - ${error.message}`);
+  //     // Clear form errors
+  //     setSignInErrors({});
+  //   }
+  // };
+  
+
+
+
+  const handleSignInSubmit = async (values,resetForm) => {
     try {
-      console.log(values);
-
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
+  
+      if (!user.emailVerified) {
+        setmessage('Please verify your email before logging in.');
+        resetForm()
+        return;
+      }
+      
+      // Assuming the backend registration is required every time a user signs in
+      const name = localStorage.getItem('userName'); // Provide a fallback name if necessary
+      const profilePic = "https://i0.wp.com/imagineab.se/wp-content/uploads/2017/11/human-icon.png?fit=750%2C750&ssl=1"; // Default or fetched profile picture URL
+  
+      await registerUserToMongo(name, user.email, user.uid, profilePic);
+      console.log("User registered successfully in backend.");
       localStorage.setItem("userAuthenticated", "true");
-      console.log(user);
-      navigate("/MainBody");
-      console.log("Sign In Successful");
+      window.location.href = '/MainBody'; // Not recommended, but a workaround
       resetForm();
-
-      // Redirect to MainBody
+      
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode, errorMessage);
-      seterror(`${errorCode} - ${errorMessage}`);
-      setSignInErrors({}); // Clear form errors
+      console.error("Sign In Error:", error);
+      seterror(`${error.code} - ${error.message}`);
     }
   };
+  
+
+
+
 
   const toggleEffect = () => {
     setsignIn(!signIn);
@@ -234,9 +349,14 @@ const Login = () => {
     resetSignInForm();
   };
 
+  const onClose=()=>{
+    setmessage("");
+  }
+
   return (
     <>
       <div className="outline">
+        {message && (<Notification message={message} onClose={onClose}/>)}
         <Components.Container>
           <Components.SignUpContainer signingin={signIn}>
             <Components.Form onSubmit={handleSignUp}>

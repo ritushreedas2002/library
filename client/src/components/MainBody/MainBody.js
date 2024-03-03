@@ -34,12 +34,12 @@ const MainBody = ({ onSignOut }) => {
         <Sidebar2 /*onSignOut={onSignOut}*/ />
       </div>
 
-      <div className="bg-[#6c34af] w-[87%] " id="search">
+      <div className="bg-[#a673e1] w-[87%] " id="search">
         <SearchBar />
         <Test />
         <Chatbot/>
         
-        <div className="bg-[#6c34af]"> <BookSearch /></div>
+        <div className="bg-[#a673e1]"> <BookSearch /></div>
         <div className="mt-3"><Footer/></div>
       </div>
       <JoyRide

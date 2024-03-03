@@ -2,7 +2,7 @@ import './Notification.css';
 import { FiCheckCircle } from "react-icons/fi";
 const Notification = ({ message, onClose }) => {
     return (
-        <div className="fixed top-14 right-5 z-50 max-w-sm w-full h-14 bg-white shadow-lg rounded-lg p-4 border border-gray-200 overflow-hidden ">
+        <div className="fixed top-14 right-5 z-50 max-w-sm w-full min-h-14 bg-white shadow-lg rounded-lg p-4 border border-gray-200 overflow-hidden ">
             <div className="flex justify-between items-start">
                 <div className="flex-1">
                     <div className='flex'>
