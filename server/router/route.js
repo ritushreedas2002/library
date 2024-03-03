@@ -5,7 +5,8 @@ const UserFeatures = require("../models/Features");
 const SearchHistory = require("../models/search");
 const Note = require("../models/Indibooknotes");
 const chatbot = require("../Chatbot/Chatbot");
-const ChatMessage=require("../models/chatmessage")
+const ChatMessage=require("../models/chatmessage");
+const Search=require("../models/SearchHistory")
 const path = require("path");
 const router = express.Router();
 const multer = require("multer");
@@ -825,6 +826,70 @@ router.delete('/api/chat-messages/:userId', async (req, res) => {
   }
 });
 
+
+
+
+//Search for search bar
+
+// Assuming you have a route for search suggestions
+router.get('/api/search-suggestions/:uid/:query', async (req, res) => {
+  const { uid, query } = req.params;
+
+  if (!query.trim()) {
+    // Return early if query is empty or only contains whitespace
+    return res.json([]);
+  }
+
+  try {
+    const history = await Search.findOne({ uid });
+
+    if (history && history.searches) {
+      // Ensure there is a history and it has searches
+      const matches = history.searches
+        .filter(searchTerm => searchTerm.toLowerCase().includes(query.toLowerCase()))
+        .slice(-5); // Get up to the last 5 matches that include the query
+
+      const uniqueMatches = [...new Set(matches)]; // Remove duplicates
+      
+      res.json(uniqueMatches);
+    } else {
+      res.json([]);
+    }
+  } catch (error) {
+    console.error('Error fetching search suggestions:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+// Assuming Express and the SearchHistory model is set up
+router.post('/api/search/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { searchTerm } = req.body;
+
+  try {
+    // Check if the search term already exists to avoid duplicates
+    const existingSearch = await Search.findOne({ uid: userId, searches: searchTerm });
+
+    if (!existingSearch) {
+      // Update the document by pushing the new search term into the searches array
+      const updatedSearchHistory = await Search.findOneAndUpdate(
+        { uid: userId },
+        { $push: { searches: searchTerm } },
+        { new: true, upsert: true } // Upsert option to create a new document if it doesn't exist
+      );
+
+      res.status(200).json({ message: 'Search term stored successfully.', data: updatedSearchHistory });
+    } else {
+      // If the search term already exists, just return success without adding a duplicate
+      res.status(200).json({ message: 'Search term already exists.', data: existingSearch });
+    }
+  } catch (error) {
+    console.error('Error storing search term:', error);
+    res.status(500).json({ message: 'Server error while storing search term', error: error.message });
+  }
+});
 
 
 
