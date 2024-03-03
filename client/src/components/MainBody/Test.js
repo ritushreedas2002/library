@@ -22,12 +22,18 @@ import "swiper/css/free-mode";
 // import "swiper/css/effect-coverflow";
 
 import { RxArrowTopRight } from "react-icons/rx";
-import { ServiceData } from "../hooks/usePopular";
 import usePopular from "../hooks/usePopular";
 import { useNavigate } from "react-router-dom";
 
 // Install Swiper modules
-SwiperCore.use([Navigation, Pagination, EffectFade, FreeMode, EffectCoverflow,Autoplay]);
+SwiperCore.use([
+  Navigation,
+  Pagination,
+  EffectFade,
+  FreeMode,
+  EffectCoverflow,
+  Autoplay,
+]);
 
 const Test = () => {
   const popular = usePopular();
@@ -41,6 +47,9 @@ const Test = () => {
     <div className="flex w-full items-center justify-center pt-32  flex-col h-[600px] bg-[#6c34af]">
       <Swiper
         effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={"auto"}
         breakpoints={{
           340: {
             // slidesPerView: 1,
@@ -91,27 +100,24 @@ const Test = () => {
             },
           },
         }}
-        slidesPerView={"auto"}
-        grabCursor={true}
-        centeredSlides={true}
         loop={true}
         autoplay={{ delay: 1000 }}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
-        freeMode={true}
+        //freeMode={true}
         pagination={{
           // el: ".swiper-pagination",
           clickable: true,
         }}
         modules={[FreeMode, Pagination]}
-        className="max-w-full "
+        className="max-w-[100%] mySwiper -mt-12 ml-10"
         /*lg:max-w-[80%]*/
       >
         {popular.map((item) => (
           <SwiperSlide key={item.id} onClick={() => handleNavigate(item.id)}>
-            <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
+            <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer ml-20">
               <div
                 className=" absolute inset-0 bg-cover "
                 style={{

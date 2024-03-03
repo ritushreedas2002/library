@@ -8,11 +8,19 @@ import SearchBar from "../MainBody/SearchBar/SearchBar";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { CgHeart } from "react-icons/cg";
 import { FaHeart } from "react-icons/fa6";
-import { BsBookmarkPlus } from "react-icons/bs";
 import { FaBookmark } from "react-icons/fa6";
+import { BsBookmarkPlusFill } from "react-icons/bs";
 import Notification from "../utils/Notification/Notification";
-import { IoBookmark } from "react-icons/io5";
 import Chatbot from "../chatbot/Chatbot";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  WhatsappShareButton,
+  EmailIcon,
+  FacebookIcon,
+  WhatsappIcon,
+} from "react-share";
+
 const DemoBookCard = () => {
   return (
     <div className="w-32 p-2 size-fit bg-gray-800 flex justify-center items-center ">
@@ -47,10 +55,9 @@ const BookDetails = ({ uid }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [bookmark,setbookmark]=useState(false);
+  const [bookmark, setbookmark] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
-  
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
 
@@ -115,7 +122,7 @@ const BookDetails = ({ uid }) => {
         console.error("Error fetching favorite status:", error.message);
       }
     }
-    async function fetchbookmarkstatus(){
+    async function fetchbookmarkstatus() {
       try {
         const response = await fetch(
           `http://localhost:5000/api/bookmarks/${uid}/${bookid}`
@@ -151,14 +158,15 @@ const BookDetails = ({ uid }) => {
       );
       if (response.ok) {
         setToggle(!toggle);
-        setNotificationMessage(toggle ? 'Removed from favourites' : 'Added to favourites');
+        setNotificationMessage(
+          toggle ? "Removed from favourites" : "Added to favourites"
+        );
         setShowNotification(true);
 
         // Hide notification after 3 seconds
         setTimeout(() => {
           setShowNotification(false);
         }, 800);
-
       } else {
         throw new Error("Failed to update favorite status");
       }
@@ -167,7 +175,7 @@ const BookDetails = ({ uid }) => {
     }
   };
 
-  const togglebookmark=async ()=>{
+  const togglebookmark = async () => {
     try {
       const method = bookmark ? "DELETE" : "POST";
       const response = await fetch(
@@ -185,7 +193,9 @@ const BookDetails = ({ uid }) => {
       );
       if (response.ok) {
         setbookmark(!bookmark);
-        setNotificationMessage(bookmark ? 'Removed from bookmarks' : 'Added to bookmarks');
+        setNotificationMessage(
+          bookmark ? "Removed from bookmarks" : "Added to bookmarks"
+        );
         setShowNotification(true);
 
         // Hide notification after 3 seconds
@@ -198,7 +208,7 @@ const BookDetails = ({ uid }) => {
     } catch (error) {
       console.error("Error updating favorite status:", error.message);
     }
-  }
+  };
 
   const toggleShowPreview = async () => {
     setShowPreview(true);
@@ -224,6 +234,16 @@ const BookDetails = ({ uid }) => {
   const ShowPreview = () => {
     setShowPreview(false);
   };
+
+  const handleClick = () => {
+    // window.location.href = "https://play.google.com/store/books/details?id=B3PgDwAAQBAJ&rdid=book-B3PgDwAAQBAJ&rdot=1&source=gbs_api";
+    window.open(
+      "https://play.google.com/store/books/details?id=B3PgDwAAQBAJ&rdid=book-B3PgDwAAQBAJ&rdot=1&source=gbs_api",
+      "_blank"
+    );
+  };
+
+  const shareUrl = window.location.href;
 
   //if (bookInfo === null) return <ShimmerBookDetail />;
   return (
@@ -259,29 +279,56 @@ const BookDetails = ({ uid }) => {
                   <div className=" mt-4 text-2xl text-white font-bold w-96">
                     {bookInfo.volumeInfo?.authors.join(", ")}
                   </div>
-                  <div
-                    className="text-4xl mt-6"
-                    onClick={() => toggleFavorite()}
-                  >
-                    {toggle ? (
-                      <FaHeart className="text-red-500" />
-                    ) : (
-                      <CgHeart />
-                    )}
+                  <div>
+                    <button
+                      className="text-4xl text-white mt-6 flex items-center bg-blue-700 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      onClick={() => toggleFavorite()}
+                    >
+                      {toggle ? (
+                        <FaHeart className="text-red-500 " />
+                      ) : (
+                        <CgHeart />
+                      )}
+                    </button>
+                    <button
+                      className="mt-2 text-xl text-white font-semibold bg-blue-700 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      onClick={() => handleClick()}
+                    >
+                      Buy this book
+                    </button>
+                    <div className=" mt-4 ">
+                      <EmailShareButton
+                        url={shareUrl}
+                        className="mr-4 transition-transform duration-100 hover:scale-125"
+                      >
+                        <EmailIcon size={44} round={true} />
+                      </EmailShareButton>
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="transition-transform duration-100 hover:scale-125"
+                      >
+                        <FacebookIcon size={44} round={true} />
+                      </FacebookShareButton>
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        className="ml-4 transition-transform duration-100 hover:scale-125"
+                      >
+                        <WhatsappIcon size={44} round={true} />
+                      </WhatsappShareButton>
+                    </div>
                   </div>
                 </div>
                 <div className="relative">
                   <div
-                    className="text-6xl -mt-10 absolute left-28"
+                    className="text-6xl -mt-10 absolute left-28 transition-transform duration-100 hover:scale-110"
                     onClick={() => togglebookmark()}
                   >
                     {bookmark ? (
                       <FaBookmark className="text-white" />
                     ) : (
-                      <IoBookmark />
+                      <BsBookmarkPlusFill />
                     )}
                   </div>
-                  
                 </div>
               </div>
               <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">
@@ -304,7 +351,11 @@ const BookDetails = ({ uid }) => {
               {/* </Link> */}
               {showPreview && (
                 <div className="flex items-center justify-center">
-                  <BookPreview2 bookId={bookInfo.id} userId={uid} show={ShowPreview} />
+                  <BookPreview2
+                    bookId={bookInfo.id}
+                    userId={uid}
+                    show={ShowPreview}
+                  />
                 </div>
               )}
             </div>
@@ -325,15 +376,13 @@ const BookDetails = ({ uid }) => {
           <ShimmerBookDetail />
         )}
         {showNotification && (
-          
           <Notification
             message={notificationMessage}
             onClose={() => setShowNotification(false)}
           />
-         
         )}
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 };

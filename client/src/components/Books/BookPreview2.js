@@ -105,7 +105,7 @@ const BookPreview2 = ({ bookId,userId, show }) => {
       {isNotesModalOpen && (
         <div id="notesModal" className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded-lg shadow-lg w-[70%]">
-            <textarea className="w-full h-64 p-2 border-2 border-gray-200 rounded-lg" value={notes} onChange={handleNoteChange}></textarea>
+            <textarea className="w-full h-[500px] p-2 border-2 border-gray-200 rounded-lg" value={notes} onChange={handleNoteChange}></textarea>
             <div className="flex justify-end mt-4">
               <button onClick={saveNotes} className="py-2 px-4 bg-green-500 text-white font-semibold rounded-lg shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Save Notes</button>
             </div>

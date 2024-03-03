@@ -4,7 +4,7 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaGoogle, FaYoutube } from 'react-
 const Footer = () => {
   return (
     <footer className="bg-black text-white p-4">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div className="max-w-6xl mx-auto h-32 flex flex-col md:flex-row justify-between items-center">
         <div className="flex justify-center mb-4 md:mb-0">
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mx-2">
             <FaFacebookF />
