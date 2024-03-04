@@ -32,10 +32,11 @@ const [message,setMessages]=useState("");
   const onClose=()=>{
     setMessages("");
   }
+  const uid=localStorage.getItem('uid');
   return (
    
-    <div className="w-full relative h-[695px] overflow-hidden bg-[url('/public/macbook-air--3@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-[88px] text-white font-inconsolata">
-      <Sidebar2/>
+    <div className="w-full relative h-[695px] text-left text-[88px] text-white font-inconsolata">
+      {uid && <Sidebar2/>}
       {message && (<Notification message={message} onClose={onClose}/>)}
       <div className="absolute top-[90px] left-[390px] w-[761px] h-[571px]">
       <div style={{ position: 'absolute', top: '0px', left: '0px', backgroundColor: '#221F1FAB', width: '761px', height: '571px' }} />

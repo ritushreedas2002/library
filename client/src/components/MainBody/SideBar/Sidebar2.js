@@ -60,7 +60,7 @@ const Sidebar2 = ({ onSignOut }) => {
   // };
   return (
     <div
-  className="fixed inset-y-0 left-0 w-[13%] h-full overflow-hidden bg-black opacity-90"
+  className="fixed inset-y-0 left-0 w-[13%] h-full overflow-hidden bg-black "
   style={{ backdropFilter: 'blur(10px)' }}
 >
       <div className="text-white text-4xl p-4  ">

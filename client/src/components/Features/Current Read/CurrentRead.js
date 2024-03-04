@@ -19,7 +19,6 @@
 //     if (!bookInfo) {
 //       return null; // or loading state if needed
 //     }
-    
 
 //     return (
 //       <div className="flex ">
@@ -51,9 +50,9 @@
 //               >
 //                 {"See Preview"}
 //               </button>
-              
+
 //             </div>
-  
+
 //           </div>
 //         </div>
 //       </div>
@@ -178,12 +177,15 @@ const CurrentRead = ({ uid }) => {
   useEffect(() => {
     const fetchCurrentRead = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/current-read/${uid}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://localhost:5000/api/current-read/${uid}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch current read book");
@@ -200,32 +202,40 @@ const CurrentRead = ({ uid }) => {
   }, [uid]);
 
   return (
-    <div className="flex bg-purple-400 w-screen h-screen">
-      <Sidebar2 />
-      <div className="ml-56 w-screen h-screen bg-purple-400">
+    <div className="flex bg-purple-400  h-screen">
+      <div className="w-[13%]">
+        <Sidebar2 />
+      </div>
+
+      <div className="ml-16 w-[86%] h-screen bg-purple-400">
         <h2 className="mt-7 text-3xl">Currently Reading</h2>
-        {!currentBookId ? <div className="flex justify-center items-center h-96 mt-10">
-              <div className="text-3xl flex font-semibold items-center">
-                There are no book that u are currently reading
-              </div>
-            </div> : (
+        {!currentBookId ? (
+          <div className="flex justify-center items-center h-96 mt-10">
+            <div className="text-3xl flex font-semibold items-center">
+              There are no book that u are currently reading
+            </div>
+          </div>
+        ) : (
           <>
-            <BookImage bookId={currentBookId} toggleShowPreview={toggleShowPreview} />
+            <BookImage
+              bookId={currentBookId}
+              toggleShowPreview={toggleShowPreview}
+            />
             {showPreview && (
               <div className="flex items-center justify-center">
-                <BookPreview2 bookId={currentBookId} userId={uid} show={closePreview} />
+                <BookPreview2
+                  bookId={currentBookId}
+                  userId={uid}
+                  show={closePreview}
+                />
               </div>
             )}
           </>
         )}
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 };
 
 export default CurrentRead;
-
-
-
-
