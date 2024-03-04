@@ -3,6 +3,7 @@ import useIndivBook from "../../hooks/useIndivBook";
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import { AiOutlineRead } from "react-icons/ai";
+import Chatbot from "../../chatbot/Chatbot";
 
 const RecentlyViewed = ({ uid }) => {
   const [recentlyViewedBooks, setRecentlyViewedBooks] = useState([]);
@@ -103,6 +104,7 @@ const RecentlyViewed = ({ uid }) => {
           ))}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 };

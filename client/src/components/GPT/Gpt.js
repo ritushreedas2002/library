@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/background-pic-1.webp";
 import { ThreeDots } from "react-loader-spinner";
+import Chatbot from "../chatbot/Chatbot";
 
 const Gpt = () => {
   const [searchHistory, setSearchHistory] = useState([]);
@@ -203,6 +204,7 @@ const Gpt = () => {
           )}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 };

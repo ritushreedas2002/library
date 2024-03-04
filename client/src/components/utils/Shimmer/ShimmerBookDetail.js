@@ -10,8 +10,7 @@ const ShimmerBookDetail = () => {
     <div className="flex flex-grow mt-6 mr-8 bg-amber-100">
       <div className=" p-8  bg-orange-300 rounded-2xl w-[80%]">
         <div className="flex">
-          <div className="w-72 h-96 mr-12 z-10 flex justify-center items-center"></div>
-          <div></div>
+          <div className="w-72 h-96 mr-12 z-10 flex justify-center  bg-orange-100 items-center"></div>
         </div>
         <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-orange-100 rounded-xl p-4">
           <div className=" text-white text-xl font-semibold border-b-2">

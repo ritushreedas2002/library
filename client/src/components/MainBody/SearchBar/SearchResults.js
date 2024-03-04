@@ -4,7 +4,13 @@ import ShimmerSearch from "../../utils/Shimmer/ShimmerSearch";
 import Sidebar2 from "../SideBar/Sidebar2";
 import SearchBar from "./SearchBar";
 import { GOOGLE_BOOK_API_KEY } from "../../utils/constant";
-
+function DemoCard() {
+  return (
+    <div className="w-60 h-60 bg-gray-600 text-white m-2 rounded-lg flex items-center justify-center">
+      <span>No Image Available</span>
+    </div>
+  );
+}
 const SearchResults = () => {
   const { query } = useParams();
   const [searchResults, setSearchResults] = useState([]);
@@ -70,11 +76,19 @@ const SearchResults = () => {
               {searchResults.map((book, index) => (
                 <Link to={`/book/${book.id}`} key={index}>
                   <div className=" flex w-96">
-                    <img
-                      src={book.volumeInfo?.imageLinks?.thumbnail}
-                      alt={book.volumeInfo?.title}
-                      className="w-48 h-60 bg-cover m-2 rounded-lg"
-                    />
+                    {book.volumeInfo?.imageLinks?.thumbnail ||
+                    book.volumeInfo?.imageLinks?.smallThumbnail ? (
+                      <img
+                        src={
+                          book.volumeInfo?.imageLinks?.thumbnail ||
+                          book.volumeInfo?.imageLinks?.smallThumbnail
+                        }
+                        alt={book.volumeInfo?.title}
+                        className="w-48 h-60 bg-cover m-2 rounded-lg"
+                      />
+                    ) : (
+                      <DemoCard />
+                    )}
                     <div className="w-48  pt-3 mr-10 ">
                       <div className=" font-semibold mb-1">
                         {book.volumeInfo?.title}

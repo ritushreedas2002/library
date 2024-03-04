@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Document, Page } from "react-pdf";
 import { FaSquarePlus } from "react-icons/fa6";
 import { FaMinusSquare } from "react-icons/fa";
+import Chatbot from "../chatbot/Chatbot";
 
 const PdfViewer = ({ pdf }) => {
   const [numPages, setNumPages] = useState(null);
@@ -63,6 +64,7 @@ const PdfViewer = ({ pdf }) => {
           {numPages && renderPages()}
         </Document>
       </div>
+      <Chatbot/>
     </div>
   );
 };

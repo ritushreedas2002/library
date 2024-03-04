@@ -6,8 +6,8 @@
 
 .outline {
   /* background: #f6f5f7; */
-  background: rgb(26,80,239);
-background: linear-gradient(90deg, rgba(26,80,239,1) 0%, rgba(180,137,248,1) 51%, rgba(230,230,246,1) 100%, rgba(251,251,251,1) 100%);
+  background: rgb(237, 247, 141);
+/* background: linear-gradient(90deg, rgba(26,80,239,1) 0%, rgba(180,137,248,1) 51%, rgba(230,230,246,1) 100%, rgba(251,251,251,1) 100%); */
   display: flex;
   justify-content: center;
   align-items: center;

@@ -48,18 +48,7 @@ const Chatbot = () => {
     
   }, []);
 
-  // const handleSendClick = async () => {
-  //   const newUserMessage = {
-  //     id: messages.length + 1,
-  //     text: userInput,
-  //     type: "outgoing",
-  //   };
-  //   setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
-  //   // Simulate getting response after sending message
-  //   await textQuery(userInput);
-  //   setUserInput(""); // Clear input after sending
-  // };
 
   const handleSendClick = async () => {
     const newUserMessage = {
@@ -94,37 +83,6 @@ const Chatbot = () => {
     }
   };
   
-
-  // const textQuery = async (userText) => {
-  //       try {
-  //         const response = await fetch("http://localhost:5000/text-query", {
-  //           method: 'POST',
-  //           headers: {
-  //             'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify({
-  //             text: userText, // Use the text from user input
-  //             userId: "1234567",
-  //           })
-  //         });
-    
-  //         if (!response.ok) {
-  //           throw new Error(`HTTP error! Status: ${response.status}`);
-  //         }
-    
-  //         const data = await response.json();
-  //         // Assuming data contains the chatbot response in 'fulfillmentText'
-  //         const chatbotResponse = {
-  //           id: messages.length + 2, // Ensure unique ID
-  //           text: data.fulfillmentText, // Chatbot's response text
-  //           type: "incoming",
-  //         };
-  //         setMessages((prevMessages) => [...prevMessages, chatbotResponse]);
-  //       } catch (error) {
-  //         console.error("Error fetching data: ", error);
-  //       }
-  //     };
-
 
 
   const textQuery = async (userText) => {
@@ -200,7 +158,8 @@ const Chatbot = () => {
             ))}
           </div>
           <div className="mt-auto flex">
-            <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Type your message..." />
+            <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' ? handleSendClick(e) : null}
+ className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Type your message..." />
             <button onClick={handleSendClick} className="ml-2 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-700">
               Send
             </button>

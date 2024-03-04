@@ -1,6 +1,7 @@
 import {  useState } from "react";
 import { useFormik } from "formik";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Components from "./Components";
 import "./style.css";
 import { auth, db } from "../utils/Firebase";
@@ -228,7 +229,7 @@ const Login = () => {
         user.uid,
         profilePic
       );
-      
+      toast.success('Signed in successfully!');
       localStorage.setItem("userAuthenticated", "true");
       
       navigate("/MainBody");
@@ -327,6 +328,7 @@ const Login = () => {
       await registerUserToMongo(name, user.email, user.uid, profilePic);
       console.log("User registered successfully in backend.");
       localStorage.setItem("userAuthenticated", "true");
+      toast.success('Signed in successfully!');
       window.location.href = '/MainBody'; // Not recommended, but a workaround
       resetForm();
       
@@ -356,6 +358,7 @@ const Login = () => {
   return (
     <>
       <div className="outline">
+      <ToastContainer />
         {message && (<Notification message={message} onClose={onClose}/>)}
         <Components.Container>
           <Components.SignUpContainer signingin={signIn}>
@@ -410,10 +413,10 @@ const Login = () => {
               ) : null}
               <Components.Button>Sign Up</Components.Button>
               <hr />
-              <div className="mt-3 flex items-center">
+              {/* <div className="mt-3 flex items-center">
                 <FcGoogle />{" "}
                 <span className="ml-2 text-sm text-blue-600">Sign Up</span>
-              </div>
+              </div> */}
               <div className="m-5">
                 <Link to="/" className="text-blue-700 text-sm">
                   {"Back to home"}

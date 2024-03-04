@@ -23,8 +23,8 @@ import {
 
 const DemoBookCard = () => {
   return (
-    <div className="w-32 p-2 size-fit bg-gray-800 flex justify-center items-center ">
-      <h1 className="text-white">pic unavailable</h1>
+    <div className="w-32 h-28 p-2 size-fit bg-orange-100 flex justify-center items-center ">
+      <h1 className="text-black">pic unavailable</h1>
     </div>
   );
 };
@@ -259,7 +259,7 @@ const BookDetails = ({ uid }) => {
               <div className="flex">
                 {bookInfo?.volumeInfo === null ? (
                   // <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
-                  <div className="w-72 h-[600px] mr-12 bg-red-500 z-10 flex justify-center items-center text-white text-center">
+                  <div className="w-72 h-[600px] mr-12 bg-orange-200 z-10 flex justify-center items-center text-white text-center">
                     <h1>pic unavailable</h1>
                   </div>
                 ) : (
@@ -321,7 +321,7 @@ const BookDetails = ({ uid }) => {
                 </div>
                 <div className="relative">
                   <div
-                    className="text-6xl -mt-10 absolute left-28 transition-transform duration-100 hover:scale-110"
+                    className="text-6xl -mt-10 absolute left-28 transition-transform duration-100 cursor-pointer hover:scale-110"
                     onClick={() => togglebookmark()}
                   >
                     {bookmark ? (

@@ -121,6 +121,7 @@ import useIndivBook from "../../hooks/useIndivBook";
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import BookPreview2 from "../../Books/BookPreview2";
+import Chatbot from "../../chatbot/Chatbot";
 
 const BookImage = React.memo(({ bookId, toggleShowPreview }) => {
   const bookInfo = useIndivBook(bookId);
@@ -203,7 +204,11 @@ const CurrentRead = ({ uid }) => {
       <Sidebar2 />
       <div className="ml-56 w-screen h-screen bg-purple-400">
         <h2 className="mt-7 text-3xl">Currently Reading</h2>
-        {!currentBookId ? <p>No book currently being read</p> : (
+        {!currentBookId ? <div className="flex justify-center items-center h-96 mt-10">
+              <div className="text-3xl flex font-semibold items-center">
+                There are no book that u are currently reading
+              </div>
+            </div> : (
           <>
             <BookImage bookId={currentBookId} toggleShowPreview={toggleShowPreview} />
             {showPreview && (
@@ -214,6 +219,7 @@ const CurrentRead = ({ uid }) => {
           </>
         )}
       </div>
+      <Chatbot/>
     </div>
   );
 };

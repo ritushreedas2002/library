@@ -6,6 +6,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaBookReader } from "react-icons/fa";
 import { AiOutlineRead } from "react-icons/ai";
 import Notification from "../../utils/Notification/Notification";
+import Chatbot from "../../chatbot/Chatbot";
 
 
 function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
@@ -127,10 +128,15 @@ function Bookmark({ uid }) {
               />
             ))
           ) : (
-            <div>No bookmarks found.</div>
+            <div className="flex justify-center items-center h-96 mt-10 ml-96">
+              <div className="text-3xl flex font-semibold items-center">
+              Add some books
+              </div>
+            </div>
           )}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import React from "react";
 import useBooks from "../hooks/useBooks";
 
 import { Link } from "react-router-dom";
+import Chatbot from "../chatbot/Chatbot";
 // import { useDispatch } from "react-redux";
 // import { modifyCategory } from "../utils/bookSlice";
 
@@ -94,6 +95,7 @@ const BookSearch = () => {
           ))}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 };

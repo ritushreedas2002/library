@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import Notification from "../../utils/Notification/Notification";
+import Chatbot from "../../chatbot/Chatbot";
 
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
@@ -142,10 +143,15 @@ const Favourites = ({ uid }) => {
               />
             ))
           ) : (
-            <div>No favourites found.</div>
+            <div className="flex justify-center items-center h-96 mt-10">
+              <div className="text-3xl flex font-semibold items-center">
+                --------Add some books--------
+              </div>
+            </div>
           )}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 };
