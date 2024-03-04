@@ -9,7 +9,7 @@ const SearchResults = () => {
   const { query } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
-  const pageList = [1, 2, 3, 4, 5, 6];
+  const pageList = [1, 2, 3, 4, 5, 6, 7];
   const resultsPerPage = 25;
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState("relevance");
@@ -44,7 +44,7 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="bg-slate-600 flex">
+    <div className="bg-amber-100 flex">
       <div className=" w-[13%]">
         <Sidebar2 />
       </div>
@@ -53,39 +53,52 @@ const SearchResults = () => {
         {/* Adjust the layout as needed */}
         <div className="">
           <SearchBar /> {/* Include the SearchBar */}
-          <select
-            value={sortOrder}
-            onChange={handleSortChange}
-            className=" ml-80 p-1 rounded-lg font-semibold bg-blue-600 text-white"
-          >
-            <option value="relevance">Relevance</option>
-            <option value="newest">Newest</option>
-          </select>
+          <div className="flex justify-end mr-[258px]">
+            <select
+              value={sortOrder}
+              onChange={handleSortChange}
+              className="  p-1 rounded-lg font-semibold bg-blue-700 text-white"
+            >
+              <option value="relevance">Relevance</option>
+              <option value="newest">Newest</option>
+            </select>
+          </div>
         </div>
         {searchResults.length !== 0 ? (
           <div>
-            <div className="bg-slate-600 flex flex-wrap justify-start mt-4 ml-32">
+            <div className="bg-amber-100 flex flex-wrap justify-start mt-4 ml-28">
               {searchResults.map((book, index) => (
                 <Link to={`/book/${book.id}`} key={index}>
-                  <div>
+                  <div className=" flex w-96">
                     <img
                       src={book.volumeInfo?.imageLinks?.thumbnail}
                       alt={book.volumeInfo?.title}
-                      className="w-48 h-48 m-2 rounded-lg"
+                      className="w-48 h-60 bg-cover m-2 rounded-lg"
                     />
+                    <div className="w-48  pt-3 mr-10 ">
+                      <div className=" font-semibold mb-1">
+                        {book.volumeInfo?.title}
+                      </div>
+                      <div className=" text-sm mb-1">
+                        {book.volumeInfo?.authors?.join(", ")}
+                      </div>
+                      <div className="text-sm">
+                        {book.volumeInfo?.publishedDate}
+                      </div>
+                    </div>
                   </div>
                 </Link>
               ))}
             </div>
-            <div className=" flex flex-wrap justify-center mt-4 mb-20">
+            <div className=" flex flex-wrap justify-center mt-4 mb-20 bg-white mx-96 rounded-full">
               {pageList.map((page, index) => (
                 <button
                   key={index}
-                  className={`bg-slate-800 text-xl text-white m-4 px-3 py-1 rounded-lg transition-transform duration-100 ${
+                  className={`${
                     currentPage === page
-                      ? "bg-blue-500 scale-125 shadow-slate-950"
-                      : ""
-                  }`}
+                      ? " text-xl flex justify-center items-center rounded-full p-3 w-12 h-12 m-3  bg-pink-400"
+                      : "bg-slate-800 text-xl text-white m-4 px-3 py-1 rounded-lg transition-transform duration-100"
+                  } `}
                   onClick={() => handlePageClick(page)}
                 >
                   {page}
