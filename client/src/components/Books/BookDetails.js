@@ -247,14 +247,15 @@ const BookDetails = ({ uid }) => {
 
   //if (bookInfo === null) return <ShimmerBookDetail />;
   return (
-    <div className="bg-gray-700 pl-52  pb-10 flex min-h-screen">
+    <div className="bg-amber-100 pl-52  pb-10 flex min-h-screen">
       <Sidebar2 /> {/* Sidebar at the side */}
       <div className="flex flex-col flex-grow ml-6">
-        <SearchBar />
-
+        <div className=" -ml-6 ">
+          <SearchBar />
+        </div>
         {bookInfo ? (
           <div className="flex flex-grow mt-6 mr-8">
-            <div className=" p-8 bg-gray-500 rounded-2xl w-[80%]">
+            <div className=" p-8 bg-orange-300 rounded-2xl w-[80%]">
               <div className="flex">
                 {bookInfo?.volumeInfo === null ? (
                   // <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
@@ -273,7 +274,7 @@ const BookDetails = ({ uid }) => {
                   />
                 )}
                 <div>
-                  <div className=" text-5xl text-white font-bold w-96">
+                  <div className=" text-5xl text-gray-600 font-bold w-96">
                     {bookInfo.volumeInfo?.title}
                   </div>
                   <div className=" mt-4 text-2xl text-white font-bold w-96">
@@ -281,7 +282,7 @@ const BookDetails = ({ uid }) => {
                   </div>
                   <div>
                     <button
-                      className="text-4xl text-white mt-6 flex items-center bg-blue-700 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      className="text-4xl text-white mt-6 flex items-center bg-blue-600 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
                       onClick={() => toggleFavorite()}
                     >
                       {toggle ? (
@@ -291,7 +292,7 @@ const BookDetails = ({ uid }) => {
                       )}
                     </button>
                     <button
-                      className="mt-2 text-xl text-white font-semibold bg-blue-700 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      className="mt-2 text-xl text-white font-semibold bg-blue-600 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
                       onClick={() => handleClick()}
                     >
                       Buy this book
@@ -326,16 +327,16 @@ const BookDetails = ({ uid }) => {
                     {bookmark ? (
                       <FaBookmark className="text-white" />
                     ) : (
-                      <BsBookmarkPlusFill />
+                      <BsBookmarkPlusFill className=" text-gray-600" />
                     )}
                   </div>
                 </div>
               </div>
-              <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-gray-600 rounded-xl p-4">
-                <div className=" text-white text-xl font-semibold border-b-2">
+              <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-orange-200 rounded-xl p-4">
+                <div className=" text-gray-600 text-xl font-semibold border-b-2">
                   Description
                 </div>
-                <div className=" mt-4 text-base text-white">
+                <div className=" mt-4 text-base text-gray-600">
                   {bookInfo.volumeInfo?.description
                     ? parse(bookInfo.volumeInfo?.description)
                     : null}
@@ -343,7 +344,7 @@ const BookDetails = ({ uid }) => {
               </div>
               {/* <Link to={"/book/preview/" + bookInfo.id}> */}
               <button
-                className=" p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg mt-6"
+                className=" p-2 m-2 bg-blue-600 text-white font-semibold rounded-lg mt-6 transition-transform duration-100 hover:scale-110"
                 onClick={toggleShowPreview}
               >
                 {"See Preview"}
@@ -359,8 +360,8 @@ const BookDetails = ({ uid }) => {
                 </div>
               )}
             </div>
-            <div className=" p-4 ml-5 max-h-[630px] bg-gray-500 rounded-2xl w-[20%] flex flex-col">
-              <div className=" text-white text-2xl font-semibold mb-4 text-center">
+            <div className=" p-4 ml-5 max-h-[630px] bg-orange-300 rounded-2xl w-[20%] flex flex-col">
+              <div className=" text-gray-600 text-2xl font-bold mb-4 text-center">
                 Related Books
               </div>
               <div className=" flex flex-col overflow-y-scroll h-[620px] no-scrollbar">
