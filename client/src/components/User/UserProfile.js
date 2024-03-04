@@ -45,6 +45,10 @@ const UserProfile = ({ user, onEditProfileClick }) => {
     } catch (error) {
       console.error('Failed to delete user:', error);
       setmessage('Failed to delete your account. Please try again.');
+
+      setTimeout(() => {
+        setmessage("");
+      }, 4000);
     }
   };
 

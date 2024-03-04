@@ -17,7 +17,7 @@ const DemoBookCard = () => {
 
 export const BookCard = ({ book }) => {
   return (
-    <div className="w-36 mr-7 md:w-48 pr-4">
+    <div className="w-36 mr-7  mb-3 md:w-48 pr-4">
       {book?.volumeInfo?.imageLinks?.thumbnail ? (
         <img
           src={book.volumeInfo?.imageLinks?.thumbnail}

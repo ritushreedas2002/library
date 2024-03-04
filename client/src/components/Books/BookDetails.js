@@ -238,7 +238,7 @@ const BookDetails = ({ uid }) => {
   const handleClick = () => {
     // window.location.href = "https://play.google.com/store/books/details?id=B3PgDwAAQBAJ&rdid=book-B3PgDwAAQBAJ&rdot=1&source=gbs_api";
     window.open(
-      "https://play.google.com/store/books/details?id=B3PgDwAAQBAJ&rdid=book-B3PgDwAAQBAJ&rdot=1&source=gbs_api",
+      `https://play.google.com/store/books/details?id=`+bookid+`&rdid=book-`+bookid+`&rdot=1&source=gbs_api`,
       "_blank"
     );
   };
@@ -282,17 +282,17 @@ const BookDetails = ({ uid }) => {
                   </div>
                   <div>
                     <button
-                      className="text-4xl text-white mt-6 flex items-center bg-blue-600 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      className="text-4xl text-white mt-6 flex items-center bg-gray-700 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
                       onClick={() => toggleFavorite()}
                     >
                       {toggle ? (
                         <FaHeart className="text-red-500 " />
                       ) : (
-                        <CgHeart />
+                        <CgHeart  />
                       )}
                     </button>
                     <button
-                      className="mt-2 text-xl text-white font-semibold bg-blue-600 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      className="mt-2 text-xl text-white font-semibold bg-red-500 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
                       onClick={() => handleClick()}
                     >
                       Buy this book
@@ -332,11 +332,11 @@ const BookDetails = ({ uid }) => {
                   </div>
                 </div>
               </div>
-              <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-orange-200 rounded-xl p-4">
-                <div className=" text-gray-600 text-xl font-semibold border-b-2">
+              <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-orange-100 rounded-xl p-4">
+                <div className=" text-gray-600 text-xl font-bold border-b-2 border-black">
                   Description
                 </div>
-                <div className=" mt-4 text-base text-gray-600">
+                <div className=" mt-4 text-base text-gray-800">
                   {bookInfo.volumeInfo?.description
                     ? parse(bookInfo.volumeInfo?.description)
                     : null}

@@ -32,6 +32,7 @@ import Chatbot from "./components/chatbot/Chatbot";
 
 import Note from "./components/NOTE/Note";
 import ContactUs from "./components/Contact/ContactUs";
+import Footer from "./components/Footer/Footer";
 
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -186,7 +187,7 @@ const [activemenu,setactivemenu]=useState();
             />
           )}
         </Routes>
-        
+        <div><Footer/></div>
       </div>
     </Router>
   );

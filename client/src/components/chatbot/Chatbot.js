@@ -7,6 +7,13 @@ const Chatbot = () => {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
   const dropdownRef = useRef(null);
+
+  const intentToURL = {
+    'favouritesPage': '/favourites',
+    'bookmarkPage': '/bookmark',
+    'CurrentReadPage':'/current-read'
+    // Add more intents and their corresponding URLs here
+  };
   const fetchMessages = async () => {
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set based on the logged-in user
@@ -24,8 +31,6 @@ const Chatbot = () => {
     
   
     fetchMessages();
-    
-      
   
       const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -145,7 +150,7 @@ const Chatbot = () => {
         text: data.fulfillmentText, // Assuming this is how you get the response
         type: "incoming",
       };
-  
+      // const path = intentToURL[data.name];
       // Now, save the chatbot response as an incoming message
       await fetch('http://localhost:5000/api/chat-messages', {
         method: 'POST',
@@ -160,6 +165,14 @@ const Chatbot = () => {
   
       // Fetch updated messages list to include the new incoming message
       fetchMessages(); // You should define fetchMessages to be reusable outside useEffect
+      setTimeout(() => {
+        const path = intentToURL[data.name];
+        if (path) {
+          window.location.href = path; // Use window.location.href to navigate after a 2-second delay
+        } else {
+          console.log("Intent doesn't have a corresponding URL");
+        }
+      }, 2000); // 2000 milliseconds = 2 seconds
     } catch (error) {
       console.error("Error fetching data: ", error);
     }

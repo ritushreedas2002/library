@@ -45,19 +45,19 @@ const Sidebar2 = ({ onSignOut }) => {
     event.stopPropagation();
   };
 
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        localStorage.removeItem("userAuthenticated");
-        localStorage.removeItem("uid");
-        dispatch(removeUser());
-        navigate("/");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
+  // const handleLogout = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       // Sign-out successful.
+  //       localStorage.removeItem("userAuthenticated");
+  //       localStorage.removeItem("uid");
+  //       dispatch(removeUser());
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //     });
+  // };
   return (
     <div
   className="fixed inset-y-0 left-0 w-[13%] h-full overflow-hidden bg-black opacity-90"
@@ -228,7 +228,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </span>
             </Link>
           </li>
-          <li className=" mt-4 group cursor-pointer">
+          {/* <li className=" mt-4 group cursor-pointer">
             <div
               className="flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded"
               onClick={handleLogout}
@@ -240,7 +240,7 @@ const Sidebar2 = ({ onSignOut }) => {
                 Logout
               </span>
             </div>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </div>

@@ -40,7 +40,7 @@ const MainBody = ({ onSignOut }) => {
         <Chatbot/>
         
         <div className="bg-[#a673e1]"> <BookSearch /></div>
-        <div className="mt-3"><Footer/></div>
+        
       </div>
       <JoyRide
         continuous
