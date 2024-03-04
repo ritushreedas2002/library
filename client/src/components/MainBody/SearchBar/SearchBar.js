@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
-
+import UserLogo from "../../User/UserLogo"
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -113,8 +113,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div ref={dropdownRef}>
-      <div className="mt-4 mr-3">
+    <div >
+      <div className="mt-4 mr-3" ref={dropdownRef}>
         <div className="flex justify-center">
           <form
             className="ml-14 pt-4 w-3/5 grid grid-cols-12"
@@ -170,6 +170,7 @@ const SearchBar = () => {
           </div>
         ) : null}
       </div>
+      <UserLogo/>
     </div>
   );
 };

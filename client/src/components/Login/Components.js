@@ -79,7 +79,7 @@ export const Form = styled.form`
 export const Title = styled.h1`
   font-weight: bold;
   margin: 0;
-  font-size:30px;
+  font-size:35px;
 `;
 
 export const Input = styled.input`
@@ -112,8 +112,10 @@ export const Button = styled.button`
 `;
 
 export const GhostButton = styled(Button)`
-  background-color: transparent;
-  border-color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+  font-weight:bold;
+  line-weight:14px;
 `;
 
 export const Anchor = styled.a`
@@ -137,12 +139,13 @@ export const OverlayContainer = styled.div`
 `;
 
 export const Overlay = styled.div`
-background-image: url('https://img.freepik.com/free-photo/ancient-books-adorn-library-carefully-arranged-with-classics-rare-gems_157027-2332.jpg');
-
+background-image: url('/unsplash_axwvgn6MhyU.png');
+z-index:9;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
-  color: #ffffff;
+  color: #000000;
+  font-weight: bold;
   position: relative;
   left: -100%;
   height: 100%;
@@ -178,9 +181,10 @@ export const RightOverlayPanel = styled(OverlayPanel)`
   ${props => (props.signingin !== true ? `transform: translateX(20%);` : null)}
 `;
 export const Paragraph = styled.p`
-  font-size: 17px;
+  font-size: 20px;
   font-weight:bold;
   font-weight: 100;
+  line-weight:14px;
   line-height: 20px;
   letter-spacing: 0.5px;
   margin: 20px 0 30px;

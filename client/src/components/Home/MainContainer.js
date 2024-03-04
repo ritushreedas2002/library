@@ -2,6 +2,7 @@
 import Body from "./Body";
 import Desktop from "./Desktop";
 
+
 import Navbar from "./Navbar";
 
 const MainContainer = () => {
@@ -17,7 +18,8 @@ const MainContainer = () => {
     //   <Body />
       
     // </div>
-     <Desktop/>
+      <Desktop/>
+    //  <MacBookAir/>
     
   );
 };
