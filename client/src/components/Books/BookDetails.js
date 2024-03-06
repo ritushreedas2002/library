@@ -278,7 +278,7 @@ const BookDetails = ({ uid }) => {
                     {bookInfo.volumeInfo?.title}
                   </div>
                   <div className=" mt-4 text-2xl text-white font-bold w-96">
-                    {bookInfo.volumeInfo?.authors.join(", ")}
+                    {bookInfo.volumeInfo?.authors?.join(", ")}
                   </div>
                   <div>
                     <button

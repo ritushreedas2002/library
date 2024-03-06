@@ -86,7 +86,7 @@ const BookSearch = () => {
         </div>
       </div>
       <h1 className="pb-4 pt-8 text-3xl font-medium text-white">Self Help</h1>
-      <div className="flex overflow-x-scroll no-scrollbar">
+      <div className="flex overflow-x-scroll no-scrollbar mb-10">
         <div className="flex">
           {self?.map((book, index) => (
             <Link key={index} to={"/book/" + book.id}>
