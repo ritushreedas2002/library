@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import PdfViewer from "./PdfViewer";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
+import Chatbot from "../chatbot/Chatbot";
 
 const PDFUpload = () => {
   const [pdf, setPdf] = useState(null);
@@ -63,6 +64,7 @@ const PDFUpload = () => {
           {pdf && <PdfViewer pdf={pdf} />}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 };

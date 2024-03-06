@@ -9,7 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import { IoAddCircle } from "react-icons/io5";
 import { IoMdStar } from "react-icons/io";
 import Notification from "../utils/Notification/Notification";
-
+import Chatbot from "../chatbot/Chatbot"
 const Notetaking = ({ userid, show, notshow, showForm }) => {
   const uid = decodeURIComponent(userid);
   const [notes, setNotes] = useState([]);
@@ -461,6 +461,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
           )}
         </div>
       </div>
+      <Chatbot/>
     </div>
   );
 };

@@ -11,7 +11,13 @@ const Chatbot = () => {
   const intentToURL = {
     'favouritesPage': '/favourites',
     'bookmarkPage': '/bookmark',
-    'CurrentReadPage':'/current-read'
+    'CurrentReadPage':'/current-read',
+    'ToAccount':'/User',
+    'RecentBook':'/recent',
+    'BookGpt':'/gpt',
+    'Notes':'/Note',
+    'Pdf':'/Pdf'
+
     // Add more intents and their corresponding URLs here
   };
   const fetchMessages = async () => {
@@ -151,7 +157,7 @@ const Chatbot = () => {
           <div className="overflow-auto no-scrollbar p-2 space-y-2 mt-8 flex flex-col" style={{ height: 'calc(100% - 6rem)' }}>
             {messages.map((message) => (
               <div key={message.id} className={`flex ${message.type === "incoming" ? "justify-start" : "justify-end"}`}>
-                <div className={`inline-block p-2 text-sm rounded-lg ${message.type === "incoming" ? "bg-gray-200 text-black" : "bg-blue-500 text-white"} min-w-[40px]`}>
+                <div className={`inline-block p-2 text-sm rounded-lg ${message.type === "incoming" ? "bg-gray-200 text-black" : "bg-blue-500 text-white"} min-w-[40px] max-w-[200px]`}>
                   {message.text}
                 </div>
               </div>
