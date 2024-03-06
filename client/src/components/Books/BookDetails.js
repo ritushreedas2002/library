@@ -250,7 +250,7 @@ const BookDetails = ({ uid }) => {
     <div className="bg-amber-100 pl-52  pb-10 flex min-h-screen">
       <Sidebar2 /> {/* Sidebar at the side */}
       <div className="flex flex-col flex-grow ml-6">
-        <div className=" -ml-6 ">
+        <div className=" -ml-10 ">
           <SearchBar />
         </div>
         {bookInfo ? (
@@ -282,7 +282,7 @@ const BookDetails = ({ uid }) => {
                   </div>
                   <div>
                     <button
-                      className="text-4xl text-white mt-6 flex items-center bg-gray-700 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
+                      className="text-4xl text-white mt-6 flex items-center bg-gray-500 py-2 px-3 rounded-xl transition-transform duration-100 hover:scale-110"
                       onClick={() => toggleFavorite()}
                     >
                       {toggle ? (

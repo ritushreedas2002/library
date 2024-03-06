@@ -4,6 +4,7 @@ import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/background-pic-1.webp";
+import image1 from "../../assets/gpt.png";
 import { ThreeDots } from "react-loader-spinner";
 import Chatbot from "../chatbot/Chatbot";
 
@@ -131,9 +132,9 @@ const Gpt = () => {
         <Sidebar2 />
       </div>
 
-      <div className="bg-gray-800 min-h-screen flex items-center justify-center w-screen">
+      <div className="bg-amber-100 min-h-screen flex items-center justify-center w-screen">
         <div
-          className="bg-gray-700 w-[90%] min-h-[90%] bg-cover p-12 rounded-2xl shadow-xl text-white"
+          className="bg-gray-700 w-[90%] min-h-[90%] bg-no-repeat  bg-cover p-12 rounded-2xl shadow-xl text-white"
           style={{ backgroundImage: `url(${image})` }}
         >
           <div className="flex justify-between mb-6">

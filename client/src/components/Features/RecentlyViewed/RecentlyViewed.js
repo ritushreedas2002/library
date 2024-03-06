@@ -92,7 +92,7 @@ const RecentlyViewed = ({ uid }) => {
   // }
 
   return (
-    <div className="flex bg-purple-400 min-h-screen">
+    <div className="flex bg-amber-100 min-h-screen">
       <div className=" w-[13%]">
         <Sidebar2 />
       </div>

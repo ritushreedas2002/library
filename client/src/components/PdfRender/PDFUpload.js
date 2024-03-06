@@ -37,7 +37,7 @@ const PDFUpload = () => {
       </div>
       <div className=" w-[87%] ">
         <div
-          className="App flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100"
+          className="App flex flex-col items-center justify-center min-h-screen py-6 bg-amber-100"
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >

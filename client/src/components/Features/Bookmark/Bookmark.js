@@ -8,88 +8,87 @@ import { AiOutlineRead } from "react-icons/ai";
 import Notification from "../../utils/Notification/Notification";
 import Chatbot from "../../chatbot/Chatbot";
 
-
 function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
-    const bookInfo = useIndivBook(bookId);
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const handleBookDelete = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/bookmarks/${uid}/${bookId}`,
-          {
-            method: "DELETE",
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to delete favorite");
+  const bookInfo = useIndivBook(bookId);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const handleBookDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/bookmarks/${uid}/${bookId}`,
+        {
+          method: "DELETE",
         }
-        // Handle deletion in parent component by updating favorites state
-        //setFavorites(prevFavorites => prevFavorites.filter(id => id !== bookId));
-        // Trigger refetch of favorites
-        setNotificationMessage('Book deleted successfully!');
-        setShowNotification(true);
-
-        // You might want to hide the notification automatically after a few seconds
-        setTimeout(() => {
-          setShowNotification(false);
-    
-          // Delay the fetchFavorites call until after the notification has been dismissed
-          fetchBookmarks();
-        }, 800);
-        
-      } catch (error) {
-        console.error("Error deleting favorite:", error.message);
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete favorite");
       }
-    };
-  
-    if (!bookInfo) {
-      return null; // or loading state if needed
+      // Handle deletion in parent component by updating favorites state
+      //setFavorites(prevFavorites => prevFavorites.filter(id => id !== bookId));
+      // Trigger refetch of favorites
+      setNotificationMessage("Book deleted successfully!");
+      setShowNotification(true);
+
+      // You might want to hide the notification automatically after a few seconds
+      setTimeout(() => {
+        setShowNotification(false);
+
+        // Delay the fetchFavorites call until after the notification has been dismissed
+        fetchBookmarks();
+      }, 800);
+    } catch (error) {
+      console.error("Error deleting favorite:", error.message);
     }
-  
-    return (
-      <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
-         {showNotification && (
-                <Notification
-                    message={notificationMessage}
-                    onClose={() => setShowNotification(false)}
-                />
-            )}
-        <div className="h-60 ">
-          <img
-            // className="h-full w-full p-3 rounded-xl object-cover "
-            className="w-40 h-56 m-2 rounded-lg"
-            src={
-              bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
-              bookInfo?.volumeInfo?.imageLinks?.thumbnail
-            }
-            alt={bookInfo.title}
-          />
-        </div>
-        <div className="flex justify-between mb-2 -mt-1">
-          <Link to={`/book/${bookId}`}>
-            <button className="ml-4 w-14 h-7 bg-slate-400 text-xl  rounded-lg pl-5">
-              <AiOutlineRead />
-            </button>
-          </Link>
-          <button
-            className="w-14 h-7 bg-slate-400 text-xl rounded-lg pl-5 mr-4"
-            onClick={handleBookDelete}
-          >
-            <MdDeleteOutline />
-          </button>
-        </div>
-      </div>
-    );
+  };
+
+  if (!bookInfo) {
+    return null; // or loading state if needed
   }
+
+  return (
+    <div className="w-44 bg-red-200 m-4  flex-col rounded-xl">
+      {showNotification && (
+        <Notification
+          message={notificationMessage}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
+      <div className="h-60 ">
+        <img
+          // className="h-full w-full p-3 rounded-xl object-cover "
+          className="w-40 h-56 m-2 rounded-lg"
+          src={
+            bookInfo?.volumeInfo?.imageLinks?.smallThumbnail ||
+            bookInfo?.volumeInfo?.imageLinks?.thumbnail
+          }
+          alt={bookInfo.title}
+        />
+      </div>
+      <div className="flex justify-between mb-2 -mt-1">
+        <Link to={`/book/${bookId}`}>
+          <button className="ml-4 w-14 h-7 bg-slate-400 text-xl  rounded-lg pl-5">
+            <AiOutlineRead />
+          </button>
+        </Link>
+        <button
+          className="w-14 h-7 bg-slate-400 text-xl rounded-lg pl-5 mr-4"
+          onClick={handleBookDelete}
+        >
+          <MdDeleteOutline />
+        </button>
+      </div>
+    </div>
+  );
+}
 function Bookmark({ uid }) {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   const fetchBookmarks = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/bookmarks/${uid}`);
+      const response = await fetch(
+        `http://localhost:5000/api/bookmarks/${uid}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch bookmarks");
       }
@@ -107,12 +106,11 @@ function Bookmark({ uid }) {
   }, [uid]); // Dependency array ensures fetchBookmarks runs when uid changes
 
   return (
-    <div className="flex bg-purple-400 min-h-screen">
-     
+    <div className="flex bg-amber-100 min-h-screen">
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
-      <div className="ml-10 w-[86%] h-full bg-purple-400">
+      <div className="ml-10 w-[86%] h-full bg-amber-100">
         <h2 className="mt-7 text-3xl">Bookmarks</h2>
         <div className="flex flex-wrap mt-6">
           {loading ? (
@@ -130,13 +128,13 @@ function Bookmark({ uid }) {
           ) : (
             <div className="flex justify-center items-center h-96 mt-10 ml-96">
               <div className="text-3xl flex font-semibold items-center">
-              Add some books
+                Add some books
               </div>
             </div>
           )}
         </div>
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 }

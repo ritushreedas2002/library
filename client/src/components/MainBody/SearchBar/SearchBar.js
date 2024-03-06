@@ -113,8 +113,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div >
-      <div className="mt-4 mr-3" ref={dropdownRef}>
+    <div className=" pb-2 bg-gradient-to-b from-black h-28">
+      <div className=" mr-3" ref={dropdownRef}>
         <div className="flex justify-center">
           <form
             className="ml-14 pt-4 w-3/5 grid grid-cols-12"
@@ -129,7 +129,7 @@ const SearchBar = () => {
               onFocus={fetchLatestSearches}
             />
             <button
-              className="col-span-2 m-4 py-2 px-2 bg-red-700 text-white text-md font-semibold rounded-lg text-center"
+              className="col-span-2 m-4 py-2 px-2 bg-red-600 hover:bg-red-700 text-white text-md font-semibold rounded-lg text-center"
               onClick={handleSearchClick}
             >
               🔍 Search

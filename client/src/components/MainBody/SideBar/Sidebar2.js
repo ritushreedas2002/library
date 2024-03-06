@@ -80,7 +80,7 @@ const Sidebar2 = ({ onSignOut }) => {
             <Link
               to="/MainBody"
               className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
-                isActive("/MainBody") ? "bg-purple-700" : ""
+                isActive("/MainBody") ? "bg-orange-400" : ""
               }`}
             >
               <span className="text-2xl">

@@ -50,8 +50,8 @@ const BookSearch = () => {
   //console.log("Books fetched:", programming);
 
   return (
-    <div className="pl-12 w-full flex flex-col ">
-      <h1 className="pb-4 text-3xl font-medium text-white">
+    <div className="pl-12 w-full flex flex-col">
+      <h1 className="pb-4 text-3xl font-medium text-gray-600">
         Programming Books
       </h1>
       <div className="flex overflow-x-scroll no-scrollbar">
@@ -63,7 +63,7 @@ const BookSearch = () => {
           ))}
         </div>
       </div>
-      <h1 className="pb-4 pt-8 text-3xl font-medium text-white">Romance</h1>
+      <h1 className="pb-4 pt-8 text-3xl font-medium text-gray-600">Romance</h1>
       <div className="flex overflow-x-scroll no-scrollbar">
         <div className="flex">
           {romance?.map((book, index) => (
@@ -73,7 +73,7 @@ const BookSearch = () => {
           ))}
         </div>
       </div>
-      <h1 className="pb-4 pt-8 text-3xl font-medium text-white">
+      <h1 className="pb-4 pt-8 text-3xl font-medium text-gray-600">
         Science Fiction
       </h1>
       <div className="flex overflow-x-scroll no-scrollbar">
@@ -85,7 +85,7 @@ const BookSearch = () => {
           ))}
         </div>
       </div>
-      <h1 className="pb-4 pt-8 text-3xl font-medium text-white">Self Help</h1>
+      <h1 className="pb-4 pt-8 text-3xl font-semibold text-gray-600">Self Help</h1>
       <div className="flex overflow-x-scroll no-scrollbar mb-10">
         <div className="flex">
           {self?.map((book, index) => (

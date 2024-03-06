@@ -218,7 +218,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   };
 
   return (
-    <div className=" flex min-h-screen">
+    <div className=" flex min-h-screen bg-amber-100">
       {notification.show && <Notification message={notification.message} />}
       <div className=" w-[13%]">
         <Sidebar2 />

@@ -122,12 +122,12 @@ const Favourites = ({ uid }) => {
   }, [uid]);
 
   return (
-    <div className="flex bg-purple-400 min-h-screen">
+    <div className="flex bg-amber-100 min-h-screen">
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
       {/* Include Sidebar2 component */}
-      <div className="ml-10 w-[86%] h-[100%]  bg-purple-400">
+      <div className="ml-10 w-[86%] h-[100%]  bg-amber-100">
         <h2 className="mt-7 text-3xl">Favorites</h2>
         <div className="flex flex-wrap mt-6">
           {loading ? (

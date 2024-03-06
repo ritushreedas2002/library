@@ -60,6 +60,18 @@ export const steps = [
     },
   },
   {
+    title: "",
+    content: "You can logout from here",
+    target: "#log",
+    placement: "bottom",
+    styles: {
+      options: {
+        width: "220px", // Set the maximum width
+        height: "60px",
+      },
+    },
+  },
+  {
     title: "Chatty",
     content: "Chatty is your virtual assisstant. In case you need help, Chatty is there for you!",
     target: "#chatbot",

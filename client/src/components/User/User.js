@@ -78,7 +78,7 @@ const User = () => {
   return (
     <>
       <Sidebar2/>
-      <div className="flex justify-center items-center h-screen bg-slate-200">
+      <div className="flex justify-center items-center h-screen bg-amber-100">
       {isEditing ? (
         <EditProfileModal
           onSaveChanges={handleSaveChanges}

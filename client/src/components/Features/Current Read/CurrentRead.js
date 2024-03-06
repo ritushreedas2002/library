@@ -202,12 +202,12 @@ const CurrentRead = ({ uid }) => {
   }, [uid]);
 
   return (
-    <div className="flex bg-purple-400  h-screen">
+    <div className="flex bg-amber-100  h-screen">
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
 
-      <div className="ml-16 w-[86%] h-screen bg-purple-400">
+      <div className="ml-16 w-[86%] h-screen bg-amber-100">
         <h2 className="mt-7 text-3xl">Currently Reading</h2>
         {!currentBookId ? (
           <div className="flex justify-center items-center h-96 mt-10">
