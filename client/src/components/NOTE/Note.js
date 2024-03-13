@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Notetaking from "./Notetaking";
+import UserLogo from "../User/UserLogo";
 
 const Note=()=>{
     const [showForm, setShowForm] = useState(false);
@@ -15,6 +16,7 @@ const Note=()=>{
 
     return (
         <>
+            <UserLogo/>
             <Notetaking userid={uid} show={handleshow} notshow={handlenotshow} showForm={showForm}/>
         </>
     )

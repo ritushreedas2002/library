@@ -4,10 +4,22 @@ import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/background-pic-1.webp";
-import image1 from "../../assets/gpt.png";
 import { ThreeDots } from "react-loader-spinner";
 import Chatbot from "../chatbot/Chatbot";
 
+import { Link, useNavigate } from "react-router-dom";
+import { GOOGLE_BOOK_API_KEY } from "../utils/constant";
+const BookCard = ({ id,title, authors, thumbnail }) => {
+  return (
+    <Link to={`/book/${id}`}>
+    <div className="ml-6 mb-5">
+      <img className=" w-36 rounded-md h-48 " src={thumbnail} alt={title} />
+      {/* <h3>{title}</h3>
+      <p>{authors.join(", ")}</p> */}
+    </div>
+    </Link>
+  );
+};
 const Gpt = () => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [searchresult, setsearchresult] = useState([]);
@@ -17,6 +29,7 @@ const Gpt = () => {
   const [error, seterror] = useState("");
   const [loading, isloading] = useState(false);
   const uid = localStorage.getItem("uid");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSearchHistory = async () => {
@@ -69,11 +82,68 @@ const Gpt = () => {
     console.log(gptResults.choices?.[0]?.message?.content);
     setresult(gptResults.choices?.[0]?.message?.content);
     isloading(false);
-    searchtext.current.value = "";
+    // searchtext.current.value = "";
   };
+
+  // const handlerecommnedation = async () => {
+  //   setToggleView(false);
+  //   searchtext.current.value="";
+  //   if (searchHistory.length === 0) {
+  //     setresult(null);
+  //     seterror("You have not performed any searches yet");
+  //     return;
+  //   }
+  //   seterror("");
+  //   setresult(null);
+  //   isloading(true);
+  //   const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
+
+  //   try {
+  //     // Making the API call
+  //     const gptResults = await openai.chat.completions.create({
+  //       messages: [{ role: "user", content: gptQuery }],
+  //       model: "gpt-3.5-turbo",
+  //       // response_format: { type: "json_object" }
+  //     });
+
+  //     // Checking if the API returned any results
+  //     if (gptResults.choices && gptResults.choices.length > 0) {
+  //       // const recommendations = gptResults.choices[0].message.content;
+  //       // console.log(recommendations);
+  //       const recommendationsJson = JSON.parse(
+  //         gptResults.choices[0].message.content
+  //       );
+  //       console.log(recommendationsJson);
+
+  //       if (recommendationsJson && recommendationsJson.books) {
+  //         const bookList = recommendationsJson.books; // This should already be an array of book titles
+  //         console.log(bookList);
+
+  //         // Setting the array of book names in the state to use in your component for rendering
+  //         setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
+  //         isloading(false);
+  //         searchtext.current.value = "";
+  //       } else {
+  //         console.error("Books array not found in the recommendations");
+  //         // Handle the case where the 'books' array is not in the response
+  //       }
+
+  //       // Setting the array of book names in the state to use in your component for rendering
+  //       // setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
+  //     } else {
+  //       console.error("No results found");
+  //       // Handle the case where there are no recommendations
+  //     }
+  //   } catch (error) {
+  //     console.error("Error handling the recommendation:", error);
+  //     // Implement error handling
+  //   }
+  // };
 
   const handlerecommnedation = async () => {
     setToggleView(false);
+    searchtext.current.value = "";
+    setsearchresult([]);
     if (searchHistory.length === 0) {
       setresult(null);
       seterror("You have not performed any searches yet");
@@ -82,47 +152,71 @@ const Gpt = () => {
     seterror("");
     setresult(null);
     isloading(true);
-    const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
+    const gptQuery = `Can you recommend exactly 12 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
 
     try {
       // Making the API call
       const gptResults = await openai.chat.completions.create({
         messages: [{ role: "user", content: gptQuery }],
         model: "gpt-3.5-turbo",
-        // response_format: { type: "json_object" }
       });
 
-      // Checking if the API returned any results
+      // Checking if the
       if (gptResults.choices && gptResults.choices.length > 0) {
-        // const recommendations = gptResults.choices[0].message.content;
-        // console.log(recommendations);
         const recommendationsJson = JSON.parse(
           gptResults.choices[0].message.content
         );
         console.log(recommendationsJson);
-
         if (recommendationsJson && recommendationsJson.books) {
-          const bookList = recommendationsJson.books; // This should already be an array of book titles
-          console.log(bookList);
+          const bookTitles = recommendationsJson.books; // Assuming this is an array of book titles
+          console.log(bookTitles);
 
-          // Setting the array of book names in the state to use in your component for rendering
-          setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
-          isloading(false);
-          searchtext.current.value = "";
+          // Fetch details for each recommended book
+          const bookDetailsPromises = bookTitles.map((title) =>
+            fetch(
+              `https://www.googleapis.com/books/v1/volumes?q=${title}&startIndex=0&maxResults=1&key=${GOOGLE_BOOK_API_KEY}`
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.items && data.items.length > 0) {
+                  const { volumeInfo } = data.items[0];
+                  //console.log(data.items);
+                  return {
+                    id: data.items[0].id, 
+                    title: volumeInfo.title,
+                    authors: volumeInfo.authors || ["No authors listed"],
+                    thumbnail: volumeInfo.imageLinks
+                      ? volumeInfo.imageLinks.thumbnail
+                      : "placeholder_image_url",
+                  };
+                }
+                return null;
+              })
+          );
+
+          Promise.all(bookDetailsPromises).then((bookDetails) => {
+            // Filter out any null responses (in case some books weren't found)
+            const validBookDetails = bookDetails.filter(
+              (detail) => detail !== null
+            );
+            console.log(validBookDetails);
+            setsearchresult(validBookDetails);
+            isloading(false);
+          });
         } else {
           console.error("Books array not found in the recommendations");
-          // Handle the case where the 'books' array is not in the response
+          seterror("No books found in the recommendations.");
+          isloading(false);
         }
-
-        // Setting the array of book names in the state to use in your component for rendering
-        // setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
       } else {
-        console.error("No results found");
-        // Handle the case where there are no recommendations
+        console.error("No results found from GPT-3.");
+        seterror("No results found.");
+        isloading(false);
       }
     } catch (error) {
       console.error("Error handling the recommendation:", error);
-      // Implement error handling
+      seterror(`Error handling the recommendation: ${error.message}`);
+      isloading(false);
     }
   };
 
@@ -134,7 +228,7 @@ const Gpt = () => {
 
       <div className="bg-amber-100 min-h-screen flex items-center justify-center w-screen">
         <div
-          className="bg-gray-700 w-[90%] min-h-[90%] bg-no-repeat  bg-cover p-12 rounded-2xl shadow-xl text-white"
+          className="bg-gray-700 mt-10 mb-12 w-[90%] min-h-[90%] bg-no-repeat  bg-cover p-12 rounded-2xl shadow-xl text-white"
           style={{ backgroundImage: `url(${image})` }}
         >
           <div className="flex justify-between mb-6">
@@ -169,13 +263,23 @@ const Gpt = () => {
             </button>
           </div>
           {results && toggleView && (
-            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar ">
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar">
               <div className=" text-white font-semibold">{results}</div>
+              <div
+                className=" ml-[500px] w-24 h-10 mb-4"
+                onClick={() => {
+                  navigate(`/search/${searchtext.current.value}`);
+                }}
+              >
+                <button className=" m-5 w-36 h-10 text-lg bg-black text-white rounded-xl ml-96">
+                  KNOW MORE
+                </button>
+              </div>
             </div>
           )}
           {searchresult.length > 0 && !toggleView && (
-            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 ">
-              <div className=" text-white font-semibold">
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar w-[1100px] h-[460px]">
+              {/*<div className=" text-white font-semibold">
                 <ul>
                   {searchresult.map((book, index) => (
                     <div className=" flex" key={index}>
@@ -186,6 +290,18 @@ const Gpt = () => {
                     </div>
                   ))}
                 </ul>
+                  </div>*/}
+
+              <div className="flex flex-wrap justify-between">
+                {searchresult.map((book, index) => (
+                  <BookCard
+                    key={index}
+                    id={book.id}
+                    title={book.title}
+                    authors={book.authors}
+                    thumbnail={book.thumbnail}
+                  />
+                ))}
               </div>
             </div>
           )}
@@ -205,7 +321,7 @@ const Gpt = () => {
           )}
         </div>
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 };

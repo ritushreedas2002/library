@@ -119,7 +119,7 @@ const Test = () => {
           <SwiperSlide key={item.id} onClick={() => handleNavigate(item.id)}>
             <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer ml-20">
               <div
-                className=" absolute inset-0 bg-cover "
+                className=" absolute inset-0 bg-cover"
                 style={{
                   backgroundImage: `url(${item.volumeInfo?.imageLinks?.thumbnail})`,
                 }}

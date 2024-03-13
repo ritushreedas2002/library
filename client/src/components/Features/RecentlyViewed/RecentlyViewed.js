@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import { AiOutlineRead } from "react-icons/ai";
 import Chatbot from "../../chatbot/Chatbot";
+import UserLogo from "../../User/UserLogo";
 
 const RecentlyViewed = ({ uid }) => {
   const [recentlyViewedBooks, setRecentlyViewedBooks] = useState([]);
@@ -93,6 +94,7 @@ const RecentlyViewed = ({ uid }) => {
 
   return (
     <div className="flex bg-amber-100 min-h-screen">
+      <UserLogo/>
       <div className=" w-[13%]">
         <Sidebar2 />
       </div>

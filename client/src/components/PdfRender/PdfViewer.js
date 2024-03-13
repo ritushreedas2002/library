@@ -3,6 +3,7 @@ import { Document, Page } from "react-pdf";
 import { FaSquarePlus } from "react-icons/fa6";
 import { FaMinusSquare } from "react-icons/fa";
 import Chatbot from "../chatbot/Chatbot";
+import UserLogo from "../User/UserLogo";
 
 const PdfViewer = ({ pdf }) => {
   const [numPages, setNumPages] = useState(null);
@@ -42,6 +43,7 @@ const PdfViewer = ({ pdf }) => {
 
   return (
     <div className="flex justify-center relative">
+      
       <div
         className="pdf-div  justify-center relative"
         style={{ width: "1070px", height: "600px", overflowY: "auto" }}

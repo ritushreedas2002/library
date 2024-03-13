@@ -107,6 +107,8 @@ const SearchBar = () => {
       // Navigate to a route that displays search results. This route should handle fetching and displaying the results based on the searchTerm.
       // Assuming you have a route like '/search/:query' for search results
       navigate("/search/" + searchTerm);
+      setSearchHistory([]);
+      setSuggestions([])
     } catch (error) {
       console.error("Error updating search history:", error.message);
     }
@@ -138,7 +140,7 @@ const SearchBar = () => {
         </div>
         {searchTerm.length === 0 && searchHistory.length > 0 ? (
           // Show search history if searchTerm is empty
-          <div className="absolute top-[98px] z-10 w-[40%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="absolute top-[84px] z-10 w-[40%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             {searchHistory.map((historyItem, index) => (
               <div
                 key={index}
@@ -146,6 +148,8 @@ const SearchBar = () => {
                 onClick={() => {
                   navigate("/search/" + historyItem);
                   setSearchHistory([]); // Clear the search history state
+        
+                  setSuggestions([])
                 }}
               >
                 {historyItem}
@@ -154,7 +158,7 @@ const SearchBar = () => {
           </div>
         ) : suggestions.length > 0 ? (
           // Show suggestions if there are any and searchTerm is not empty
-          <div className="absolute top-[98px] z-10 w-[40%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="absolute top-[84px] z-10 w-[40%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             {suggestions.map((suggestion, index) => (
               <div
                 key={index}
@@ -162,6 +166,8 @@ const SearchBar = () => {
                 onClick={() =>{ 
                   navigate("/search/" + suggestion)
                   setSuggestions([])
+                  setSearchTerm("")
+                  setSearchHistory([])
                 }}
               >
                 {suggestion}

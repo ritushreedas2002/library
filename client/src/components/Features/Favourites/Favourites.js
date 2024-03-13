@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import Notification from "../../utils/Notification/Notification";
 import Chatbot from "../../chatbot/Chatbot";
+import UserLogo from "../../User/UserLogo";
 
 function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
   const bookInfo = useIndivBook(bookId);
@@ -123,13 +124,14 @@ const Favourites = ({ uid }) => {
 
   return (
     <div className="flex bg-amber-100 min-h-screen">
+      <UserLogo />
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
       {/* Include Sidebar2 component */}
-      <div className="ml-10 w-[86%] h-[100%]  bg-amber-100">
+      <div className="ml-10 w-[86%] h-[100%]  bg-amber-100 relative">
         <h2 className="mt-7 text-3xl">Favorites</h2>
-        <div className="flex flex-wrap mt-6">
+        <div className="flex flex-wrap mt-6 container">
           {loading ? (
             <div>Loading...</div>
           ) : favorites.length > 0 ? (
@@ -151,7 +153,7 @@ const Favourites = ({ uid }) => {
           )}
         </div>
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 };

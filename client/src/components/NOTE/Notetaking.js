@@ -25,7 +25,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const colorOptions = [
     //{ id: "#fec971", label: "Yellow" },
     { id: "#fe9b72", label: "Orange" },
-    { id: "#e4ee91", label: "none" },
+    { id: "#FCD12A", label: "none" },
     { id: "#00d4fe", label: "Blue" },
     { id: "#b693fd", label: "purple" },
     { id: "#66CDAA", label: "MediumAquaMarine" },
@@ -224,7 +224,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
         <Sidebar2 />
       </div>
       <div className="ml-10 w-[86%] mr-10">
-        <div className="container mx-auto mt-4 ">
+        <div className="container mx-auto mt-12">
           <div>
             <h1 className="text-4xl font-semibold border-b-4 pb-1 mb-1">
               Notes
@@ -395,7 +395,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
                             <div className="absolute top-2 right-4">
                               {note.favorite ? (
                                 <IoMdStar
-                                  className="text-yellow-200 text-3xl cursor-pointer"
+                                  className="text-black text-3xl cursor-pointer"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     removeFromFavorites(note._id);

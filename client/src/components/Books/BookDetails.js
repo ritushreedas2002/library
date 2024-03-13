@@ -266,6 +266,7 @@ const BookDetails = ({ uid }) => {
                   <img
                     className="mr-12 w-72 size-fit "
                     src={
+                      
                       bookInfo?.volumeInfo?.imageLinks?.large ||
                       bookInfo?.volumeInfo?.imageLinks?.thumbnail ||
                       bookInfo?.volumeInfo?.imageLinks?.smallThumbnail

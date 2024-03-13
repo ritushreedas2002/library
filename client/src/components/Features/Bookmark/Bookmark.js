@@ -7,6 +7,7 @@ import { FaBookReader } from "react-icons/fa";
 import { AiOutlineRead } from "react-icons/ai";
 import Notification from "../../utils/Notification/Notification";
 import Chatbot from "../../chatbot/Chatbot";
+import UserLogo from "../../User/UserLogo";
 
 function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
   const bookInfo = useIndivBook(bookId);
@@ -107,6 +108,7 @@ function Bookmark({ uid }) {
 
   return (
     <div className="flex bg-amber-100 min-h-screen">
+      <UserLogo/>
       <div className="w-[13%]">
         <Sidebar2 />
       </div>

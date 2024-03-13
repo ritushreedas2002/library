@@ -5,6 +5,7 @@ import { auth } from "../utils/Firebase";
 import { removeUser } from '../utils/userSlice';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Chatbot from "../chatbot/Chatbot";
 const UserProfile = ({ user, onEditProfileClick }) => {
   const [message,setmessage]=useState("");
   const uid=localStorage.getItem("uid");
@@ -116,6 +117,7 @@ const UserProfile = ({ user, onEditProfileClick }) => {
         Delete Profile
       </button>
       </div>
+      <Chatbot/>
     </div>
   );
 };
