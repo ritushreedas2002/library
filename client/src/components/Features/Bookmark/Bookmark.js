@@ -8,6 +8,7 @@ import { AiOutlineRead } from "react-icons/ai";
 import Notification from "../../utils/Notification/Notification";
 import Chatbot from "../../chatbot/Chatbot";
 import UserLogo from "../../User/UserLogo";
+import { IoMdBookmarks } from "react-icons/io";
 
 function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
   const bookInfo = useIndivBook(bookId);
@@ -108,12 +109,12 @@ function Bookmark({ uid }) {
 
   return (
     <div className="flex bg-amber-100 min-h-screen">
-      <UserLogo/>
+        <UserLogo />
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
-      <div className="ml-10 w-[86%] h-full bg-amber-100">
-        <h2 className="mt-7 text-3xl">Bookmarks</h2>
+      <div className="ml-10 w-[86%] h-full bg-amber-100 mr-10">
+        <h2 className="text-4xl font-semibold border-b-4 border-stone-600 pb-1 mb-1 mt-7">Bookmarks</h2>
         <div className="flex flex-wrap mt-6">
           {loading ? (
             <div>Loading...</div>
@@ -128,9 +129,12 @@ function Bookmark({ uid }) {
               />
             ))
           ) : (
-            <div className="flex justify-center items-center h-96 mt-10 ml-96">
-              <div className="text-3xl flex font-semibold items-center">
-                Add some books
+            <div className=" w-full">
+              <div className="flex justify-center items-center h-96 mt-10 ">
+                <div className="text-3xl flex font-semibold items-center">
+                  Start bookmarking some{" "}
+                  <IoMdBookmarks className=" m-2 text-4xl" /> to view here
+                </div>
               </div>
             </div>
           )}

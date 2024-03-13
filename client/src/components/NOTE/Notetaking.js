@@ -9,7 +9,8 @@ import { IoMdClose } from "react-icons/io";
 import { IoAddCircle } from "react-icons/io5";
 import { IoMdStar } from "react-icons/io";
 import Notification from "../utils/Notification/Notification";
-import Chatbot from "../chatbot/Chatbot"
+import Chatbot from "../chatbot/Chatbot";
+
 const Notetaking = ({ userid, show, notshow, showForm }) => {
   const uid = decodeURIComponent(userid);
   const [notes, setNotes] = useState([]);
@@ -224,7 +225,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
         <Sidebar2 />
       </div>
       <div className="ml-10 w-[86%] mr-10">
-        <div className="container mx-auto mt-12">
+        <div className="container mx-auto mt-8">
           <div>
             <h1 className="text-4xl font-semibold border-b-4 pb-1 mb-1">
               Notes

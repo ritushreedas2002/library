@@ -98,8 +98,8 @@ const RecentlyViewed = ({ uid }) => {
       <div className=" w-[13%]">
         <Sidebar2 />
       </div>
-      <div className="ml-10 w-[86%]">
-        <h2 className="mt-7 text-3xl">Recently Viewed Books</h2>
+      <div className="ml-10 w-[86%] mr-10">
+        <h2 className="text-4xl font-semibold border-b-4 border-stone-600 pb-1 mb-1 mt-7">Recently Viewed Books</h2>
         <div className="flex flex-wrap mt-6">
           {recentlyViewedBooks.map((bookId) => (
             <BookImage bookId={bookId} />
