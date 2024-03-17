@@ -16,7 +16,6 @@ const Note=()=>{
 
     return (
         <>
-            <UserLogo/>
             <Notetaking userid={uid} show={handleshow} notshow={handlenotshow} showForm={showForm}/>
         </>
     )

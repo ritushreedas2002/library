@@ -109,7 +109,7 @@ function Bookmark({ uid }) {
 
   return (
     <div className="flex bg-amber-100 min-h-screen">
-        <UserLogo />
+       
       <div className="w-[13%]">
         <Sidebar2 />
       </div>

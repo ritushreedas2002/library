@@ -59,15 +59,14 @@ const Chatbot = () => {
   };
 
   const intentToURL = {
-    favouritesPage: "/favourites",
-    bookmarkPage: "/bookmark",
-    CurrentReadPage: "/current-read",
-    ToAccount: "/User",
-    RecentBook: "/recent",
-    BookGpt: "/gpt",
-    Notes: "/Note",
-    Pdf: "/Pdf",
-
+    'favouritesPage': '/favourites',
+    'bookmarkPage': '/bookmark',
+    'CurrentReadPage':'/current-read',
+    'ToAccount':'/User',
+    'RecentBook':'/recent',
+    'BookGpt':'/gpt',
+    'Notes':'/Note',
+    'Pdf':'/Pdf'
     // Add more intents and their corresponding URLs here
   };
   const fetchMessages = async () => {
@@ -79,8 +78,7 @@ const Chatbot = () => {
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
-      const data = await response.json();
-
+      const data = await response.json();      
       setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);

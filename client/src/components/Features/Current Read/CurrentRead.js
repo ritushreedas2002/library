@@ -204,7 +204,7 @@ const CurrentRead = ({ uid }) => {
 
   return (
     <div className="flex bg-amber-100  h-screen">
-      <UserLogo />
+      
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
