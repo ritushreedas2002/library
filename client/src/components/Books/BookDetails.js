@@ -238,7 +238,11 @@ const BookDetails = ({ uid }) => {
   const handleClick = () => {
     // window.location.href = "https://play.google.com/store/books/details?id=B3PgDwAAQBAJ&rdid=book-B3PgDwAAQBAJ&rdot=1&source=gbs_api";
     window.open(
-      `https://play.google.com/store/books/details?id=`+bookid+`&rdid=book-`+bookid+`&rdot=1&source=gbs_api`,
+      `https://play.google.com/store/books/details?id=` +
+        bookid +
+        `&rdid=book-` +
+        bookid +
+        `&rdot=1&source=gbs_api`,
       "_blank"
     );
   };
@@ -260,14 +264,12 @@ const BookDetails = ({ uid }) => {
                 {bookInfo?.volumeInfo === null ? (
                   // <div className="w-[100px] mr-12 h-96 bg-gray-100"></div> //not working properly
                   <div className="w-72 h-[600px] mr-12 bg-orange-200 z-10 flex justify-center items-center text-white text-center">
-                    <h1>pic unavailable</h1>
+                    <div>pic unavailable</div>
                   </div>
                 ) : (
                   <img
-                    className="mr-12 w-72 size-fit "
+                    className=" mr-12 w-72 size-fit rounded-xl"
                     src={
-                      
-                      bookInfo?.volumeInfo?.imageLinks?.large ||
                       bookInfo?.volumeInfo?.imageLinks?.thumbnail ||
                       bookInfo?.volumeInfo?.imageLinks?.smallThumbnail
                     }
@@ -289,7 +291,7 @@ const BookDetails = ({ uid }) => {
                       {toggle ? (
                         <FaHeart className="text-red-500 " />
                       ) : (
-                        <CgHeart  />
+                        <CgHeart />
                       )}
                     </button>
                     <button

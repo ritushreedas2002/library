@@ -23,7 +23,7 @@ export const BookCard = ({ book }) => {
         <img
           src={book.volumeInfo?.imageLinks?.thumbnail}
           alt={book.volumeInfo?.title}
-          className="w-48 h-48 rounded-lg  "
+          className="w-48 h-60 rounded-lg  "
         />
       ) : (
         <DemoBookCard />

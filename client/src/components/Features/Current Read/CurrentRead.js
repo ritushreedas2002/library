@@ -132,30 +132,29 @@ const BookImage = React.memo(({ bookId, toggleShowPreview }) => {
 
   return (
     <div className="flex">
-      <div className="h-64 w-48 m-6 flex items-center">
-        <div className="h-52 w-64">
+      <div className=" m-10  items-center">
+        <div className="h-52 flex">
           <Link to={`/book/${bookId}`}>
             <img
-              className="mr-12 w-72 size-fit"
+              className="mr-12 w-80 size-fit rounded-xl"
               src={
-                bookInfo?.volumeInfo?.imageLinks?.large ||
                 bookInfo?.volumeInfo?.imageLinks?.thumbnail ||
                 bookInfo?.volumeInfo?.imageLinks?.smallThumbnail
               }
               alt=""
             />
           </Link>
-          <div className="flex-col ml-80 -mt-80">
+          <div className="flex-col ">
             <div className="mb-10">
-              <div className="text-5xl text-white font-bold w-96">
+              <div className="text-5xl text-gray-600 font-bold w-96">
                 {bookInfo.volumeInfo?.title}
               </div>
-              <div className="mt-4 text-2xl text-white font-bold w-96">
+              <div className="mt-4 text-2xl text-gray-400 font-bold w-96">
                 {bookInfo.volumeInfo?.authors.join(", ")}
               </div>
             </div>
             <button
-              className="w-56 p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg mt-13 text-xl"
+              className="w-56 p-2 m-2 bg-blue-500 text-white font-semibold rounded-lg mt-13 text-xl transition-transform duration-100 hover:scale-110"
               onClick={toggleShowPreview}
             >
               {"See Preview"}
@@ -204,13 +203,13 @@ const CurrentRead = ({ uid }) => {
 
   return (
     <div className="flex bg-amber-100  h-screen">
-      <UserLogo/>
+      <UserLogo />
       <div className="w-[13%]">
         <Sidebar2 />
       </div>
 
-      <div className="ml-16 w-[86%] h-screen bg-amber-100">
-        <h2 className="mt-7 text-3xl">Currently Reading</h2>
+      <div className="ml-10 mr-10 w-[86%] h-screen bg-amber-100">
+        <h2 className="text-4xl font-semibold border-b-4 border-stone-600 pb-1 mb-1 mt-7">Currently Reading</h2>
         {!currentBookId ? (
           <div className="flex justify-center items-center h-96 mt-10">
             <div className="text-3xl flex font-semibold items-center">
