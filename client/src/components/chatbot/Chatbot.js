@@ -9,30 +9,37 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [isListening, setIsListening] = useState(false); // New state for the listening indicator
   const dropdownRef = useRef(null);
-  
-  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  const speechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition;
   if (speechRecognition) {
     recognition = new speechRecognition();
     recognition.continuous = false; // Consider your use case for continuous mode
-    recognition.lang = 'en-US';
+    recognition.lang = "en-US";
 
     recognition.onstart = () => {
       setIsListening(true); // Update state to show the listening indicator
     };
 
+    let latestTranscript = ""; // This will hold the latest transcript temporarily
+
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.toLowerCase();
-        setUserInput(transcript);
-        console.log(userInput);
-        
-      recognition.stop(); // Consider stopping recognition after getting a result
-      
+      latestTranscript = transcript; // Update the temporary transcript
+      recognition.stop(); // This will trigger the onend event
     };
 
     recognition.onend = () => {
-      setIsListening(false); // Update state to hide the listening indicator
-      handleSendClick();
+      setIsListening(false); // Hide the listening indicator
+       // Update the state, though this is somewhat redundant if immediately sending
+       
+      
+        // Pass the latest transcript directly
+        setUserInput(latestTranscript);
+        console.log(latestTranscript); // This will now reflect the latest transcript correctly
+        handleSendClick(latestTranscript); 
+      
     };
   }
 
@@ -46,11 +53,10 @@ const Chatbot = () => {
 
   const speakText = (text) => {
     if (!text) return; // Do nothing if there's no text
-    
+
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
   };
-  
 
   const intentToURL = {
     'favouritesPage': '/favourites',
@@ -66,9 +72,11 @@ const Chatbot = () => {
   const fetchMessages = async () => {
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set based on the logged-in user
-      const response = await fetch(`http://localhost:5000/api/chat-messages/${userId}`);
+      const response = await fetch(
+        `http://localhost:5000/api/chat-messages/${userId}`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch messages');
+        throw new Error("Failed to fetch messages");
       }
       const data = await response.json();      
       setMessages(data);
@@ -77,52 +85,47 @@ const Chatbot = () => {
     }
   };
   useEffect(() => {
-    
-  
     fetchMessages();
-  
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setIsOpen(false);
-        }
-      };
-  
-      // Add click event listener to the document
-      document.addEventListener('click', handleClickOutside);
-  
-      return () => {
-        // Remove click event listener from the document
-        document.removeEventListener('click', handleClickOutside);
-      };
-    
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add click event listener to the document
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Remove click event listener from the document
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
-
-
-  const handleSendClick = async () => {
+  const handleSendClick = async ({input}) => {
     const newUserMessage = {
       text: userInput,
       type: "outgoing",
     };
     console.log(newUserMessage);
-  
+
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set
-      const response = await fetch('http://localhost:5000/api/chat-messages', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/chat-messages", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId,
           ...newUserMessage,
         }),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error("Failed to send message");
       }
-  
+
       // Optionally, fetch updated messages list to include the new message
       const data = await response.json();
       setMessages(data.messages);
@@ -132,27 +135,25 @@ const Chatbot = () => {
       console.error("Error sending message:", error);
     }
   };
-  
-
 
   const textQuery = async (userText) => {
     try {
       const userId = localStorage.getItem("uid"); // Ensure this is dynamically set
       const response = await fetch("http://localhost:5000/text-query", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           text: userText, // Use the text from user input
           userId,
-        })
+        }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       const chatbotResponse = {
         text: data.fulfillmentText, // Assuming this is how you get the response
@@ -161,17 +162,17 @@ const Chatbot = () => {
       speakText(data.fulfillmentText);
       // const path = intentToURL[data.name];
       // Now, save the chatbot response as an incoming message
-      await fetch('http://localhost:5000/api/chat-messages', {
-        method: 'POST',
+      await fetch("http://localhost:5000/api/chat-messages", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId,
           ...chatbotResponse,
         }),
       });
-  
+
       // Fetch updated messages list to include the new incoming message
       fetchMessages(); // You should define fetchMessages to be reusable outside useEffect
       setTimeout(() => {
@@ -187,50 +188,80 @@ const Chatbot = () => {
     }
   };
 
-  
-
-
   return (
-    <div className="relative" ref={dropdownRef} >
-      <button onClick={() => setIsOpen(!isOpen)} className="fixed bottom-5 right-5 bg-blue-500 text-white rounded-full p-3 shadow-xl z-10" id="chatbot">
-        <SiWechat className="text-4xl"  />
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-5 right-5 bg-blue-500 text-white rounded-full p-3 shadow-xl z-10"
+        id="chatbot"
+      >
+        <SiWechat className="text-4xl" />
       </button>
       {isOpen && (
         <div className="fixed bottom-20 right-5 bg-white rounded-lg p-4 shadow-lg z-10 w-96 h-[390px] flex flex-col">
           <div className="bg-blue-500 text-white text-lg font-semibold p-2 rounded-t-lg w-full flex justify-center absolute top-0 right-0 left-0">
             Chat with us!
           </div>
-          <div className="overflow-auto no-scrollbar p-2 space-y-2 mt-8 flex flex-col" style={{ height: 'calc(100% - 6rem)' }}>
+          <div
+            className="overflow-auto no-scrollbar p-2 space-y-2 mt-8 flex flex-col"
+            style={{ height: "calc(100% - 6rem)" }}
+          >
             {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.type === "incoming" ? "justify-start" : "justify-end"}`}>
-                <div className={`inline-block p-2 text-sm rounded-lg ${message.type === "incoming" ? "bg-gray-200 text-black" : "bg-blue-500 text-white"} min-w-[40px] max-w-[200px]`}>
+              <div
+                key={message.id}
+                className={`flex ${
+                  message.type === "incoming" ? "justify-start" : "justify-end"
+                }`}
+              >
+                <div
+                  className={`inline-block p-2 text-sm rounded-lg ${
+                    message.type === "incoming"
+                      ? "bg-gray-200 text-black"
+                      : "bg-blue-500 text-white"
+                  } min-w-[40px] max-w-[200px]`}
+                >
                   {message.text}
                 </div>
-                
               </div>
             ))}
           </div>
           <div className="mt-auto flex">
-            <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' ? handleSendClick(e) : null}
- className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Type your message..." />
-            
-            {isListening?(
-            <div className="text-center ml-2 bg-gray-400 text-black text-xl rounded-lg px-4 py-2">
-              <ThreeDots
-                visible={true}
-                height="30"
-                width="30"
-                color="#000000"
-                radius="4"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-              />
-            </div>
-          ):<button onClick={startListening} className="ml-2 bg-gray-400 text-black text-xl rounded-lg px-4 py-2 hover:bg-black hover:text-white hover:text-2xl">
-          <FaTeamspeak />
-        </button>}
-            <button onClick={handleSendClick} className="ml-2 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-700">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyPress={(e) =>
+                e.key === "Enter" ? handleSendClick(e) : null
+              }
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              placeholder="Type your message..."
+            />
+
+            {isListening ? (
+              <div className="text-center ml-2 bg-gray-400 text-black text-xl rounded-lg px-4 py-2">
+                <ThreeDots
+                  visible={true}
+                  height="30"
+                  width="30"
+                  color="#000000"
+                  radius="4"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            ) : (
+              <button
+                onClick={startListening}
+                className="ml-2 bg-gray-400 text-black text-xl rounded-lg px-4 py-2 hover:bg-black hover:text-white hover:text-2xl"
+              >
+                <FaTeamspeak />
+              </button>
+            )}
+            <button
+              onClick={handleSendClick}
+              className="ml-2 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-700"
+            >
               Send
             </button>
           </div>
@@ -241,5 +272,3 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
-
-
