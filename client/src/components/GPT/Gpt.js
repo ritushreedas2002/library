@@ -6,17 +6,19 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/background-pic-1.webp";
 import { ThreeDots } from "react-loader-spinner";
 import Chatbot from "../chatbot/Chatbot";
+import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophoneSlash } from "react-icons/fa6";
 
 import { Link, useNavigate } from "react-router-dom";
 import { GOOGLE_BOOK_API_KEY } from "../utils/constant";
-const BookCard = ({ id,title, authors, thumbnail }) => {
+const BookCard = ({ id, title, authors, thumbnail }) => {
   return (
     <Link to={`/book/${id}`}>
-    <div className="ml-6 mb-5">
-      <img className=" w-36 rounded-md h-48 " src={thumbnail} alt={title} />
-      {/* <h3>{title}</h3>
+      <div className="ml-6 mb-5">
+        <img className=" w-36 rounded-md h-48 " src={thumbnail} alt={title} />
+        {/* <h3>{title}</h3>
       <p>{authors.join(", ")}</p> */}
-    </div>
+      </div>
     </Link>
   );
 };
@@ -30,6 +32,29 @@ const Gpt = () => {
   const [loading, isloading] = useState(false);
   const uid = localStorage.getItem("uid");
   const navigate = useNavigate();
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const handleSpeechToggle = () => {
+    if (isSpeaking) {
+      // Stop the speech
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    } else {
+      // Start speaking
+      const speechSynthesis = window.speechSynthesis;
+      
+      const speechMsg = new SpeechSynthesisUtterance(results);
+      
+      
+
+      // Optional: Add an event listener to reset isSpeaking when speaking ends
+      speechMsg.onend = () => {
+        setIsSpeaking(false);
+      };
+
+      speechSynthesis.speak(speechMsg);
+      setIsSpeaking(true);
+    }
+  };
 
   useEffect(() => {
     const fetchSearchHistory = async () => {
@@ -54,6 +79,7 @@ const Gpt = () => {
 
   const handleGptSearchClick = async () => {
     setToggleView(true);
+    setresult(null);
     if (!searchtext.current.value) {
       // If search text is empty, show error message and return early
       //alert("Please enter the book name");
@@ -182,7 +208,7 @@ const Gpt = () => {
                   const { volumeInfo } = data.items[0];
                   //console.log(data.items);
                   return {
-                    id: data.items[0].id, 
+                    id: data.items[0].id,
                     title: volumeInfo.title,
                     authors: volumeInfo.authors || ["No authors listed"],
                     thumbnail: volumeInfo.imageLinks
@@ -264,6 +290,12 @@ const Gpt = () => {
           </div>
           {results && toggleView && (
             <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar">
+              <button
+                    onClick={handleSpeechToggle} // Corrected
+                    className="p-2 text-white  text-2xl rounded-lg  transition duration-300 ml-[1000px]"
+                  >
+                    {isSpeaking ? <FaMicrophone />:<FaMicrophoneSlash />}
+                  </button>
               <div className=" text-white font-semibold">{results}</div>
               <div
                 className=" ml-[500px] w-24 h-10 mb-4"
@@ -291,6 +323,7 @@ const Gpt = () => {
                   ))}
                 </ul>
                   </div>*/}
+              
 
               <div className="flex flex-wrap justify-between">
                 {searchresult.map((book, index) => (
