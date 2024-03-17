@@ -5,6 +5,7 @@ import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import { AiOutlineRead } from "react-icons/ai";
 import Chatbot from "../../chatbot/Chatbot";
 import UserLogo from "../../User/UserLogo";
+import { IoMdBookmarks } from "react-icons/io";
 
 const RecentlyViewed = ({ uid }) => {
   const [recentlyViewedBooks, setRecentlyViewedBooks] = useState([]);
@@ -94,19 +95,30 @@ const RecentlyViewed = ({ uid }) => {
 
   return (
     <div className="flex bg-amber-100 min-h-screen">
-      <UserLogo/>
+      <UserLogo />
       <div className=" w-[13%]">
         <Sidebar2 />
       </div>
       <div className="ml-10 w-[86%] mr-10">
-        <h2 className="text-4xl font-semibold border-b-4 border-stone-600 pb-1 mb-1 mt-7">Recently Viewed Books</h2>
+        <h2 className="text-4xl font-semibold border-b-4 border-stone-600 pb-1 mb-1 mt-7">
+          Recently Viewed Books
+        </h2>
         <div className="flex flex-wrap mt-6">
-          {recentlyViewedBooks.map((bookId) => (
-            <BookImage bookId={bookId} />
-          ))}
+          {recentlyViewedBooks.length > 0 ? (
+            recentlyViewedBooks.map((bookId) => <BookImage bookId={bookId} />)
+          ) : (
+            <div className=" w-full">
+              <div className="flex justify-center items-center h-96 mt-10 ">
+                <div className="text-3xl flex font-semibold items-center">
+                  Start viewing some <IoMdBookmarks className=" m-2 text-4xl" />{" "}
+                  to show here
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 };

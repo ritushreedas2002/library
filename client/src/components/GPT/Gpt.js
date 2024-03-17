@@ -4,6 +4,7 @@ import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/background-pic-1.webp";
+import image2 from "../../assets/b2.jpg";
 import { ThreeDots } from "react-loader-spinner";
 import Chatbot from "../chatbot/Chatbot";
 import { FaMicrophone } from "react-icons/fa";
@@ -41,10 +42,8 @@ const Gpt = () => {
     } else {
       // Start speaking
       const speechSynthesis = window.speechSynthesis;
-      
+
       const speechMsg = new SpeechSynthesisUtterance(results);
-      
-      
 
       // Optional: Add an event listener to reset isSpeaking when speaking ends
       speechMsg.onend = () => {
@@ -111,7 +110,6 @@ const Gpt = () => {
     // searchtext.current.value = "";
   };
 
-  
   const handlerecommnedation = async () => {
     setToggleView(false);
     searchtext.current.value = "";
@@ -201,7 +199,7 @@ const Gpt = () => {
       <div className="bg-amber-100 min-h-screen flex items-center justify-center w-screen">
         <div
           className="bg-gray-700 mt-10 mb-12 w-[90%] min-h-[90%] bg-no-repeat  bg-cover p-12 rounded-2xl shadow-xl text-white"
-          style={{ backgroundImage: `url(${image})` }}
+          style={{ backgroundImage: `url(${image2})` }}
         >
           <div className="flex justify-between mb-6">
             <div className="font-semibold text-lg">Search</div>
@@ -235,13 +233,13 @@ const Gpt = () => {
             </button>
           </div>
           {results && toggleView && (
-            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar">
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-85 overflow-y-auto no-scrollbar">
               <button
-                    onClick={handleSpeechToggle} // Corrected
-                    className="p-2 text-white  text-2xl rounded-lg  transition duration-300 ml-[1000px]"
-                  >
-                    {isSpeaking ? <FaMicrophone />:<FaMicrophoneSlash />}
-                  </button>
+                onClick={handleSpeechToggle} // Corrected
+                className="p-2 text-white  text-2xl rounded-lg  transition duration-300 ml-[1000px]"
+              >
+                {isSpeaking ? <FaMicrophone /> : <FaMicrophoneSlash />}
+              </button>
               <div className=" text-white font-semibold">{results}</div>
               <div
                 className=" ml-[500px] w-24 h-10 mb-4"
@@ -256,7 +254,7 @@ const Gpt = () => {
             </div>
           )}
           {searchresult.length > 0 && !toggleView && (
-            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-75 overflow-y-auto no-scrollbar w-[1100px] h-[460px]">
+            <div className="mt-6 bg-slate-500 p-6 rounded-2xl opacity-90 overflow-y-auto no-scrollbar w-[1100px] h-[460px]">
               {/*<div className=" text-white font-semibold">
                 <ul>
                   {searchresult.map((book, index) => (
@@ -269,7 +267,6 @@ const Gpt = () => {
                   ))}
                 </ul>
                   </div>*/}
-              
 
               <div className="flex flex-wrap justify-between">
                 {searchresult.map((book, index) => (

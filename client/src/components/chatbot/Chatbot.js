@@ -28,8 +28,6 @@ const Chatbot = () => {
         setUserInput(transcript);
         console.log(userInput);
         
-        
-      
       recognition.stop(); // Consider stopping recognition after getting a result
       
     };

@@ -122,6 +122,7 @@ import Sidebar2 from "../../MainBody/SideBar/Sidebar2";
 import BookPreview2 from "../../Books/BookPreview2";
 import Chatbot from "../../chatbot/Chatbot";
 import UserLogo from "../../User/UserLogo";
+import { IoMdBookmarks } from "react-icons/io";
 
 const BookImage = React.memo(({ bookId, toggleShowPreview }) => {
   const bookInfo = useIndivBook(bookId);
@@ -213,7 +214,7 @@ const CurrentRead = ({ uid }) => {
         {!currentBookId ? (
           <div className="flex justify-center items-center h-96 mt-10">
             <div className="text-3xl flex font-semibold items-center">
-              There are no book that u are currently reading
+              There are no <IoMdBookmarks className=" m-2 text-4xl" /> that you are currently reading
             </div>
           </div>
         ) : (
