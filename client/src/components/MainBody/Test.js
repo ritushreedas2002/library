@@ -24,6 +24,7 @@ import "swiper/css/free-mode";
 import { RxArrowTopRight } from "react-icons/rx";
 import usePopular from "../hooks/usePopular";
 import { useNavigate } from "react-router-dom";
+import { bookconstant } from "../utils/bookconstant";
 
 // Install Swiper modules
 SwiperCore.use([
@@ -115,7 +116,7 @@ const Test = () => {
         className="max-w-[100%] mySwiper -mt-12 ml-10"
         /*lg:max-w-[80%]*/
       >
-        {popular.map((item) => (
+        {/* {popular.map((item) => (
           <SwiperSlide key={item.id} onClick={() => handleNavigate(item.id)}>
             <div className="flex flex-col gap-6 mb-20 group relative shadow-none text-white rounded-xl px-6 py-8 h-[250px] w-[30%] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer ml-20">
               <div
@@ -128,7 +129,24 @@ const Test = () => {
               <RxArrowTopRight className="absolute bottom-5 left-5 w-[35px] h-[35px] text-white group-hover:text-blue-500 group-hover:rotate-45 duration-100" />
             </div>
           </SwiperSlide>
-        ))}
+        ))} */}
+        {bookconstant.map((item) => {
+          console.log(item.id, item.url); // Correctly placed outside the JSX but inside the map function
+          return (
+            <SwiperSlide key={item.id} onClick={() => handleNavigate(item.id)}>
+              <div className="flex flex-col gap-6 mb-24 group relative shadow-none text-white rounded-xl px-6 py-8 h-[300px] w-[30%] lg:h-[480px] lg:w-[350px] overflow-hidden cursor-pointer ml-20">
+                <div
+                  className="absolute inset-0 bg-cover"
+                  style={{
+                    backgroundImage: `url(${item.url})`,
+                  }}
+                />
+                <div className="absolute inset-0 bg-black opacity-10 group-hover:opacity-50" />
+                <RxArrowTopRight className="absolute bottom-5 left-5 w-[35px] h-[35px] text-white group-hover:text-blue-500 group-hover:rotate-45 duration-100" />
+              </div>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
       {/* <div className="swiper-button-next" />
       <div className="swiper-button-prev" /> */}

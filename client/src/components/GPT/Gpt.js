@@ -3,15 +3,14 @@ import { openai } from "../utils/openai";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import image from "../../assets/background-pic-1.webp";
 import image2 from "../../assets/b2.jpg";
 import { ThreeDots } from "react-loader-spinner";
 import Chatbot from "../chatbot/Chatbot";
 import { FaMicrophone } from "react-icons/fa";
 import { FaMicrophoneSlash } from "react-icons/fa6";
-
 import { Link, useNavigate } from "react-router-dom";
 import { GOOGLE_BOOK_API_KEY } from "../utils/constant";
+
 const BookCard = ({ id, title, authors, thumbnail }) => {
   return (
     <Link to={`/book/${id}`}>
@@ -116,7 +115,9 @@ const Gpt = () => {
     setsearchresult([]);
     if (searchHistory.length === 0) {
       setresult(null);
-      seterror("You have not performed any searches yet");
+      seterror(
+        "You have not performed any searches yet, start searching for books in Home to let us know about your interests."
+      );
       return;
     }
     seterror("");
@@ -202,7 +203,7 @@ const Gpt = () => {
           style={{ backgroundImage: `url(${image2})` }}
         >
           <div className="flex justify-between mb-6">
-            <div className="font-semibold text-lg">Search</div>
+            <div className="font-semibold text-4xl -mt-4">BookGPT</div>
           </div>
           <div className="relative">
             <input
@@ -211,7 +212,9 @@ const Gpt = () => {
               placeholder="Enter the book name :"
               className="w-full p-4 pl-5 bg-gray-600 rounded-full focus:outline-none opacity-75 placeholder-white"
             />
-            <p className="text-red-700 m-2 font-semibold">{error}</p>
+            <p className="text-red-500 text-lg m-2 font-semibold -mb-3">
+              {error}
+            </p>
           </div>
           <div className="flex space-x-4 mt-6">
             <button

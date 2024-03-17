@@ -1,9 +1,7 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { SiWechat } from "react-icons/si";
 import { ThreeDots } from "react-loader-spinner";
 import { FaTeamspeak } from "react-icons/fa";
-
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +61,6 @@ const Chatbot = () => {
     'BookGpt':'/gpt',
     'Notes':'/Note',
     'Pdf':'/Pdf'
-
     // Add more intents and their corresponding URLs here
   };
   const fetchMessages = async () => {
@@ -73,10 +70,7 @@ const Chatbot = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch messages');
       }
-      const data = await response.json();
-      
-  
-      
+      const data = await response.json();      
       setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);

@@ -79,14 +79,14 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-5 group">
             <Link
               to="/MainBody"
-              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600  rounded ${
                 isActive("/MainBody") ? "bg-orange-400" : ""
               }`}
             >
               <span className="text-2xl">
                 <ImHome />
               </span>
-              <span className="ml-4 text-lg group-hover:text-gray-300">
+              <span className="ml-4 text-lg">
                 Home
               </span>
             </Link>
@@ -97,14 +97,14 @@ const Sidebar2 = ({ onSignOut }) => {
             id="mybooks"
           >
             <div
-              className={`flex items-center pl-4 pr-2 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded ${
+              className={`flex items-center pl-4 pr-2 py-1 w-auto m-2 text-white hover:bg-orange-600 rounded ${
                 isActive([
                   "/favourites",
                   "/current-read",
                   "/bookmark",
                   "/recent",
                 ])
-                  ? "bg-purple-700"
+                  ? "bg-orange-400"
                   : ""
               }`}
             >
@@ -124,7 +124,7 @@ const Sidebar2 = ({ onSignOut }) => {
           {isAccordionOpen && (
             <div onClick={handleDropdownClick}>
               <Link to="/bookmark" onClick={() => setIsAccordionOpen(true)}>
-                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
+                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-orange-600 rounded">
                   <span className="text-xl">
                     <FaBookmark />
                   </span>
@@ -135,7 +135,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </Link>
 
               <Link to="/favourites" onClick={handleDropdownClick}>
-                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
+                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-orange-600 rounded">
                   <span className="text-xl">
                     <FaHeart />
                   </span>
@@ -145,7 +145,7 @@ const Sidebar2 = ({ onSignOut }) => {
                 </div>
               </Link>
               <Link to="/current-read" onClick={handleDropdownClick}>
-                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
+                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-orange-600 rounded">
                   <span className="text-xl">
                     <FaBookReader />
                   </span>
@@ -155,7 +155,7 @@ const Sidebar2 = ({ onSignOut }) => {
                 </div>
               </Link>
               <Link to="/recent" onClick={handleDropdownClick}>
-                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-purple-900 rounded">
+                <div className="flex items-center pl-8 pr-20 py-1 w-auto m-2 text-white hover:bg-orange-600 rounded">
                   <span className="text-xl">
                     <FaHistory />
                   </span>
@@ -169,15 +169,15 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-4 group" id="pdf">
             <Link to="/pdf">
               <div
-                className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
-                  isActive("/pdf") ? "bg-purple-700" : ""
+                className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600 rounded ${
+                  isActive("/pdf") ? "bg-orange-400" : ""
                 }`}
               >
                 <span className="text-2xl">
                   <FaRegFilePdf />
                 </span>
-                <div className="ml-4 text-lg group-hover:text-gray-300 flex">
-                  PDF Viewer
+                <div className="ml-4 text-lg  group-hover:text-gray-300 flex">
+                  PDFViewer
                 </div>
               </div>
             </Link>
@@ -185,8 +185,8 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-4 group" id="notes">
             <Link to="/Note">
             <div
-                className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
-                  isActive("/Note") ? "bg-purple-700" : ""
+                className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600 rounded ${
+                  isActive("/Note") ? "bg-orange-400" : ""
                 }`}
               >
                 <span className="text-2xl">
@@ -201,8 +201,8 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-4 group" id="account">
             <Link
               to="/User"
-              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
-                isActive("/User") ? "bg-purple-700" : ""
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600 rounded ${
+                isActive("/User") ? "bg-orange-400" : ""
               }`}
             >
               <span className="text-2xl">
@@ -216,8 +216,8 @@ const Sidebar2 = ({ onSignOut }) => {
           <li className="mt-4 group" id="book">
             <Link
               to="/gpt"
-              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-purple-900 rounded ${
-                isActive("/gpt") ? "bg-purple-700" : ""
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600 rounded ${
+                isActive("/gpt") ? "bg-orange-400" : ""
               }`}
             >
               <span className="text-2xl">
