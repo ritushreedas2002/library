@@ -12,6 +12,8 @@ import { FaBookmark } from "react-icons/fa6";
 import { BsBookmarkPlusFill } from "react-icons/bs";
 import Notification from "../utils/Notification/Notification";
 import Chatbot from "../chatbot/Chatbot";
+import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophoneSlash } from "react-icons/fa6";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -58,6 +60,7 @@ const BookDetails = ({ uid }) => {
   const [bookmark, setbookmark] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const category = bookInfo?.volumeInfo?.categories?.[0] ?? null;
 
@@ -238,9 +241,35 @@ const BookDetails = ({ uid }) => {
   const handleClick = () => {
     // window.location.href = "https://play.google.com/store/books/details?id=B3PgDwAAQBAJ&rdid=book-B3PgDwAAQBAJ&rdot=1&source=gbs_api";
     window.open(
-      `https://play.google.com/store/books/details?id=`+bookid+`&rdid=book-`+bookid+`&rdot=1&source=gbs_api`,
+      `https://play.google.com/store/books/details?id=` +
+        bookid +
+        `&rdid=book-` +
+        bookid +
+        `&rdot=1&source=gbs_api`,
       "_blank"
     );
+  };
+
+  const handleSpeechToggle = () => {
+    if (isSpeaking) {
+      // Stop the speech
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    } else {
+      // Start speaking
+      const speechSynthesis = window.speechSynthesis;
+      const descriptionText =
+        bookInfo.volumeInfo?.description || "No description available.";
+      const speechMsg = new SpeechSynthesisUtterance(descriptionText);
+
+      // Optional: Add an event listener to reset isSpeaking when speaking ends
+      speechMsg.onend = () => {
+        setIsSpeaking(false);
+      };
+
+      speechSynthesis.speak(speechMsg);
+      setIsSpeaking(true);
+    }
   };
 
   const shareUrl = window.location.href;
@@ -266,7 +295,6 @@ const BookDetails = ({ uid }) => {
                   <img
                     className="mr-12 w-72 size-fit "
                     src={
-                      
                       bookInfo?.volumeInfo?.imageLinks?.large ||
                       bookInfo?.volumeInfo?.imageLinks?.thumbnail ||
                       bookInfo?.volumeInfo?.imageLinks?.smallThumbnail
@@ -289,7 +317,7 @@ const BookDetails = ({ uid }) => {
                       {toggle ? (
                         <FaHeart className="text-red-500 " />
                       ) : (
-                        <CgHeart  />
+                        <CgHeart />
                       )}
                     </button>
                     <button
@@ -334,8 +362,14 @@ const BookDetails = ({ uid }) => {
                 </div>
               </div>
               <div className=" flex flex-col overflow-y-scroll h-[230px] no-scrollbar mt-5 bg-orange-100 rounded-xl p-4">
-                <div className=" text-gray-600 text-xl font-bold border-b-2 border-black">
+                <div className=" text-gray-600 text-2xl font-bold border-b-2 border-black">
                   Description
+                  <button
+                    onClick={handleSpeechToggle} // Corrected
+                    className="mt-4 p-2 text-black text-2xl rounded-lg  transition duration-300 ml-[700px]"
+                  >
+                    {isSpeaking ?  <FaMicrophone />:<FaMicrophoneSlash />}
+                  </button>
                 </div>
                 <div className=" mt-4 text-base text-gray-800">
                   {bookInfo.volumeInfo?.description

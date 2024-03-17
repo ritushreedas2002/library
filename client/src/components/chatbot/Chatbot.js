@@ -1,12 +1,48 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { SiWechat } from "react-icons/si";
-
+import { ThreeDots } from "react-loader-spinner";
+import { FaTeamspeak } from "react-icons/fa";
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isListening, setIsListening] = useState(false); // New state for the listening indicator
   const dropdownRef = useRef(null);
+
+  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition;
+  if (speechRecognition) {
+    recognition = new speechRecognition();
+    recognition.continuous = false; // Consider your use case for continuous mode
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true); // Update state to show the listening indicator
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript.toLowerCase();
+      if (transcript.includes("send") || transcript.includes("search")) {
+        handleSendClick();
+      } else {
+        setUserInput(transcript);
+      }
+      recognition.stop(); // Consider stopping recognition after getting a result
+    };
+
+    recognition.onend = () => {
+      setIsListening(false); // Update state to hide the listening indicator
+    };
+  }
+
+  const startListening = () => {
+    if (recognition) {
+      recognition.start();
+    } else {
+      console.error("Speech Recognition not supported in this browser.");
+    }
+  };
 
   const intentToURL = {
     'favouritesPage': '/favourites',
@@ -142,7 +178,35 @@ const Chatbot = () => {
     }
   };
 
-  
+  // const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // let recognition;
+  // if (speechRecognition) {
+  //   recognition = new speechRecognition();
+  //   recognition.continuous = false; // Automatically stop after the user stops talking
+  //   recognition.lang = 'en-US'; // Set the language
+
+  //   recognition.onresult = (event) => {
+  //     const transcript = event.results[0][0].transcript.toLowerCase(); // Convert transcript to lowercase
+  //     if (transcript.includes("send") || transcript.includes("search")) {
+  //       handleSendClick(); // Programmatically click the send button
+  //     } else {
+  //       setUserInput(transcript); // Update the userInput state with the recognized speech
+  //     }
+  //   };
+
+  //   recognition.onend = () => {
+  //     // You can handle the end of speech recognition here if needed
+  //   };
+  // }
+
+  // const startListening = () => {
+  //   if (recognition) {
+  //     recognition.start(); // Start the speech recognition
+  //   } else {
+  //     console.error("Speech Recognition not supported in this browser.");
+  //   }
+  // };
+
 
   return (
     <div className="relative" ref={dropdownRef} >
@@ -166,6 +230,23 @@ const Chatbot = () => {
           <div className="mt-auto flex">
             <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' ? handleSendClick(e) : null}
  className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Type your message..." />
+            
+            {isListening?(
+            <div className="text-center ml-2 bg-gray-400 text-black text-xl rounded-lg px-4 py-2">
+              <ThreeDots
+                visible={true}
+                height="30"
+                width="30"
+                color="#000000"
+                radius="4"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          ):<button onClick={startListening} className="ml-2 bg-gray-400 text-black text-xl rounded-lg px-4 py-2 hover:bg-black hover:text-white hover:text-2xl">
+          <FaTeamspeak />
+        </button>}
             <button onClick={handleSendClick} className="ml-2 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-700">
               Send
             </button>
