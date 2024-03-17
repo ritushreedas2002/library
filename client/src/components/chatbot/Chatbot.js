@@ -3,13 +3,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { SiWechat } from "react-icons/si";
 import { ThreeDots } from "react-loader-spinner";
 import { FaTeamspeak } from "react-icons/fa";
+
+
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [isListening, setIsListening] = useState(false); // New state for the listening indicator
   const dropdownRef = useRef(null);
-
+  
   const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition;
   if (speechRecognition) {
@@ -23,16 +25,18 @@ const Chatbot = () => {
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.toLowerCase();
-      if (transcript.includes("send") || transcript.includes("search")) {
-        handleSendClick();
-      } else {
         setUserInput(transcript);
-      }
+        console.log(userInput);
+        
+        
+      
       recognition.stop(); // Consider stopping recognition after getting a result
+      
     };
 
     recognition.onend = () => {
       setIsListening(false); // Update state to hide the listening indicator
+      handleSendClick();
     };
   }
 
@@ -43,6 +47,14 @@ const Chatbot = () => {
       console.error("Speech Recognition not supported in this browser.");
     }
   };
+
+  const speakText = (text) => {
+    if (!text) return; // Do nothing if there's no text
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  };
+  
 
   const intentToURL = {
     'favouritesPage': '/favourites',
@@ -64,6 +76,9 @@ const Chatbot = () => {
         throw new Error('Failed to fetch messages');
       }
       const data = await response.json();
+      
+  
+      
       setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -97,6 +112,7 @@ const Chatbot = () => {
       text: userInput,
       type: "outgoing",
     };
+    console.log(newUserMessage);
   
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set
@@ -150,6 +166,7 @@ const Chatbot = () => {
         text: data.fulfillmentText, // Assuming this is how you get the response
         type: "incoming",
       };
+      speakText(data.fulfillmentText);
       // const path = intentToURL[data.name];
       // Now, save the chatbot response as an incoming message
       await fetch('http://localhost:5000/api/chat-messages', {
@@ -178,34 +195,7 @@ const Chatbot = () => {
     }
   };
 
-  // const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  // let recognition;
-  // if (speechRecognition) {
-  //   recognition = new speechRecognition();
-  //   recognition.continuous = false; // Automatically stop after the user stops talking
-  //   recognition.lang = 'en-US'; // Set the language
-
-  //   recognition.onresult = (event) => {
-  //     const transcript = event.results[0][0].transcript.toLowerCase(); // Convert transcript to lowercase
-  //     if (transcript.includes("send") || transcript.includes("search")) {
-  //       handleSendClick(); // Programmatically click the send button
-  //     } else {
-  //       setUserInput(transcript); // Update the userInput state with the recognized speech
-  //     }
-  //   };
-
-  //   recognition.onend = () => {
-  //     // You can handle the end of speech recognition here if needed
-  //   };
-  // }
-
-  // const startListening = () => {
-  //   if (recognition) {
-  //     recognition.start(); // Start the speech recognition
-  //   } else {
-  //     console.error("Speech Recognition not supported in this browser.");
-  //   }
-  // };
+  
 
 
   return (
@@ -224,6 +214,7 @@ const Chatbot = () => {
                 <div className={`inline-block p-2 text-sm rounded-lg ${message.type === "incoming" ? "bg-gray-200 text-black" : "bg-blue-500 text-white"} min-w-[40px] max-w-[200px]`}>
                   {message.text}
                 </div>
+                
               </div>
             ))}
           </div>

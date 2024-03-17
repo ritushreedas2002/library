@@ -111,61 +111,7 @@ const Gpt = () => {
     // searchtext.current.value = "";
   };
 
-  // const handlerecommnedation = async () => {
-  //   setToggleView(false);
-  //   searchtext.current.value="";
-  //   if (searchHistory.length === 0) {
-  //     setresult(null);
-  //     seterror("You have not performed any searches yet");
-  //     return;
-  //   }
-  //   seterror("");
-  //   setresult(null);
-  //   isloading(true);
-  //   const gptQuery = `Can you recommend exactly 10 books related to ${searchHistory} to read except this book? Provide me in json format containing books array with only title of the books. Don't include \`\`\`json\`\`\` in first`;
-
-  //   try {
-  //     // Making the API call
-  //     const gptResults = await openai.chat.completions.create({
-  //       messages: [{ role: "user", content: gptQuery }],
-  //       model: "gpt-3.5-turbo",
-  //       // response_format: { type: "json_object" }
-  //     });
-
-  //     // Checking if the API returned any results
-  //     if (gptResults.choices && gptResults.choices.length > 0) {
-  //       // const recommendations = gptResults.choices[0].message.content;
-  //       // console.log(recommendations);
-  //       const recommendationsJson = JSON.parse(
-  //         gptResults.choices[0].message.content
-  //       );
-  //       console.log(recommendationsJson);
-
-  //       if (recommendationsJson && recommendationsJson.books) {
-  //         const bookList = recommendationsJson.books; // This should already be an array of book titles
-  //         console.log(bookList);
-
-  //         // Setting the array of book names in the state to use in your component for rendering
-  //         setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
-  //         isloading(false);
-  //         searchtext.current.value = "";
-  //       } else {
-  //         console.error("Books array not found in the recommendations");
-  //         // Handle the case where the 'books' array is not in the response
-  //       }
-
-  //       // Setting the array of book names in the state to use in your component for rendering
-  //       // setsearchresult(bookList); // Assuming setsearchresult updates the state with the book list
-  //     } else {
-  //       console.error("No results found");
-  //       // Handle the case where there are no recommendations
-  //     }
-  //   } catch (error) {
-  //     console.error("Error handling the recommendation:", error);
-  //     // Implement error handling
-  //   }
-  // };
-
+  
   const handlerecommnedation = async () => {
     setToggleView(false);
     searchtext.current.value = "";
