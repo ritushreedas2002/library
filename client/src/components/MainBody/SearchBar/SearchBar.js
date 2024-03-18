@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import UserLogo from "../../User/UserLogo"
+import { FaMicrophone } from "react-icons/fa";
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -11,7 +12,30 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const uid = localStorage.getItem("uid");
 
+  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition;
 
+  // Initialize speech recognition
+  if (speechRecognition) {
+    recognition = new speechRecognition();
+    recognition.continuous = false; // Change to true if you want continuous recognition
+    recognition.lang = 'en-US';
+    recognition.interimResults = false; // Set to true if you want interim results
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setSearchTerm(transcript);
+      fetchSuggestions(transcript);
+    };
+  }
+
+  const startListening = () => {
+    if (recognition) {
+      recognition.start();
+    } else {
+      console.error("Speech Recognition not supported in this browser.");
+    }
+  };
 
   useEffect(() => {
     // ... fetching user data
@@ -118,18 +142,24 @@ const SearchBar = () => {
     <div className=" pb-2 bg-gradient-to-b from-black h-28">
       <div className=" mr-3" ref={dropdownRef}>
         <div className="flex justify-center">
+          <FaMicrophone
+            onClick={startListening}
+            className="relative left-[610px] top-12 cursor-pointer text-gray-500"
+          />
           <form
             className="ml-14 pt-4 w-3/5 grid grid-cols-12"
             onSubmit={(e) => e.preventDefault()}
           >
+            
             <input
               type="text"
-              className="p-3 m-4 grid col-span-10 rounded-lg"
+              className="p-3 m-4 grid col-span-9 rounded-lg"
               placeholder="Search more books..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onFocus={fetchLatestSearches}
             />
+           
             <button
               className="col-span-2 m-4 py-2 px-2 bg-red-600 hover:bg-red-700 text-white text-md font-semibold rounded-lg text-center"
               onClick={handleSearchClick}
@@ -140,7 +170,7 @@ const SearchBar = () => {
         </div>
         {searchTerm.length === 0 && searchHistory.length > 0 ? (
           // Show search history if searchTerm is empty
-          <div className="absolute top-[84px] z-10 w-[40%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="absolute top-[84px] z-10 w-[37%]  ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             {searchHistory.map((historyItem, index) => (
               <div
                 key={index}
@@ -158,7 +188,7 @@ const SearchBar = () => {
           </div>
         ) : suggestions.length > 0 ? (
           // Show suggestions if there are any and searchTerm is not empty
-          <div className="absolute top-[84px] z-10 w-[40%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="absolute top-[84px] z-10 w-[37%] ml-[313px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             {suggestions.map((suggestion, index) => (
               <div
                 key={index}
