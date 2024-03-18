@@ -1,0 +1,217 @@
+// import background from "../../assets/background.jpg";
+// import back2 from "../../assets/back2.webp";
+// import CountUp from "react-countup";
+// const Demo = () => {
+//   return (
+//     <div className="bg-gray-300 max-w-full min-h-full">
+//       <nav className="bg-white py-4 shadow-md">
+//         <div className="max-w-7xl mx-auto px-4">
+//           <div className="flex justify-between">
+//             <div className="flex space-x-4">
+//               <div className="flex items-center text-gray-700  text-3xl font-bold">
+//                 NarrAIve
+//               </div>
+//             </div>
+//             <div className="hidden md:flex items-center space-x-1">
+//               {/* <a
+//                 href="#"
+//                 className="py-5 px-3 text-gray-700 hover:text-gray-900"
+//               >
+//                 About Us
+//               </a>
+//               <a
+//                 href="#"
+//                 className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+//               >
+//                 Login
+//               </a> */}
+//             </div>
+//           </div>
+//         </div>
+//       </nav>
+//       <div className="flex mt-10 justify-between mb-10">
+//         <div className="text-9xl w-[30%] relative ml-36">
+//           <div className="text-[101px] relative z-10 mt-6">Reading is</div>
+//           <div className="text-[140px] relative mt-3">Fascinating</div>
+//         </div>
+//         <div className="flex w-[70%] ml-3">
+//           <div
+//             className="w-52 h-[290px] ml-28 object-cover"
+//             style={{ backgroundImage: `url(${background})` }}
+//           />
+//           <div className="ml-10 w- h-72 object-cover">
+//             <img
+//               src={back2}
+//               alt="Background"
+//               style={{
+//                 Width: "70%",
+//                 width:"70%",
+//                 objectFit: "contain",
+//               }}
+//             />
+//           </div>
+
+//         </div>
+//       </div>
+//       <div className=" text-black text-7xl mt-5 ml-44 flex-col">
+//       <div className="text-6xl font-bold text-orange-500"><CountUp start={0} end={100} duration={3} delay={0}  />+  <span className="text-gray-600">Books</span>  </div>
+//       </div>
+//       {/* <div className="mt-6 flex">
+//         <div className="w-52 h-48 bg-black ml-44">
+
+//         </div>
+
+//       </div> */}
+//     </div>
+
+//   );
+// };
+// export default Demo;
+
+import background from "../../assets/background.jpg";
+import back2 from "../../assets/back2.webp";
+import CountUp from "react-countup";
+import book2 from "../../assets/book2.jpg";
+
+const Demo = () => {
+  return (
+    <div className="bg-gray-300 max-w-full min-h-full">
+      <nav className="bg-white py-4 shadow-md">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between">
+            <div className="flex space-x-4">
+              <div className="flex items-center text-gray-700  text-3xl font-bold">
+                NarrAIve
+              </div>
+            </div>
+            <div className="hidden md:flex items-center space-x-1">
+              <a
+                href="#"
+                className="py-5 px-3 text-gray-700 hover:text-gray-900"
+              >
+                About Us
+              </a>
+              <a
+                href="#"
+                className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+              >
+                Login
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      {/* Wrapping the text and new div in separate containers */}
+      <div className="flex justify-between mb-10">
+        {/* Text container */}
+        <div className="ml-36 flex-1 relative">
+          <div className="text-[110px] z-10 mt-6">Reading is</div>
+          <div className="text-[140px] -mt-8">Fascinating</div>
+        </div>
+        {/* Image and new div container */}
+        <div className="flex-1 flex mt-14">
+          <div
+            className="w-52 h-[300px] -ml-20 object-cover"
+            style={{ backgroundImage: `url(${background})` }}
+          />
+          <div className="ml-10 w- h-72 object-cover">
+            <img
+              src={back2}
+              alt="Background"
+              style={{
+                Width: "70%",
+                width: "75%",
+                objectFit: "contain",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      {/* Additional content including the new div */}
+      <div className="text-6xl font-bold text-orange-500 ml-44">
+        <CountUp start={0} end={100} duration={3} delay={0} />+{" "}
+        <span className="text-gray-600">Books</span>
+      </div>
+      {/* New div with fixed height */}
+      <div className="mt-14 flex justify-around">
+        <div
+          className="w-96 h-72 mb-6 bg-cover rounded-2xl mt-12 ml-14"
+          style={{ backgroundImage: `url(${book2})` }}
+        >
+          {/* Content inside the new div */}
+        </div>
+        <div className="-ml-10">
+          <p className=" text-black text-3xl text-orange-400 font-inria-sans">
+            Read it, feel it, live it—every story matters.{" "}
+            <hr className="w-[600px] text-black h-32"></hr>
+          </p>
+          <div className="w-[600px]  -mt-20 text-[17px]">
+            Welcome to Read It, your ultimate destination for diving into the
+            enchanting world of books. Our mission is to connect readers with a
+            vast universe of stories, insights, and knowledge, transcending
+            boundaries and bringing together a community passionate about
+            literature. At Read It, we believe that every book has the power to
+            inspire, transform, and enlighten. Whether you're seeking to escape
+            into fantastical realms, uncover the mysteries of the past, or gain
+            new perspectives on the world around you, our carefully curated
+            collection promises a companion for every journey. Join us in
+            celebrating the timeless magic of reading and discover your next
+            great adventure with Read It
+          </div>
+        </div>
+      </div>
+      <div className="flex ">
+        <div className=" flex-col w-[50%] text-black mt-44 ml-14">
+          <p className="text-4xl text-orange-600 font-bold">LitSphere: Where Every Story Is Personal</p>
+          <p className="text-lg mt-7 ml-24 text-red-900 font-semibold">Discover, Save, and Share Your Literary Journey</p>
+        </div>
+        <div className=" flex flex-wrap w-[50%] mb-10 mt-14">
+          <div className="w-48 h-48 m-2 text-black text-xs p-3 text-center">
+            <p className="text-lg font-bold">Chatty:</p>
+            With features that allow for easy navigation through vast
+            collections of books, personalized reading recommendations, and
+            interactive tools to jot down thoughts or discuss insights with
+            fellow readers.
+          </div>
+          <div className="w-48 h-48 m-2 bg-black text-white p-2 text-xs text-center">
+            <p className="text-lg font-bold">Notes:</p>
+            Our book reading application is enhanced with a sophisticated
+            note-taking feature, allowing readers to capture their thoughts,
+            reflections, and analyses directly within the app as they journey
+            through each story.
+          </div>
+          <div className="w-48 h-48 m-2 p-2 text-xs text-center">
+            <p className="text-lg font-bold">Share:</p>
+            Our book reading application introduces a seamless feature allowing
+            users to share their favorite books, insightful summaries, and
+            personal notes directly through WhatsApp. This integration fosters a
+            sense of community and connection among book lovers.
+          </div>
+          <div className="w-48 h-48 m-2 bg-black text-white p-2 text-center text-xs">
+            <p className="text-lg font-bold">BookGPT:</p>
+            The capability that empower readers by offering concise summaries of
+            books before they dive into reading, helping them decide if a book
+            aligns with their interests or current mood.It's perfect for those
+            looking to save time or get a quick grasp of a book's main themes.
+          </div>
+          <div className="w-48 h-48 m-2 p-2 text-xs text-center">
+            <p className="text-lg font-bold">Share:</p>
+            The powerful search engine not only provides instant, relevant
+            results but also incorporates a smart search history feature. This
+            feature remembers users' past searches, making it incredibly easy
+            for them to revisit previously explored topics or books.
+          </div>
+          <div className="w-48 h-48 m-2 bg-black text-white p-2 text-center text-xs">
+            <p className="text-lg font-bold">Favourites:</p>
+            Empowers you to create a personalized collection of the books that
+            touch your soul, spark your curiosity, and inspire your next
+            adventure. This feature is more than just a bookmark; it's your
+            private library of favorites.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Demo;

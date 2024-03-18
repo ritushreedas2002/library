@@ -1,9 +1,12 @@
 
 import Body from "./Body";
+import Demo from "./Demo";
+import Demo2 from "./Demo2";
 import Desktop from "./Desktop";
 
 
-import Navbar from "./Navbar";
+
+
 
 const MainContainer = () => {
   return (
@@ -18,8 +21,9 @@ const MainContainer = () => {
     //   <Body />
       
     // </div>
-      <Desktop/>
-    //  <MacBookAir/>
+      // <Desktop/>
+      <Demo/>
+     
     
   );
 };

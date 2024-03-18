@@ -5,6 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "inria-sans": "'Inria Sans'",
+        jost: "Jost",
+        inconsolata: "Inconsolata",
+      }
     },
   },
   plugins: [],
