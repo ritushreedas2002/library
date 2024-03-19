@@ -22,7 +22,7 @@ const ContactUs = () => {
           setMessages("Mail has been sent successfully");
         },
         (error) => {
-          setMessages("Failed to sent the mail");
+          setMessages("Failed to send the mail");
         }
       );
     e.target.reset();
