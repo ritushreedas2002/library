@@ -73,7 +73,7 @@ const Chatbot = () => {
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set based on the logged-in user
       const response = await fetch(
-        `https://library-sooty-seven.vercel.app/api/chat-messages/${userId}`
+        `https://library-henna-two.vercel.app/api/chat-messages/${userId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
@@ -111,7 +111,7 @@ const Chatbot = () => {
 
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set
-      const response = await fetch("https://library-sooty-seven.vercel.app/api/chat-messages", {
+      const response = await fetch("https://library-henna-two.vercel.app/api/chat-messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ const Chatbot = () => {
   const textQuery = async (userText) => {
     try {
       const userId = localStorage.getItem("uid"); // Ensure this is dynamically set
-      const response = await fetch("https://library-sooty-seven.vercel.app/text-query", {
+      const response = await fetch("https://library-henna-two.vercel.app/text-query", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ const Chatbot = () => {
       speakText(data.fulfillmentText);
       // const path = intentToURL[data.name];
       // Now, save the chatbot response as an incoming message
-      await fetch("https://library-sooty-seven.vercel.app/api/chat-messages", {
+      await fetch("https://library-henna-two.vercel.app/api/chat-messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

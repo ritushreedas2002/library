@@ -13,7 +13,7 @@ require("./db/connection");
 // *cors
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://localhost:3000", // Add your frontend origin with HTTPS
+  "https://library-za2h.vercel.app/", // Make sure there's no trailing slash
 ];
 
 const corsOptions = {
@@ -24,11 +24,13 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
+  methods: ['GET', 'POST', 'DELETE', 'PUT'], // Allow only these methods
   credentials: true,
 };
 
 app.use(express.json());
 app.use(cors(corsOptions));
+
 
 // linking express router
 app.use(require("./router/route"));
