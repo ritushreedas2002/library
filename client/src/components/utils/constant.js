@@ -1,0 +1,10 @@
+export const GOOGLE_BOOK_API_KEY = "AIzaSyBd5eK6KC9hXwSK5Gqu86oJdxFcm-FLBVQ";
+export const FIREBASE_API_KEY = "AIzaSyDGTAEqfNsjXruVsecuoLf1v5MZRmE_TK8";
+export const AUTH_DOMAIN = "library-a1fa9.firebaseapp.com";
+export const PROJECT_ID = "library-a1fa9";
+export const STORAGE_BUCKET = "library-a1fa9.appspot.com";
+export const MESSAGING_SENDER_ID = "603968663542";
+export const APP_ID = "1:603968663542:web:e96502bd07cbd29732a1d7";
+export const MEASUREMENT_ID = "G-3RX5D9C4XF";
+export const CLIENT_ID = "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com";
+export const REACT_APP_OPENAI_KEY="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";
