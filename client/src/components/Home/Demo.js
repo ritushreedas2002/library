@@ -1,79 +1,76 @@
-// import background from "../../assets/background.jpg";
-// import back2 from "../../assets/back2.webp";
-// import CountUp from "react-countup";
-// const Demo = () => {
-//   return (
-//     <div className="bg-gray-300 max-w-full min-h-full">
-//       <nav className="bg-white py-4 shadow-md">
-//         <div className="max-w-7xl mx-auto px-4">
-//           <div className="flex justify-between">
-//             <div className="flex space-x-4">
-//               <div className="flex items-center text-gray-700  text-3xl font-bold">
-//                 NarrAIve
-//               </div>
-//             </div>
-//             <div className="hidden md:flex items-center space-x-1">
-//               {/* <a
-//                 href="#"
-//                 className="py-5 px-3 text-gray-700 hover:text-gray-900"
-//               >
-//                 About Us
-//               </a>
-//               <a
-//                 href="#"
-//                 className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
-//               >
-//                 Login
-//               </a> */}
-//             </div>
-//           </div>
-//         </div>
-//       </nav>
-//       <div className="flex mt-10 justify-between mb-10">
-//         <div className="text-9xl w-[30%] relative ml-36">
-//           <div className="text-[101px] relative z-10 mt-6">Reading is</div>
-//           <div className="text-[140px] relative mt-3">Fascinating</div>
-//         </div>
-//         <div className="flex w-[70%] ml-3">
-//           <div
-//             className="w-52 h-[290px] ml-28 object-cover"
-//             style={{ backgroundImage: `url(${background})` }}
-//           />
-//           <div className="ml-10 w- h-72 object-cover">
-//             <img
-//               src={back2}
-//               alt="Background"
-//               style={{
-//                 Width: "70%",
-//                 width:"70%",
-//                 objectFit: "contain",
-//               }}
-//             />
-//           </div>
-
-//         </div>
-//       </div>
-//       <div className=" text-black text-7xl mt-5 ml-44 flex-col">
-//       <div className="text-6xl font-bold text-orange-500"><CountUp start={0} end={100} duration={3} delay={0}  />+  <span className="text-gray-600">Books</span>  </div>
-//       </div>
-//       {/* <div className="mt-6 flex">
-//         <div className="w-52 h-48 bg-black ml-44">
-
-//         </div>
-
-//       </div> */}
-//     </div>
-
-//   );
-// };
-// export default Demo;
-
 import background from "../../assets/background.jpg";
 import back2 from "../../assets/back2.webp";
 import CountUp from "react-countup";
 import book2 from "../../assets/book2.jpg";
+import { Link } from "react-router-dom";
+import { RxArrowTopRight } from "react-icons/rx";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+const ReviewCard = ({ review }) => {
+  // Assuming review.rating is a number from 1 to 5
+  const renderStars = () => {
+    let stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span key={i} className="text-yellow-500">
+          {i <= review.rating ? '★' : '☆'}
+        </span>
+      );
+    }
+    return stars;
+  };
+
+  return (
+    <div className="w-60 h-56 bg-black text-white mb-7 ml-8 rounded-xl p-4 text-center flex flex-col justify-between">
+      <img src={review.logo} alt="Logo" className="w-20 h-20 mx-auto rounded-full" />
+      <div className="flex justify-center">
+        {renderStars()}
+      </div>
+      <p className="text-xs">{review.content}</p>
+    </div>
+  );
+};
+const reviews = [
+  {
+    id: 1,
+    author: "Author Name 1",
+    logo:"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710720000&semt=ais",
+    content: "This is a review content by author lkjhgfdskjhgfds,mnbvcxkljhgfdsjm",
+  },
+  {
+    id: 2,
+    author: "Author Name 2",
+    logo:"https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fHww",
+    content: "This is a review content by author 2.",
+  },
+  {
+    id: 3,
+    author: "Author Name 3",
+    logo:"https://parrotprint.com/media/wordpress/7630543941b44634748ddea65e5a417c.jpg",
+    content: "This is a review content by author 3.",
+  },
+  // Add more reviews as needed
+];
 
 const Demo = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768, // Adjust breakpoints as needed
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 480,
+        settings: { slidesToShow: 1 },
+      },
+    ],
+  };
   return (
     <div className="bg-gray-300 max-w-full min-h-full">
       <nav className="bg-white py-4 shadow-md">
@@ -162,8 +159,12 @@ const Demo = () => {
       </div>
       <div className="flex ">
         <div className=" flex-col w-[50%] text-black mt-44 ml-14">
-          <p className="text-4xl text-orange-600 font-bold">LitSphere: Where Every Story Is Personal</p>
-          <p className="text-lg mt-7 ml-24 text-red-900 font-semibold">Discover, Save, and Share Your Literary Journey</p>
+          <p className="text-4xl text-orange-600 font-bold">
+            LitSphere: Where Every Story Is Personal
+          </p>
+          <p className="text-lg mt-7 ml-24 text-red-900 font-semibold">
+            Discover, Save, and Share Your Literary Journey
+          </p>
         </div>
         <div className=" flex flex-wrap w-[50%] mb-10 mt-14">
           <div className="w-48 h-48 m-2 text-black text-xs p-3 text-center">
@@ -207,6 +208,42 @@ const Demo = () => {
             touch your soul, spark your curiosity, and inspire your next
             adventure. This feature is more than just a bookmark; it's your
             private library of favorites.
+          </div>
+        </div>
+      </div>
+      <div className=" flex justify-between mt-9">
+        <div className="flex-col mt-8">
+          <div className="w-[480px] h-9 bg-black mb-4 ml-3"></div>
+          <div className="w-[320px] h-9 bg-black mb-4 ml-3"></div>
+        </div>
+        <div className="mt-20 text-lg  font-semibold ml-5">
+          Start exploring the most unique website full of books, where every
+          click unfolds a new chapter in your literary adventure.
+          <button className=" w-full flex justify-center mb-9">
+            <Link to="/Login">
+              <div className="flex group items-center bg-red-400 px-4 py-2 mt-4 -mb-4 rounded-2xl text-xl font-semibold transition-transform duration-100 hover:scale-110">
+                Get Started
+                <RxArrowTopRight className="ml-2 w-[35px] h-[35px] text-white hover:text-white group-hover:rotate-45 duration-100" />
+              </div>
+            </Link>
+          </button>
+        </div>
+        <div className="flex-col mt-8">
+          <div className="w-[480px] h-9 bg-orange-400 mb-4 mr-3"></div>
+          <div className="w-[320px] h-9 bg-orange-400 mb-4 ml-40"></div>
+        </div>
+      </div>
+      <div className="mt-10">
+        <div className="text-center text-3xl">Reviews</div>
+        <div className=" flex items-center mt-20 ml-80">
+          <div className="w-[840px]">
+            {" "}
+            {/* This div will control the width of the slider */}
+            <Slider {...settings}>
+              {reviews.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </Slider>
           </div>
         </div>
       </div>
