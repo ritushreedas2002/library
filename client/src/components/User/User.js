@@ -18,7 +18,7 @@ const User = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/user", {
+        const response = await axios.get("https://library-henna-two.vercel.app/user", {
           params: {
             uid: uid,
           },
@@ -48,7 +48,7 @@ const User = () => {
       formData.append('name', newName);
       formData.append('profileImage', newProfileImage);
   
-      const response = await fetch(`http://localhost:5000/profile/${user1.uid}`, {
+      const response = await fetch(`https://library-henna-two.vercel.app/profile/${user1.uid}`, {
       method: 'PUT',
       body: formData,
     });

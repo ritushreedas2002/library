@@ -17,7 +17,7 @@ function BookImage({ bookId, uid, setBookmarks, fetchBookmarks }) {
   const handleBookDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/bookmarks/${uid}/${bookId}`,
+        `https://library-henna-two.vercel.app/api/bookmarks/${uid}/${bookId}`,
         {
           method: "DELETE",
         }
@@ -89,7 +89,7 @@ function Bookmark({ uid }) {
   const fetchBookmarks = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/bookmarks/${uid}`
+        `https://library-henna-two.vercel.app/api/bookmarks/${uid}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch bookmarks");
