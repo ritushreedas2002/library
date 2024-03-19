@@ -7,6 +7,10 @@ import { RxArrowTopRight } from "react-icons/rx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Aos from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
+
 const ReviewCard = ({ review }) => {
   // Assuming review.rating is a number from 1 to 5
   const renderStars = () => {
@@ -74,7 +78,55 @@ const reviews = [
   // Add more reviews as needed
 ];
 
+const LitSphere = [
+  {
+    order: -1,
+    highlightText: "LitSphere: Where Every Story Is Personal",
+    heading: "Discover, Save, and Share Your Literary Journey",
+    // description:
+    //   "We're passionate about connecting food lovers with the best restaurants and making it easier than ever to discover, order, and enjoy delicious meals.",
+  },
+  {
+    order: 1,
+    heading: "Chatty",
+    description:
+      "With features that allow for easy navigation through vast collections of books, personalized reading recommendations, and interactive tools to jot down thoughts or discuss insights with fellow readers.",
+  },
+  {
+    order: 2,
+    heading: "Notes",
+    description:
+      "Our book reading application is enhanced with a sophisticated note-taking feature, allowing readers to capture their thoughts, reflections, and analyses directly within the app as they journey through each story.",
+  },
+  {
+    order: 3,
+    heading: "Share",
+    description:
+      "Our book reading application introduces a seamless feature allowing users to share their favorite books, insightful summaries, and personal notes directly through WhatsApp. This integration fosters a sense of community and connection among book lovers.",
+  },
+  {
+    order: 4,
+    heading: "BookGPT",
+    description:
+      "The capability that empower readers by offering concise summaries of books before they dive into reading, helping them decide if a book aligns with their interests or current mood.It's perfect for those looking to save time or get a quick grasp of a book's main themes.",
+  },
+  {
+    order: 5,
+    heading: "Favourites",
+    description:
+      "Empowers you to create a personalized collection of the books that touch your soul, spark your curiosity, and inspire your next adventure. This feature is more than just a bookmark; it's your private library of favorites.",
+  },
+];
+
 const Demo = () => {
+  useEffect(() => {
+    Aos.init({
+      offset: 50,
+      duration: 1000,
+      easing: "ease-in",
+    });
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -158,27 +210,25 @@ const Demo = () => {
         >
           {/* Content inside the new div */}
         </div>
-        <div className="-ml-10">
-          <p className=" text-3xl text-orange-400 font-inria-sans border-b-2 border-red-400 ">
-            Read it, feel it, live it—every story matters.{" "}
-            {/* <hr className="w-[600px] text-black h-32"></hr> */}
-          </p>
-          <div className="w-[600px] mt-8 text-[17px]">
-            Welcome to Read It, your ultimate destination for diving into the
-            enchanting world of books. Our mission is to connect readers with a
-            vast universe of stories, insights, and knowledge, transcending
-            boundaries and bringing together a community passionate about
-            literature. At Read It, we believe that every book has the power to
-            inspire, transform, and enlighten. Whether you're seeking to escape
-            into fantastical realms, uncover the mysteries of the past, or gain
-            new perspectives on the world around you, our carefully curated
-            collection promises a companion for every journey. Join us in
-            celebrating the timeless magic of reading and discover your next
-            great adventure with Read It
-          </div>
+        <div className="-ml-10 mt-20">
+          <section className="w-[600px] mt-8 text-[17px] scroll-reveal font-bold">
+            <h2 className=" text-3xl text-orange-400 font-inria-sans border-b-2 border-red-400 ">
+              <span>Read it, feel it, live it—every story matters. </span>
+              {/* <hr className="w-[600px] text-black h-32"></hr> */}
+            </h2>
+            <p>
+              <span>
+                Welcome to Read It, your ultimate destination for diving into
+                the enchanting world of books. Our mission is to connect readers
+                with a vast universe of stories, insights, and knowledge,
+                transcending boundaries and bringing together a community
+                passionate about literature.
+              </span>
+            </p>
+          </section>
         </div>
       </div>
-      <div className="flex ">
+      {/* <div className="flex ">
         <div className=" flex-col w-[50%] text-black mt-44 ml-14">
           <p className="text-4xl text-orange-600 font-bold">
             LitSphere: Where Every Story Is Personal
@@ -231,6 +281,53 @@ const Demo = () => {
             private library of favorites.
           </div>
         </div>
+      </div> */}
+      <div className="grid mt-14 grid-col-1 lg:grid-cols-4 mb-10 p-5 lg:w-fit">
+        {LitSphere.map((card, index) => {
+          return (
+            <div
+              key={index}
+              data-aos={`${index % 2 === 1 ? "fade-up" : "fade-down"}`}
+              className={`${index === 0 && "lg:col-span-2 lg:h-[280px] p-5"}
+                ${
+                  card.order % 2 === 1
+                    ? "bg-orange-300 lg:h-[280px] p-5"
+                    : "bg-primary-body lg:h-[280px] p-5"
+                }
+                ${card.order === 3 && "lg:col-start-2"}
+                ${card.order < 0 && "bg-transparent"}
+                `}
+            >
+              {card.order < 0 ? (
+                <div className="lg:w-[90%] flex flex-col pb-5 gap-3">
+                  <div className="text-4xl font-semibold text-black">
+                    <div className="text-[#652429] mb-6  bg-clip-text font-extrabold text-[50px]">
+                      {card.highlightText}
+                    </div>
+                    <div>{card.heading}</div>
+                  </div>
+                  <p className="font-medium text-black text-xl ">
+                    {card.description}
+                  </p>
+                  {/* <div className="w-fit mt-4">
+                  <CTAButton active={true} linkto={card.BtnLink}>
+                    {card.BtnText}
+                  </CTAButton>
+                </div> */}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-8 p-4">
+                  <h1 className="text-black text-lg font-extrabold">
+                    {card.heading}
+                  </h1>
+                  <p className="text-black font-bold text-[15px]">
+                    {card.description}
+                  </p>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
       <div className=" flex justify-between mt-9">
         <div className="flex-col mt-8">
@@ -261,7 +358,27 @@ const Demo = () => {
           </div>
           <div className="flex flex-wrap ">
             <img
-              src="/bestsellers/ikigai.jpg"
+              src="/bestsellers/amish.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="./bestsellers/alchemist.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="/bestsellers/kiterunner.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="./bestsellers/hitchhiker.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="/bestsellers/atomichabits.png"
               alt="book1"
               className="w-48 h-64 m-2 rounded-lg"
             />
@@ -271,27 +388,7 @@ const Demo = () => {
               className="w-48 h-64 m-2 rounded-lg"
             />
             <img
-              src="/bestsellers/ikigai.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/ikigai.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="/bestsellers/ikigai.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/ikigai.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/ikigai.jpg"
+              src="./bestsellers/sapiens.png"
               alt="book1"
               className="w-48 h-64 m-2 rounded-lg"
             />

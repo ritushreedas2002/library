@@ -19,7 +19,7 @@ const ContactUs = () => {
       })
       .then(
         () => {
-          setMessages("Mail has been sent to u successfully");
+          setMessages("Mail has been sent successfully");
         },
         (error) => {
           setMessages("Failed to sent u the mail");
