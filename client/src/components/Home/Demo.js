@@ -14,7 +14,7 @@ const ReviewCard = ({ review }) => {
     for (let i = 1; i <= 5; i++) {
       stars.push(
         <span key={i} className="text-yellow-500">
-          {i <= review.rating ? '★' : '☆'}
+          {i <= review.rating ? "★" : "☆"}
         </span>
       );
     }
@@ -22,12 +22,19 @@ const ReviewCard = ({ review }) => {
   };
 
   return (
-    <div className="w-60 h-56 bg-black text-white mb-7 ml-8 rounded-xl p-4 text-center flex flex-col justify-between">
-      <img src={review.logo} alt="Logo" className="w-20 h-20 mx-auto rounded-full" />
-      <div className="flex justify-center">
-        {renderStars()}
+    <div className="w-60 h-56 bg-black text-white mb-7 ml-8 rounded-xl p-4 text-center flex flex-col">
+      <div className="flex justify-around">
+        <img
+          src={review.logo}
+          alt="Logo"
+          className="w-20 h-20 mx-auto rounded-full"
+        />
+        <div className="flex justify-center mt-10">{renderStars()}</div>
       </div>
-      <p className="text-xs">{review.content}</p>
+
+      <div className="text-xs mt-5 w-48 h-40 overflow-y-auto no-scrollbar">
+        {review.content}
+      </div>
     </div>
   );
 };
@@ -35,20 +42,34 @@ const reviews = [
   {
     id: 1,
     author: "Author Name 1",
-    logo:"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710720000&semt=ais",
-    content: "This is a review content by author lkjhgfdskjhgfds,mnbvcxkljhgfdsjm",
+    rating: 3,
+    logo: "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710720000&semt=ais",
+    content:
+      "Revolutionary and intuitive, this app redefines the way we experience literature—truly a game-changer for book lovers everywhere.",
   },
   {
     id: 2,
     author: "Author Name 2",
-    logo:"https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fHww",
-    content: "This is a review content by author 2.",
+    rating: 4,
+    logo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    content:
+      "From the intuitive note-taking to the social sharing features, this app creates a vibrant community of readers and thinkers.",
   },
   {
     id: 3,
     author: "Author Name 3",
-    logo:"https://parrotprint.com/media/wordpress/7630543941b44634748ddea65e5a417c.jpg",
-    content: "This is a review content by author 3.",
+    rating: 5,
+    logo: "https://parrotprint.com/media/wordpress/7630543941b44634748ddea65e5a417c.jpg",
+    content:
+      "Transforms reading from a solitary activity into a shared experience, enriching lives one page at a time.",
+  },
+  {
+    id: 4,
+    author: "Author Name 3",
+    rating: 4,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRaRN3bQfwDgA_-j92-q2HOIMZgYAeyg1KU4uJwHJS0hY2VVJY8cyqRAIa-XIQlZJA0Q&usqp=CAU",
+    content:
+      "A digital haven for bibliophiles, offering instant access to a treasure trove of stories and insightful summaries.",
   },
   // Add more reviews as needed
 ];
@@ -138,11 +159,11 @@ const Demo = () => {
           {/* Content inside the new div */}
         </div>
         <div className="-ml-10">
-          <p className=" text-black text-3xl text-orange-400 font-inria-sans">
+          <p className=" text-3xl text-orange-400 font-inria-sans border-b-2 border-red-400 ">
             Read it, feel it, live it—every story matters.{" "}
-            <hr className="w-[600px] text-black h-32"></hr>
+            {/* <hr className="w-[600px] text-black h-32"></hr> */}
           </p>
-          <div className="w-[600px]  -mt-20 text-[17px]">
+          <div className="w-[600px] mt-8 text-[17px]">
             Welcome to Read It, your ultimate destination for diving into the
             enchanting world of books. Our mission is to connect readers with a
             vast universe of stories, insights, and knowledge, transcending
@@ -233,9 +254,56 @@ const Demo = () => {
           <div className="w-[320px] h-9 bg-orange-400 mb-4 ml-40"></div>
         </div>
       </div>
-      <div className="mt-10">
-        <div className="text-center text-3xl">Reviews</div>
-        <div className=" flex items-center mt-20 ml-80">
+      <div className="w-full mt-8 h-60 flex flex-col p-7">
+        <div className=" mx-auto">
+          <div className="text-black text-3xl mb-6 text-center">
+            Most Trending Books
+          </div>
+          <div className="flex flex-wrap ">
+            <img
+              src="/bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="./bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="/bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="./bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="/bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="./bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+            <img
+              src="./bestsellers/ikigai.jpg"
+              alt="book1"
+              className="w-48 h-64 m-2 rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-40">
+        <div className="text-center text-4xl font-serif font-semibold">
+          Reviews
+        </div>
+        <div className=" flex items-center mt-8 ml-80">
           <div className="w-[840px]">
             {" "}
             {/* This div will control the width of the slider */}
