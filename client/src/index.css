@@ -50,7 +50,6 @@
   background-repeat: no-repeat;
   animation: scroll-reveal linear forwards;
   animation-timeline: view();
-  
 }
 
 .scroll-reveal h2 span {
