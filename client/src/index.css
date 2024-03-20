@@ -70,18 +70,43 @@
 } */
 
 
-.scroll-reveal span {
+ /* .scroll-reveal span {
   display: inline;
   color: hsl(0 0% 100% / 0.3);
   background-clip: text;
   background-image: linear-gradient(90deg, black, black);
   background-size: 0% 100%;
   background-repeat: no-repeat;
-  opacity: 0; /* Start elements as invisible */
-  transition: background-size 1s, opacity 0.9s; /* Smooth transition for the reveal */
+  opacity: 0; 
+  transition: background-size 1s, opacity 0.9s; 
+}  */
+
+/* .revealed span {
+  background-size: 100% 100%;
+  opacity: 1; 
+}  */
+
+
+.scroll-reveal span {
+  display: inline;
+  color: hsl(0 0% 100% / 0.3); /* Initial text color */
+  background-clip: text;
+  background-image: linear-gradient(90deg, black, black);
+  background-size: 100% 100%; /* Start with text hidden */
+  background-repeat: no-repeat;
+  transition: background-size 0.5s, color 0.5s; /* Smooth transition for the reveal and color */
+  opacity: 1; /* Keep text visible to enable color transition */
 }
 
+/* Revealed state: text is visible */
 .revealed span {
-  background-size: 100% 100%;
-  opacity: 1; /* Make element fully visible */
+  background-size: 0% 100%; /* Remove background to reveal text */
+  color: black; /* Text color when revealed */
 }
+
+/* Hidden state: text is hidden again */
+.hidden span {
+  background-size: 100% 100%; /* Add background to hide text */
+  color: hsl(0 0% 100% / 0.3); /* Transition back to initial text color */
+}
+
