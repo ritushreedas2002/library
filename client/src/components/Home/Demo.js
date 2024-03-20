@@ -12,7 +12,7 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 
 const ReviewCard = ({ review }) => {
-  
+
   // Assuming review.rating is a number from 1 to 5
   // useEffect(() => {
   //   const revealElements = document.querySelectorAll('.scroll-reveal');
@@ -68,45 +68,43 @@ const ReviewCard = ({ review }) => {
 
 
 
-
   useEffect(() => {
     let lastScrollY = window.scrollY;
-
-    const revealElements = document.querySelectorAll('.scroll-reveal');
-
-    const revealOnScroll = (entries, observer) => {
-      entries.forEach(entry => {
-        const currentScrollY = window.scrollY;
-        let scrollingDown = currentScrollY > lastScrollY;
-        lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY; // Reset at top
-
-        if (entry.isIntersecting && scrollingDown) {
-          entry.target.classList.add('revealed');
-          entry.target.classList.remove('hidden');
-        } else if (!entry.isIntersecting && !scrollingDown) {
-          entry.target.classList.add('hidden');
-          entry.target.classList.remove('revealed');
+  
+    const revealElements = document.querySelectorAll('.scroll-reveal span');
+  
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      revealElements.forEach(el => {
+        // Check if element is in viewport
+        const rect = el.getBoundingClientRect();
+        const inViewport = rect.top < window.innerHeight && rect.bottom >= 0;
+  
+        if (inViewport) {
+          if (currentScrollY > lastScrollY) {
+            // Scrolling down, trigger reveal
+            el.classList.add('reveal');
+            el.classList.remove('unreveal');
+          } else {
+            // Scrolling up, trigger unreveal
+            el.classList.add('unreveal');
+            el.classList.remove('reveal');
+          }
         }
       });
+      lastScrollY = currentScrollY; // Update the last scroll position
     };
-
-    const observer = new IntersectionObserver(revealOnScroll, {
-      threshold: 0.5, // Adjust based on when you want the animation to start
-    });
-
-    revealElements.forEach(element => {
-      observer.observe(element);
-    });
-
-    // Cleanup function to unobserve when component unmounts
+  
+    window.addEventListener('scroll', handleScroll);
+  
     return () => {
-      revealElements.forEach(element => {
-        observer.unobserve(element);
-      });
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-
+  
+  
+  
+  
   const renderStars = () => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {

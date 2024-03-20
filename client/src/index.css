@@ -87,26 +87,51 @@
 }  */
 
 
+
+
+
+/* Initial and general setup */
 .scroll-reveal span {
   display: inline;
-  color: hsl(0 0% 100% / 0.3); /* Initial text color */
+  color: hsl(0 0% 100% / 0.3); /* Set for background-clip text effect */
   background-clip: text;
+  -webkit-background-clip: text;
   background-image: linear-gradient(90deg, black, black);
-  background-size: 100% 100%; /* Start with text hidden */
+  background-size: 0% 100%;
   background-repeat: no-repeat;
-  transition: background-size 0.5s, color 0.5s; /* Smooth transition for the reveal and color */
-  opacity: 1; /* Keep text visible to enable color transition */
+  opacity: 0; /* Start with the text fully transparent */
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
 }
 
-/* Revealed state: text is visible */
-.revealed span {
-  background-size: 0% 100%; /* Remove background to reveal text */
-  color: black; /* Text color when revealed */
+@keyframes revealEffect {
+  0% {
+    background-size: 0% 100%;
+    opacity: 0;
+  }
+  100% {
+    background-size: 100% 100%;
+    opacity: 1;
+  }
 }
 
-/* Hidden state: text is hidden again */
-.hidden span {
-  background-size: 100% 100%; /* Add background to hide text */
-  color: hsl(0 0% 100% / 0.3); /* Transition back to initial text color */
+@keyframes unrevealEffect {
+  0% {
+    background-size: 100% 100%;
+    opacity: 1;
+  }
+  100% {
+    background-size: 0% 100%;
+    opacity: 1;
+  }
 }
+
+/* Classes to trigger animations */
+.scroll-reveal span.reveal {
+  animation: revealEffect 1s forwards;
+}
+
+.scroll-reveal span.unreveal {
+  animation: unrevealEffect 1s forwards;
+}
+
 
