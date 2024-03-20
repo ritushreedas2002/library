@@ -13,21 +13,43 @@ import { useEffect } from "react";
 
 const ReviewCard = ({ review }) => {
   // Assuming review.rating is a number from 1 to 5
+  // useEffect(() => {
+  //   const revealElements = document.querySelectorAll('.scroll-reveal');
+
+  //   const revealOnScroll = entries => {
+  //     entries.forEach(entry => {
+  //       if (entry.isIntersecting) {
+  //         entry.target.classList.add('revealed');
+  //       } else {
+  //         entry.target.classList.remove('revealed');
+  //       }
+  //     });
+  //   };
+
+  //   const observer = new IntersectionObserver(revealOnScroll, {
+  //     threshold: 0.1 // Adjust based on when you want the animation to start
+  //   });
+
+  //   revealElements.forEach(element => {
+  //     observer.observe(element);
+  //   });
+
+  //   // Cleanup function to unobserve when component unmounts
+  //   return () => revealElements.forEach(el => observer.unobserve(el));
+  // }, []);
   useEffect(() => {
     const revealElements = document.querySelectorAll('.scroll-reveal');
 
     const revealOnScroll = entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-        } else {
-          entry.target.classList.remove('revealed');
-        }
+        // Toggle 'revealed' class based on whether the element is intersecting
+        entry.target.classList.toggle('revealed', entry.isIntersecting);
       });
     };
 
     const observer = new IntersectionObserver(revealOnScroll, {
-      threshold: 0.1 // Adjust based on when you want the animation to start
+      threshold: 0.1, // Adjust based on when you want the animation to start
+      // Optionally, you can add rootMargin here if you want to trigger the effect before the element is in view
     });
 
     revealElements.forEach(element => {
@@ -37,6 +59,7 @@ const ReviewCard = ({ review }) => {
     // Cleanup function to unobserve when component unmounts
     return () => revealElements.forEach(el => observer.unobserve(el));
   }, []);
+
 
   const renderStars = () => {
     let stars = [];
