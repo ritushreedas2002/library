@@ -41,7 +41,7 @@
   transform: scale(1.2);
 }
 
-/* .scroll-reveal span {
+/*.scroll-reveal span {
   display: inline;
   color: hsl(0 0% 100% / 0.3);
   background-clip: text;
@@ -77,14 +77,14 @@
 /* Initial and general setup */
 .scroll-reveal span {
   display: inline;
-  color: hsl(0 0% 100% / 0.3); /* Set for background-clip text effect */
+  color: hsl(0 0% 100% / 0.3); 
   background-clip: text;
   -webkit-background-clip: text;
   background-image: linear-gradient(90deg, black, black);
   background-size: 0% 100%;
   background-repeat: no-repeat;
-  opacity: 0; /* Start with the text fully transparent */
-  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+  opacity: 0; 
+  transition: opacity 0.5s ease; 
 }
 
 @keyframes revealEffect {
@@ -109,13 +109,44 @@
   }
 }
 
-/* Classes to trigger animations */
+
 .scroll-reveal span.reveal {
-  animation: revealEffect 1s forwards;
+  animation: revealEffect 4s forwards;
 }
 
 .scroll-reveal span.unreveal {
-  animation: unrevealEffect 1s forwards;
+  animation: unrevealEffect 5s forwards;
 }
 
+.font-fredoka {
+  font-family: 'Fredoka', sans-serif;
+}
 
+.add-slide{
+  color:darkgrey;
+}
+
+.add-slide::before{
+  content: "Literature mesmerizes";
+  /* width: 100%; */
+  color: #000;
+  position: absolute;
+  /* top: 0; */
+  left: 0rem;
+  /* border-right: 0.1rem solid #000; */
+  animation: slide 3s linear infinite;
+  -webkit-animation: slide 4s linear infinite;
+  overflow: hidden;
+}
+
+@keyframes slide{
+  0%{
+    width: 0%;
+  }
+  50%{
+    width: 100%;
+  }
+  100%{
+    width: 0%;
+  }
+}

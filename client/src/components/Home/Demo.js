@@ -10,101 +10,45 @@ import Slider from "react-slick";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 const ReviewCard = ({ review }) => {
-
-  // Assuming review.rating is a number from 1 to 5
-  // useEffect(() => {
-  //   const revealElements = document.querySelectorAll('.scroll-reveal');
-
-  //   const revealOnScroll = entries => {
-  //     entries.forEach(entry => {
-  //       if (entry.isIntersecting) {
-  //         entry.target.classList.add('revealed');
-  //       } else {
-  //         entry.target.classList.remove('revealed');
-  //       }
-  //     });
-  //   };
-
-  //   const observer = new IntersectionObserver(revealOnScroll, {
-  //     threshold: 0.1 // Adjust based on when you want the animation to start
-  //   });
-
-  //   revealElements.forEach(element => {
-  //     observer.observe(element);
-  //   });
-
-  //   // Cleanup function to unobserve when component unmounts
-  //   return () => revealElements.forEach(el => observer.unobserve(el));
-  // }, []);
-
-
-
-
-
-  // useEffect(() => {
-  //   const revealElements = document.querySelectorAll('.scroll-reveal');
-
-  //   const revealOnScroll = entries => {
-  //     entries.forEach(entry => {
-  //       // Toggle 'revealed' class based on whether the element is intersecting
-  //       entry.target.classList.toggle('revealed', entry.isIntersecting);
-  //     });
-  //   };
-
-  //   const observer = new IntersectionObserver(revealOnScroll, {
-  //     threshold: 0.1, // Adjust based on when you want the animation to start
-  //     // Optionally, you can add rootMargin here if you want to trigger the effect before the element is in view
-  //   });
-
-  //   revealElements.forEach(element => {
-  //     observer.observe(element);
-  //   });
-
-  //   // Cleanup function to unobserve when component unmounts
-  //   return () => revealElements.forEach(el => observer.unobserve(el));
-  // }, []);
-
-
-
   useEffect(() => {
     let lastScrollY = window.scrollY;
-  
-    const revealElements = document.querySelectorAll('.scroll-reveal span');
-  
+
+    const revealElements = document.querySelectorAll(".scroll-reveal span");
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      revealElements.forEach(el => {
+      revealElements.forEach((el) => {
         // Check if element is in viewport
         const rect = el.getBoundingClientRect();
         const inViewport = rect.top < window.innerHeight && rect.bottom >= 0;
-  
+        const leavingViewportBottom =
+          rect.top < window.innerHeight && rect.bottom < 0;
+
         if (inViewport) {
           if (currentScrollY > lastScrollY) {
             // Scrolling down, trigger reveal
-            el.classList.add('reveal');
-            el.classList.remove('unreveal');
+            el.classList.add("reveal");
+            el.classList.remove("unreveal");
           } else {
             // Scrolling up, trigger unreveal
-            el.classList.add('unreveal');
-            el.classList.remove('reveal');
+            el.classList.add("unreveal");
+            el.classList.remove("reveal");
           }
         }
       });
       lastScrollY = currentScrollY; // Update the last scroll position
     };
-  
-    window.addEventListener('scroll', handleScroll);
-  
+
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
-  
-  
-  
+
   const renderStars = () => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -266,9 +210,12 @@ const Demo = () => {
       {/* Wrapping the text and new div in separate containers */}
       <div className="flex justify-between mb-10">
         {/* Text container */}
+        <style>
+          {`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap');`}
+        </style>
         <div className="ml-36 flex-1 relative">
-          <div className="text-[110px] z-10 mt-6">Reading is</div>
-          <div className="text-[140px] -mt-8">Fascinating</div>
+          <div className="text-[120px] w-[50%] z-10 mt-6 font-fredoka add-slide">Literature mesmerizes</div>
+          {/* <div className="text-[140px] -mt-8 font-fredoka">Fascinating</div> */}
         </div>
         {/* Image and new div container */}
         <div className="flex-1 flex mt-14">
@@ -290,9 +237,9 @@ const Demo = () => {
         </div>
       </div>
       {/* Additional content including the new div */}
-      <div className="text-6xl font-bold text-orange-500 ml-44">
+      <div className="text-6xl font-bold text-orange-500 ml-44 font-fredoka">
         <CountUp start={0} end={100} duration={3} delay={0} />+{" "}
-        <span className="text-gray-600">Books</span>
+        <span className="text-gray-600 font-fredoka">Books</span>
       </div>
       {/* New div with fixed height */}
       <div className="mt-14 flex justify-around">
@@ -320,61 +267,8 @@ const Demo = () => {
           </section>
         </div>
       </div>
-      {/* <div className="flex ">
-        <div className=" flex-col w-[50%] text-black mt-44 ml-14">
-          <p className="text-4xl text-orange-600 font-bold">
-            LitSphere: Where Every Story Is Personal
-          </p>
-          <p className="text-lg mt-7 ml-24 text-red-900 font-semibold">
-            Discover, Save, and Share Your Literary Journey
-          </p>
-        </div>
-        <div className=" flex flex-wrap w-[50%] mb-10 mt-14">
-          <div className="w-48 h-48 m-2 text-black text-xs p-3 text-center">
-            <p className="text-lg font-bold">Chatty:</p>
-            With features that allow for easy navigation through vast
-            collections of books, personalized reading recommendations, and
-            interactive tools to jot down thoughts or discuss insights with
-            fellow readers.
-          </div>
-          <div className="w-48 h-48 m-2 bg-black text-white p-2 text-xs text-center">
-            <p className="text-lg font-bold">Notes:</p>
-            Our book reading application is enhanced with a sophisticated
-            note-taking feature, allowing readers to capture their thoughts,
-            reflections, and analyses directly within the app as they journey
-            through each story.
-          </div>
-          <div className="w-48 h-48 m-2 p-2 text-xs text-center">
-            <p className="text-lg font-bold">Share:</p>
-            Our book reading application introduces a seamless feature allowing
-            users to share their favorite books, insightful summaries, and
-            personal notes directly through WhatsApp. This integration fosters a
-            sense of community and connection among book lovers.
-          </div>
-          <div className="w-48 h-48 m-2 bg-black text-white p-2 text-center text-xs">
-            <p className="text-lg font-bold">BookGPT:</p>
-            The capability that empower readers by offering concise summaries of
-            books before they dive into reading, helping them decide if a book
-            aligns with their interests or current mood.It's perfect for those
-            looking to save time or get a quick grasp of a book's main themes.
-          </div>
-          <div className="w-48 h-48 m-2 p-2 text-xs text-center">
-            <p className="text-lg font-bold">Share:</p>
-            The powerful search engine not only provides instant, relevant
-            results but also incorporates a smart search history feature. This
-            feature remembers users' past searches, making it incredibly easy
-            for them to revisit previously explored topics or books.
-          </div>
-          <div className="w-48 h-48 m-2 bg-black text-white p-2 text-center text-xs">
-            <p className="text-lg font-bold">Favourites:</p>
-            Empowers you to create a personalized collection of the books that
-            touch your soul, spark your curiosity, and inspire your next
-            adventure. This feature is more than just a bookmark; it's your
-            private library of favorites.
-          </div>
-        </div>
-      </div> */}
-      <div className="grid mt-14 grid-col-1 lg:grid-cols-4 mb-10 p-5 lg:w-fit">
+
+      <div className="grid mt-24 grid-col-1 lg:grid-cols-4 mb-10 p-5 lg:w-fit">
         {LitSphere.map((card, index) => {
           return (
             <div
@@ -383,7 +277,7 @@ const Demo = () => {
               className={`${index === 0 && "lg:col-span-2 lg:h-[280px] p-5"}
                 ${
                   card.order % 2 === 1
-                    ? "bg-orange-300 lg:h-[280px] p-5"
+                    ? "bg-gray-700  lg:h-[280px] p-5 "
                     : "bg-primary-body lg:h-[280px] p-5"
                 }
                 ${card.order === 3 && "lg:col-start-2"}
@@ -409,10 +303,18 @@ const Demo = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-8 p-4">
-                  <h1 className="text-black text-lg font-extrabold">
+                  <h1
+                    className={`text-lg font-extrabold ${
+                      index % 2 === 1 ? "text-white" : "text-black"
+                    }`}
+                  >
                     {card.heading}
                   </h1>
-                  <p className="text-black font-bold text-[15px]">
+                  <p
+                    className={`font-bold text-[15px] ${
+                      index % 2 === 1 ? "text-white" : "text-black"
+                    }`}
+                  >
                     {card.description}
                   </p>
                 </div>
@@ -449,41 +351,69 @@ const Demo = () => {
             Most Trending Books
           </div>
           <div className="flex flex-wrap ">
-            <img
-              src="/bestsellers/amish.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/alchemist.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="/bestsellers/kiterunner.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/hitchhiker.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="/bestsellers/atomichabits.png"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/ikigai.jpg"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
-            <img
-              src="./bestsellers/sapiens.png"
-              alt="book1"
-              className="w-48 h-64 m-2 rounded-lg"
-            />
+            <div className="relative w-48 h-64 m-2">
+              <img
+                src="./bestsellers/alchemist.jpg"
+                alt="book1"
+                className="w-full h-full rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                {/* <button className="mb-[50%] py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-200">
+                  Know More
+                </button> */}
+                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+              </div>
+            </div>
+            <div className="relative w-48 h-64 m-2">
+              <img
+                src="./bestsellers/kiterunner.jpg"
+                alt="book1"
+                className="w-full h-full rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+              </div>
+            </div>
+            <div className="relative w-48 h-64 m-2">
+              <img
+                src="./bestsellers/hitchhiker.jpg"
+                alt="book1"
+                className="w-full h-full rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+              </div>
+            </div>
+            <div className="relative w-48 h-64 m-2">
+              <img
+                src="./bestsellers/atomichabits.png"
+                alt="book1"
+                className="w-full h-full rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+              </div>
+            </div>
+            <div className="relative w-48 h-64 m-2">
+              <img
+                src="./bestsellers/ikigai.jpg"
+                alt="book1"
+                className="w-full h-full rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+              </div>
+            </div>
+            <div className="relative w-48 h-64 m-2">
+              <img
+                src="./bestsellers/sapiens.png"
+                alt="book1"
+                className="w-full h-full rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
