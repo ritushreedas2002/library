@@ -13,7 +13,7 @@ require("./db/connection");
 // *cors
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://library-aes6.vercel.app/", // Make sure there's no trailing slash
+  "https://library-aes6.vercel.app", // Make sure there's no trailing slash
 ];
 
 const corsOptions = {
