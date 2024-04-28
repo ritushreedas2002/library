@@ -197,12 +197,12 @@ const Demo = () => {
               >
                 About Us
               </a>
-              <a
-                href="#"
+              <Link 
+                to="/Login"
                 className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
               >
                 Login
-              </a>
+              </Link>
             </div>
           </div>
         </div>
