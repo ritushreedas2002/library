@@ -107,7 +107,7 @@ const Chatbot = () => {
       text: userInput,
       type: "outgoing",
     };
-    console.log(newUserMessage);
+    // console.log(newUserMessage);
 
     try {
       const userId = localStorage.getItem("uid"); // This should be dynamically set
@@ -159,7 +159,7 @@ const Chatbot = () => {
         text: data.fulfillmentText, // Assuming this is how you get the response
         type: "incoming",
       };
-      console.log(data)
+      // console.log(data)
       speakText(data.fulfillmentText);
       // const path = intentToURL[data.name];
       // Now, save the chatbot response as an incoming message
