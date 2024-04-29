@@ -159,6 +159,7 @@ const Chatbot = () => {
         text: data.fulfillmentText, // Assuming this is how you get the response
         type: "incoming",
       };
+      console.log(data)
       speakText(data.fulfillmentText);
       // const path = intentToURL[data.name];
       // Now, save the chatbot response as an incoming message

@@ -21,12 +21,34 @@ const textQuery = async (userText, userId) => {
         languageCode: config.dislpgFlowSessionLanguageCode,
       },
     },
+    queryParams: {
+      knowledgeBaseNames: ["projects/" + projectId + "/knowledgeBases/" + "NjYwNTE5MzIzMzQzOTkxNjAzMw"]
+    }
   };
 
   try {
-    const response = await sessionClient.detectIntent(request);
-    //console.log(response);
-    return response;
+    const responses = await sessionClient.detectIntent(request);
+    const queryResult = responses[0].queryResult;
+
+    // Extract only knowledge base responses, ignore other intent responses
+    let knowledgeResponse = "";
+    if (queryResult.knowledgeAnswers && queryResult.knowledgeAnswers.answers.length > 0) {
+      const topAnswer = queryResult.knowledgeAnswers.answers.reduce((prev, current) => {
+        return (prev.matchConfidence > current.matchConfidence) ? prev : current;
+      });
+      knowledgeResponse = topAnswer.answer;
+    }
+
+    // If no knowledge response, you could either send a default message or handle it differently
+    if (!knowledgeResponse) {
+      return {
+        response: "I'm sorry, I don't have enough information on that topic."
+      };
+    }
+
+    return {
+      response: knowledgeResponse
+    };
   } catch (error) {
     console.log(error);
   }
