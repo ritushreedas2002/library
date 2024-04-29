@@ -754,47 +754,20 @@ router.post("/api/search-history/:uid", async (req, res) => {
   }
 });
 
-//chatbot
-// router.post("/text-query", async (req, res) => {
-//   const { text, userId } = req.body;
-//   const resultQuery = await chatbot.textQuery(text, userId); //function  to chatbot
-//   const resObj = {
-//    name:resultQuery[0].queryResult.intent.displayName,
-//     userQuery: resultQuery[0].queryResult.queryText,
-//     fulfillmentText: resultQuery[0].queryResult.fulfillmentText,
-//   };
-//   //console.log(resObj);
-//   res.send(resObj);
-// });
-
-
+chatbot
 router.post("/text-query", async (req, res) => {
   const { text, userId } = req.body;
-  
-  try {
-    const resultQuery = await chatbot.textQuery(text, userId);
-    if (resultQuery.error) {
-      return res.status(500).json({ message: resultQuery.error });
-    }
-
-    // Since we are now focusing only on knowledge base responses
-    if (resultQuery.response) {
-      res.json({
-        userQuery: text,
-        fullfillmentText: resultQuery.response
-      });
-    } else {
-      // Send a default message if no knowledge base response is found
-      res.json({
-        userQuery: text,
-        response: "I'm sorry, I don't have enough information on that topic."
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+  const resultQuery = await chatbot.textQuery(text, userId); //function  to chatbot
+  const resObj = {
+   name:resultQuery[0].queryResult.intent.displayName,
+    userQuery: resultQuery[0].queryResult.queryText,
+    fulfillmentText: resultQuery[0].queryResult.fulfillmentText,
+  };
+  //console.log(resObj);
+  res.send(resObj);
 });
+
+
 
 
 //chatmessages

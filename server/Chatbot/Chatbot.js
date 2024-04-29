@@ -1,4 +1,4 @@
-const dialogflow = require("dialogflow");
+const dialogflow = require("dialogflow").v2beta1;
 
 const config = require("../config/devKey");
 
@@ -22,7 +22,7 @@ const textQuery = async (userText, userId) => {
       },
     },
     queryParams: {
-      knowledgeBaseNames: ["projects/" + projectId + "/knowledgeBases/" + "NjYwNTE5MzIzMzQzOTkxNjAzMw"]
+      knowledgeBaseNames: ["projects/" + projectId + "/knowledgeBases/" + "NjYwNTE5MzIzMzQzOTkxNjAzMw"+""]
     }
   };
 
@@ -30,25 +30,9 @@ const textQuery = async (userText, userId) => {
     const responses = await sessionClient.detectIntent(request);
     const queryResult = responses[0].queryResult;
 
-    // Extract only knowledge base responses, ignore other intent responses
-    let knowledgeResponse = "";
-    if (queryResult.knowledgeAnswers && queryResult.knowledgeAnswers.answers.length > 0) {
-      const topAnswer = queryResult.knowledgeAnswers.answers.reduce((prev, current) => {
-        return (prev.matchConfidence > current.matchConfidence) ? prev : current;
-      });
-      knowledgeResponse = topAnswer.answer;
-    }
-
-    // If no knowledge response, you could either send a default message or handle it differently
-    if (!knowledgeResponse) {
-      return {
-        response: "I'm sorry, I don't have enough information on that topic."
-      };
-    }
-
-    return {
-      response: knowledgeResponse
-    };
+    
+    return responses;
+    
   } catch (error) {
     console.log(error);
   }
