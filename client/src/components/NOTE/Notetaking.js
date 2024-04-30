@@ -10,6 +10,10 @@ import { IoAddCircle } from "react-icons/io5";
 import { IoMdStar } from "react-icons/io";
 import Notification from "../utils/Notification/Notification";
 import Chatbot from "../chatbot/Chatbot";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+
+// Function to download a note as PDF
 
 const Notetaking = ({ userid, show, notshow, showForm }) => {
   const uid = decodeURIComponent(userid);
@@ -22,7 +26,11 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const [addNoteClicked, setaddvalues] = useState(false);
   const [color, setSelectedColor] = useState(null); // Default color is yellow
   const [isDeletedClicked, setisDeletedClicked] = useState(false);
-  const [notification, setNotification] = useState({ show: false, message: "" });
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
+  const [dropdownVisible, setDropdownVisible] = useState({});
   const colorOptions = [
     //{ id: "#fec971", label: "Yellow" },
     { id: "#fe9b72", label: "Orange" },
@@ -50,7 +58,9 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
 
   const fetchNotes = async () => {
     try {
-      const response = await fetch(`https://library-henna-two.vercel.app/api/notes/${uid}`);
+      const response = await fetch(
+        `https://library-henna-two.vercel.app/api/notes/${uid}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch notes");
       }
@@ -63,13 +73,16 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
 
   const addNote = async () => {
     try {
-      const response = await fetch(`https://library-henna-two.vercel.app/api/notes/${uid}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, description, color, tags }),
-      });
+      const response = await fetch(
+        `https://library-henna-two.vercel.app/api/notes/${uid}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, description, color, tags }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to add note");
       }
@@ -85,6 +98,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   };
 
   const updateNote = async () => {
+    // toggleDropdown(noteId);
     const updatedTitle = title.trim();
     const updatedDescription = description.trim();
     try {
@@ -156,6 +170,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
     setDescription(note.description);
     setTags([...note.tags]);
     setNoteId(note._id);
+    setDropdownVisible({});
     setSelectedColor(note.color);
     // setShowForm(true);
     show();
@@ -217,6 +232,122 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
       console.error(error);
     }
   };
+
+  const toggleDropdown = (noteId) => {
+    setDropdownVisible((prevState) => ({
+      ...prevState,
+      [noteId]: !prevState[noteId], // Toggle the visibility state for the specific note
+    }));
+  };
+
+  // const downloadNoteAsPDF = async (noteId) => {
+  //   toggleDropdown(noteId);
+  //   const input = document.getElementById(`note-content-${noteId}`);
+  //   html2canvas(input)
+  //     .then((canvas) => {
+  //       const imgData = canvas.toDataURL("image/png");
+  //       const pdf = new jsPDF({
+  //         orientation: "portrait",
+  //       });
+  //       const imgProps = pdf.getImageProperties(imgData);
+  //       const pdfWidth = pdf.internal.pageSize.getWidth();
+  //       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  //       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  //       pdf.save(`note-${noteId}.pdf`);
+  //     })
+  //     .catch((err) => console.error("Error downloading PDF:", err));
+  // };
+
+  // const downloadNoteAsPDF = async (noteId) => {
+  //   toggleDropdown(noteId); // Close the dropdown
+  //   const note = notes.find(n => n._id === noteId); // Assume 'notes' is accessible here, otherwise pass it as a parameter
+
+  //   if (!note) {
+  //     console.error("Note not found");
+  //     return;
+  //   }
+
+  //   const pdf = new jsPDF();
+
+  //   // Set the title
+  //   pdf.setFontSize(18);
+  //   pdf.setFont("helvetica", "bold");
+  //   pdf.text(note.title, 10, 20);
+
+  //   // Set the description
+  //   pdf.setFontSize(12);
+  //   pdf.setFont("helvetica", "normal");
+  //   pdf.text(note.description, 10, 30);
+
+  //   // Add tags if they exist
+  //   if (note.tags && note.tags.length > 0) {
+  //     pdf.setFontSize(10);
+  //     pdf.text("Tags: " + note.tags.join(", "), 10, 40);
+  //   }
+
+  //   // Save the PDF
+  //   pdf.save(`note-${noteId}.pdf`);
+  // };
+
+  const downloadNoteAsPDF = async (noteId) => {
+    toggleDropdown(noteId); // Close the dropdown
+    const note = notes.find((n) => n._id === noteId); // Find the note by ID
+
+    if (!note) {
+      console.error("Note not found");
+      return;
+    }
+
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
+    // Draw the colored header
+    pdf.setFillColor(224, 224, 224); // Light grey; adjust the color to match your component
+    pdf.rect(0, 0, pdf.internal.pageSize.getWidth(), 20, "F");
+
+    // Title text over this header
+    pdf.setTextColor(0, 0, 0); // Black text
+    pdf.setFontSize(16);
+    pdf.setFont("helvetica", "bold");
+    pdf.text(note.title, 10, 15);
+
+    // Set position for tags
+    pdf.setFontSize(10);
+    pdf.setTextColor("#666");
+    const tagsY = 25; // Position Y for the tags right below the header
+    if (note.tags && note.tags.length > 0) {
+        pdf.text("Tags: " + note.tags.join(", "), 10, tagsY);
+    }
+
+    // Set the description
+    pdf.setFontSize(12);
+    pdf.setFont("helvetica", "normal");
+    pdf.setTextColor("#000");
+    const descriptionY = tagsY + 10; // Start description right after tags
+    const splitDescription = pdf.splitTextToSize(note.description, 190); // Adjust width as needed
+    pdf.text(splitDescription, 10, descriptionY);
+
+    // Save the PDF
+    pdf.save(`note-${noteId}.pdf`);
+};
+
+  // Function to download a note as JPG
+  // const downloadNoteAsJPG = async (noteId) => {
+  //   toggleDropdown(noteId);
+  //   const input = document.getElementById(`note-content-${noteId}`);
+  //   html2canvas(input)
+  //     .then((canvas) => {
+  //       const imgData = canvas.toDataURL("image/jpeg");
+  //       const link = document.createElement("a");
+  //       link.href = imgData;
+  //       link.download = `note-${noteId}.jpg`;
+  //       link.click();
+  //     })
+  //     .catch((err) => console.error("Error downloading JPG:", err));
+  // };
 
   return (
     <div className=" flex min-h-screen bg-amber-100">
@@ -388,38 +519,65 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
                       handleUpdateNote(note);
                     }
                   }}
+                  id={`note-content-${note._id}`}
                 >
                   <h2 className="text-xl font-semibold -mt-2">
-                        <div className="flex flex-col justify-between">
-                          <div className="flex justify-between">
-                            <p className="h-4 mt-1">{note.title}</p>
-                            <div className="absolute top-2 right-4">
-                              {note.favorite ? (
-                                <IoMdStar
-                                  className="text-black text-3xl cursor-pointer"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    removeFromFavorites(note._id);
-                                  }}
-                                />
-                              ) : (
-                                <IoMdStar
-                                  className="text-white text-3xl cursor-pointer"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    addToFavorites(note._id);
-                                  }}
-                                />
-                              )}
+                    <div className="flex flex-col justify-between">
+                      <div className="flex justify-between">
+                        <p className="h-4 mt-1">{note.title}</p>
+                        <div>
+                          <button
+                            className="text-gray-500 text-xl hover:shadow-2xl transition-shadow absolute top-2 right-3 h-8 w-4 rounded-xl bg-white hover:bg-gray-400 hover:text-white"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleDropdown(note._id);
+                            }}
+                          >
+                            ⋮
+                          </button>
+                          {dropdownVisible[note._id] && (
+                            <div
+                              className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50"
+                              onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing when clicking inside
+                            >
+                              <ul className="py-1 text-gray-700">
+                                <li>
+                                  <button
+                                    className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                    onClick={() => downloadNoteAsPDF(note._id)}
+                                  >
+                                    Download as PDF
+                                  </button>
+                                </li>
+                              </ul>
                             </div>
-                          </div>
-                          <p className="text-gray-500 text-xs mt-3 flex justify-end">
-                            {formatDate(note.lastEdited)}
-                          </p>
+                          )}
                         </div>
-                        <div className="border border-b-2 mt-1"></div>
-                    
-                    
+                        <div className="absolute top-2 right-8">
+                          {note.favorite ? (
+                            <IoMdStar
+                              className="text-black text-3xl cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeFromFavorites(note._id);
+                              }}
+                            />
+                          ) : (
+                            <IoMdStar
+                              className="text-white text-3xl cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                addToFavorites(note._id);
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-gray-500 text-xs mt-3 flex justify-end">
+                        {formatDate(note.lastEdited)}
+                      </p>
+                    </div>
+                    <div className="border border-b-2 mt-1"></div>
                   </h2>
                   <div className="text-base mt-1 h-48 text-black overflow-y-scroll no-scrollbar">
                     {note.description}
@@ -462,7 +620,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
           )}
         </div>
       </div>
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 };

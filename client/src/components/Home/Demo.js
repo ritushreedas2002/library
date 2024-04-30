@@ -181,7 +181,7 @@ const Demo = () => {
     ],
   };
   return (
-    <div className="bg-gray-300 max-w-full min-h-full">
+    <div className="bg-gray-300 max-w-full min-h-screen">
       <nav className="bg-white py-4 shadow-md">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between">
@@ -191,13 +191,7 @@ const Demo = () => {
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-1">
-              <a
-                href="#"
-                className="py-5 px-3 text-gray-700 hover:text-gray-900"
-              >
-                About Us
-              </a>
-              <Link 
+              <Link
                 to="/Login"
                 className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
               >
@@ -214,7 +208,9 @@ const Demo = () => {
           {`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap');`}
         </style>
         <div className="ml-36 flex-1 relative">
-          <div className="text-[120px] w-[50%] z-10 mt-6 font-fredoka add-slide">Literature mesmerizes</div>
+          <div className="text-[120px] w-[50%] z-10 mt-6 font-fredoka add-slide">
+            Literature mesmerizes
+          </div>
           {/* <div className="text-[140px] -mt-8 font-fredoka">Fascinating</div> */}
         </div>
         {/* Image and new div container */}
@@ -351,69 +347,81 @@ const Demo = () => {
             Most Trending Books
           </div>
           <div className="flex flex-wrap ">
-            <div className="relative w-48 h-64 m-2">
-              <img
-                src="./bestsellers/alchemist.jpg"
-                alt="book1"
-                className="w-full h-full rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
-                {/* <button className="mb-[50%] py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-200">
+            <Link to="/Login">
+              <div className="relative w-48 h-64 m-2">
+                <img
+                  src="./bestsellers/alchemist.jpg"
+                  alt="book1"
+                  className="w-full h-full rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                  {/* <button className="mb-[50%] py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-200">
                   Know More
                 </button> */}
-                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                  <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                </div>
               </div>
-            </div>
-            <div className="relative w-48 h-64 m-2">
-              <img
-                src="./bestsellers/kiterunner.jpg"
-                alt="book1"
-                className="w-full h-full rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
-                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+            </Link>
+            <Link to="/Login">
+              <div className="relative w-48 h-64 m-2">
+                <img
+                  src="./bestsellers/kiterunner.jpg"
+                  alt="book1"
+                  className="w-full h-full rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                  <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                </div>
               </div>
-            </div>
-            <div className="relative w-48 h-64 m-2">
-              <img
-                src="./bestsellers/hitchhiker.jpg"
-                alt="book1"
-                className="w-full h-full rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
-                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+            </Link>
+            <Link to="/Login">
+              <div className="relative w-48 h-64 m-2">
+                <img
+                  src="./bestsellers/hitchhiker.jpg"
+                  alt="book1"
+                  className="w-full h-full rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                  <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                </div>
               </div>
-            </div>
-            <div className="relative w-48 h-64 m-2">
-              <img
-                src="./bestsellers/atomichabits.png"
-                alt="book1"
-                className="w-full h-full rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
-                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+            </Link>
+            <Link to="/Login">
+              <div className="relative w-48 h-64 m-2">
+                <img
+                  src="./bestsellers/atomichabits.png"
+                  alt="book1"
+                  className="w-full h-full rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                  <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                </div>
               </div>
-            </div>
-            <div className="relative w-48 h-64 m-2">
-              <img
-                src="./bestsellers/ikigai.jpg"
-                alt="book1"
-                className="w-full h-full rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
-                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+            </Link>
+            <Link to="/Login">
+              <div className="relative w-48 h-64 m-2">
+                <img
+                  src="./bestsellers/ikigai.jpg"
+                  alt="book1"
+                  className="w-full h-full rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                  <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                </div>
               </div>
-            </div>
-            <div className="relative w-48 h-64 m-2">
-              <img
-                src="./bestsellers/sapiens.png"
-                alt="book1"
-                className="w-full h-full rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
-                <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+            </Link>
+            <Link to="/Login">
+              <div className="relative w-48 h-64 m-2">
+                <img
+                  src="./bestsellers/sapiens.png"
+                  alt="book1"
+                  className="w-full h-full rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-end rounded-lg h-full">
+                  <FaArrowUpRightFromSquare className=" text-4xl text-center mb-[50%] text-white" />
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
