@@ -11,6 +11,7 @@ import { IoMdStar } from "react-icons/io";
 import Notification from "../utils/Notification/Notification";
 import Chatbot from "../chatbot/Chatbot";
 import { jsPDF } from "jspdf";
+import { FiDownload } from "react-icons/fi";
 import html2canvas from "html2canvas";
 
 // Function to download a note as PDF
@@ -527,13 +528,13 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
                         <p className="h-4 mt-1">{note.title}</p>
                         <div>
                           <button
-                            className="text-gray-500 text-xl hover:shadow-2xl transition-shadow absolute top-2 right-3 h-8 w-4 rounded-xl bg-white hover:bg-gray-400 hover:text-white"
+                            className="text-white text-2xl absolute top-2 right-4 h-8 w-4 rounded-xl   "
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleDropdown(note._id);
                             }}
                           >
-                            ⋮
+                            <FiDownload />
                           </button>
                           {dropdownVisible[note._id] && (
                             <div
@@ -549,11 +550,19 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
                                     Download as PDF
                                   </button>
                                 </li>
+                                {/* <li>
+                                  <button
+                                    className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                    onClick={() => downloadNoteAsJPG(note._id)}
+                                  >
+                                    Download as JPG
+                                  </button>
+                                </li> */}
                               </ul>
                             </div>
                           )}
                         </div>
-                        <div className="absolute top-2 right-8">
+                        <div className="absolute top-2 right-9">
                           {note.favorite ? (
                             <IoMdStar
                               className="text-black text-3xl cursor-pointer"
