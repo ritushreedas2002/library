@@ -133,51 +133,6 @@ const Login = () => {
       console.error(error.message);
     }
   };
-  
-  // const handleSignUpSubmit = async (values, resetForm) => {
-  //   try {
-  //     console.log("SignUp call at first sign up");
-  //     console.log(values);
-  
-  //     const userCredential = await createUserWithEmailAndPassword(
-  //       auth,
-  //       values.email,
-  //       values.password
-  //     );
-  //     const user = userCredential.user;
-  
-  //     console.log(user);
-  //     await updateProfile(user, {
-  //       displayName: values.name,
-  //     });
-  
-  //     const { uid, email, displayName } = auth.currentUser; //updated value
-  //     dispatch(
-  //       addUser({ uid: uid, email: email, displayName: displayName })
-  //     );
-  
-  //     const profilePic = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRImuk1S2k7pdtVjPyBZoOELIz5_wc4kFt0EnzAO7thPw&s";
-  //     await registerUserToMongo(values.name, email, user.uid, profilePic);
-  
-  //     localStorage.setItem("userAuthenticated", "true");
-  //     navigate("/MainBody");
-  //     // Redirect to MainBody
-  
-  //     console.log("Sign Up Successful");
-  //     resetForm();
-  //   } catch (error) {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     console.error(errorCode, errorMessage);
-  //     seterror(`${errorCode} - ${errorMessage}`);
-  //     setSignUpErrors({}); // Clear form errors
-  //   }
-  // };
-
-
-
-  
-
 
   const handleSignUpSubmit = async (values, resetForm) => {
     try {
