@@ -111,7 +111,7 @@ const Login = () => {
   });
   const registerUserToMongo = async (name, email, uid, displayPicture) => {
     try {
-      const response = await fetch("http://localhost:5000/register", {
+      const response = await fetch("https://library-henna-two.vercel.app/register", {
         method: "POST",
         body: JSON.stringify({
           name,
