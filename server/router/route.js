@@ -11,14 +11,14 @@ const path = require("path");
 const router = express.Router();
 const multer = require("multer");
 router.use(
-  "../../images",
-  express.static(path.join(__dirname, "../../client/public/images"))
+  "/images",
+  express.static(path.join(__dirname, "https://library-aes6.vercel.app/public/images"))
 );
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Adjust the path to point to your client's image directory
-    const dest = path.join(__dirname, "../../client/public/images");
+    const dest = path.join(__dirname, "https://library-aes6.vercel.app/public/images");
     cb(null, dest);
   },
   filename: function (req, file, cb) {
