@@ -47,8 +47,10 @@ const User = () => {
       const formData = new FormData();
       formData.append('name', newName);
       formData.append('profileImage', newProfileImage);
+
+      console.log(formData);
   
-      const response = await fetch(`https://library-henna-two.vercel.app/profile/${user1.uid}`, {
+      const response = await fetch(`https://library-henna-two.vercel.app/profile/${uid}`, {
       method: 'PUT',
       body: formData,
     });

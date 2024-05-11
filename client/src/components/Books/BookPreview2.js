@@ -47,7 +47,7 @@ const BookPreview2 = ({ bookId,userId, show }) => {
 
   const fetchNotes = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/booknotes/${userId}/${bookId}`);
+      const response = await fetch(`https://library-henna-two.vercel.app/api/booknotes/${userId}/${bookId}`);
       if (response.ok) {
         const data = await response.json();
         setNotes(data.content);
@@ -65,7 +65,7 @@ const BookPreview2 = ({ bookId,userId, show }) => {
 
   const saveNotes = async () => {
     const method = notesExist ? 'PUT' : 'POST'; // Use PUT if notes exist, otherwise POST
-    const endpoint = notesExist?`http://localhost:5000/api/booknotes/${userId}/${bookId}`:`http://localhost:5000/api/notes/${userId}/${bookId}`;
+    const endpoint = notesExist?`https://library-henna-two.vercel.app/api/booknotes/${userId}/${bookId}`:`https://library-henna-two.vercel.app/api/notes/${userId}/${bookId}`;
 
     try {
       const response = await fetch(endpoint, {
