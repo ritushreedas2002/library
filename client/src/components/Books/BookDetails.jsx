@@ -83,7 +83,7 @@ const BookDetails = ({ uid }) => {
     try {
       // Make the POST request to update the recently viewed book
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/recently-viewed`,
+        `https://library-pi-nine.vercel.app/api/recently-viewed`,
         {
           method: "POST",
           headers: {
@@ -114,7 +114,7 @@ const BookDetails = ({ uid }) => {
     async function fetchFavoriteStatus() {
       try {
         const response = await fetch(
-          `https://library-henna-two.vercel.app/api/favorites/${uid}/${bookid}`
+          `https://library-pi-nine.vercel.app/api/favorites/${uid}/${bookid}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch favorite status");
@@ -128,7 +128,7 @@ const BookDetails = ({ uid }) => {
     async function fetchbookmarkstatus() {
       try {
         const response = await fetch(
-          `https://library-henna-two.vercel.app/api/bookmarks/${uid}/${bookid}`
+          `https://library-pi-nine.vercel.app/api/bookmarks/${uid}/${bookid}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch favorite status");
@@ -147,7 +147,7 @@ const BookDetails = ({ uid }) => {
     try {
       const method = toggle ? "DELETE" : "POST";
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/favorites/${uid}/${bookid}`,
+        `https://library-pi-nine.vercel.app/api/favorites/${uid}/${bookid}`,
         {
           // Corrected URL
           method,
@@ -182,7 +182,7 @@ const BookDetails = ({ uid }) => {
     try {
       const method = bookmark ? "DELETE" : "POST";
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/bookmarks/${uid}/${bookid}`,
+        `https://library-pi-nine.vercel.app/api/bookmarks/${uid}/${bookid}`,
         {
           // Corrected URL
           method,
@@ -216,7 +216,7 @@ const BookDetails = ({ uid }) => {
   const toggleShowPreview = async () => {
     setShowPreview(true);
     try {
-      const response = await fetch(`https://library-henna-two.vercel.app/api/current-read`, {
+      const response = await fetch(`https://library-pi-nine.vercel.app/api/current-read`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

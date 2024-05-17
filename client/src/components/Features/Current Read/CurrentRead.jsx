@@ -179,7 +179,7 @@ const CurrentRead = ({ uid }) => {
     const fetchCurrentRead = async () => {
       try {
         const response = await fetch(
-          `https://library-henna-two.vercel.app/api/current-read/${uid}`,
+          `https://library-pi-nine.vercel.app/api/current-read/${uid}`,
           {
             method: "GET",
             headers: {

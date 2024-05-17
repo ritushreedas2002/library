@@ -20,7 +20,7 @@ const UserLogo = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("https://library-henna-two.vercel.app/user", {
+        const response = await axios.get("https://library-pi-nine.vercel.app/user", {
           params: {
             uid: uid,
           },
@@ -71,7 +71,7 @@ const UserLogo = () => {
           }
 
           const response = await fetch(
-            `https://library-henna-two.vercel.app/api/chat-messages/${userId}`,
+            `https://library-pi-nine.vercel.app/api/chat-messages/${userId}`,
             {
               method: "DELETE",
             }

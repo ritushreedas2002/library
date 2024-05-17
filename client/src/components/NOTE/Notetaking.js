@@ -60,7 +60,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const fetchNotes = async () => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/notes/${uid}`
+        `https://library-pi-nine.vercel.app/api/notes/${uid}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch notes");
@@ -75,7 +75,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const addNote = async () => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/notes/${uid}`,
+        `https://library-pi-nine.vercel.app/api/notes/${uid}`,
         {
           method: "POST",
           headers: {
@@ -104,7 +104,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
     const updatedDescription = description.trim();
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/notes/${uid}/${noteId}`,
+        `https://library-pi-nine.vercel.app/api/notes/${uid}/${noteId}`,
         {
           method: "PUT",
           headers: {
@@ -138,7 +138,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const deleteNote = async (noteId) => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/notes/${uid}/${noteId}`,
+        `https://library-pi-nine.vercel.app/api/notes/${uid}/${noteId}`,
         {
           method: "DELETE",
         }
@@ -195,7 +195,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const addToFavorites = async (noteId) => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/notes/favorite/${uid}/${noteId}`,
+        `https://library-pi-nine.vercel.app/api/notes/favorite/${uid}/${noteId}`,
         {
           method: "PUT", // Assuming PUT for adding to favorites
           headers: {
@@ -218,7 +218,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
   const removeFromFavorites = async (noteId) => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/notes/unfavorite/${uid}/${noteId}`,
+        `https://library-pi-nine.vercel.app/api/notes/unfavorite/${uid}/${noteId}`,
         {
           method: "DELETE", // Assuming DELETE for removing from favorites
         }

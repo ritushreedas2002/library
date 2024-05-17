@@ -65,7 +65,7 @@ const SearchBar = () => {
       }
       try {
         const response = await fetch(
-          `https://library-henna-two.vercel.app/api/search-suggestions/${uid}/${query}`
+          `https://library-pi-nine.vercel.app/api/search-suggestions/${uid}/${query}`
         );
         if (!response.ok) throw new Error("Failed to fetch suggestions");
         const data = await response.json();
@@ -81,7 +81,7 @@ const SearchBar = () => {
   const fetchLatestSearches = async () => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/search-history/${uid}`
+        `https://library-pi-nine.vercel.app/api/search-history/${uid}`
       );
       if (!response.ok) throw new Error("Failed to fetch search history");
       const data = await response.json();
@@ -103,7 +103,7 @@ const SearchBar = () => {
     if (!searchTerm) return;
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/search-history/${uid}`,
+        `https://library-pi-nine.vercel.app/api/search-history/${uid}`,
         {
           method: "POST",
           headers: {
@@ -113,7 +113,7 @@ const SearchBar = () => {
         }
       );
 
-      const response1 = await fetch(`https://library-henna-two.vercel.app/api/search/${uid}`, {
+      const response1 = await fetch(`https://library-pi-nine.vercel.app/api/search/${uid}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

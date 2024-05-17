@@ -18,7 +18,7 @@ const User = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("https://library-henna-two.vercel.app/user", {
+        const response = await axios.get("https://library-pi-nine.vercel.app/user", {
           params: {
             uid: uid,
           },
@@ -50,7 +50,7 @@ const User = () => {
 
       console.log(formData);
   
-      const response = await fetch(`https://library-henna-two.vercel.app/profile/${uid}`, {
+      const response = await fetch(`https://library-pi-nine.vercel.app/profile/${uid}`, {
       method: 'PUT',
       body: formData,
     });

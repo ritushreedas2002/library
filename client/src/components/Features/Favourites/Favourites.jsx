@@ -31,7 +31,7 @@ function BookImage({ bookId, uid, setFavorites, fetchFavorites }) {
       //setShowToast(true);
 
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/favorites/${uid}/${bookId}`,
+        `https://library-pi-nine.vercel.app/api/favorites/${uid}/${bookId}`,
         {
           method: "DELETE",
         }
@@ -106,7 +106,7 @@ const Favourites = ({ uid }) => {
   const fetchFavorites = async () => {
     try {
       const response = await fetch(
-        `https://library-henna-two.vercel.app/api/favorites/${uid}`
+        `https://library-pi-nine.vercel.app/api/favorites/${uid}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch favorites");

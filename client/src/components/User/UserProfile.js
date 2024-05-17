@@ -20,7 +20,7 @@ const UserProfile = ({ user, onEditProfileClick }) => {
   const { name, email, profileImage } = user;
   async function deleteUserFromBackend(uid) {
     try {
-      const response = await fetch(`https://library-henna-two.vercel.app/delete/${uid}`, {
+      const response = await fetch(`https://library-pi-nine.vercel.app/delete/${uid}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete user data");

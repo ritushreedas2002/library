@@ -67,7 +67,7 @@ const RecentlyViewed = ({ uid }) => {
     const fetchRecentlyViewedBooks = async () => {
       try {
         const response = await fetch(
-          `https://library-henna-two.vercel.app/api/recently-viewed/${uid}`
+          `https://library-pi-nine.vercel.app/api/recently-viewed/${uid}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch recently viewed books");
