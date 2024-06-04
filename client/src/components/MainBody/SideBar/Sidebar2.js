@@ -192,21 +192,7 @@ const Sidebar2 = ({ onSignOut }) => {
               </div>
             </Link>
           </li>
-          <li className="mt-4 group" id="account">
-            <Link
-              to="/User"
-              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600 rounded ${
-                isActive("/User") ? "bg-orange-400" : ""
-              }`}
-            >
-              <span className="text-2xl">
-                <FaUserCog />
-              </span>
-              <span className="ml-4 text-lg group-hover:text-gray-300">
-                Account
-              </span>
-            </Link>
-          </li>
+          
           <li className="mt-4 group" id="book">
             <Link
               to="/gpt"
@@ -219,6 +205,21 @@ const Sidebar2 = ({ onSignOut }) => {
               </span>
               <span className="ml-4 text-lg group-hover:text-gray-300">
                 BookGPT
+              </span>
+            </Link>
+          </li>
+          <li className="mt-4 group" id="account">
+            <Link
+              to="/User"
+              className={`flex items-center pl-4 pr-20 py-2 w-auto m-2 text-white hover:bg-orange-600 rounded ${
+                isActive("/User") ? "bg-orange-400" : ""
+              }`}
+            >
+              <span className="text-2xl">
+                <FaUserCog />
+              </span>
+              <span className="ml-4 text-lg group-hover:text-gray-300">
+                Account
               </span>
             </Link>
           </li>
