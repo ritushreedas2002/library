@@ -1,18 +1,22 @@
-import React, { useState } from "react";
-import { Document, Page , pdfjs} from 'react-pdf';
+import React, { useEffect, useState } from "react";
+
 
 import { FaSquarePlus } from "react-icons/fa6";
 import { FaMinusSquare } from "react-icons/fa";
 import Chatbot from "../chatbot/Chatbot";
 import UserLogo from "../User/UserLogo";
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
-).toString();
+
+import { Document, Page, pdfjs } from 'react-pdf';
+
+
+
 
 const PdfViewer = ({ pdf }) => {
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(1.5);
+  useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+  }, []);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
