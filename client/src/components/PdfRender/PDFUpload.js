@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import { pdfjs} from 'react-pdf';
 import PdfViewer from "./PdfViewer";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import Chatbot from "../chatbot/Chatbot";
-
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 const PDFUpload = () => {
   const [pdf, setPdf] = useState(null);
 
@@ -45,7 +46,7 @@ const PDFUpload = () => {
           <div className="flex items-center space-x-4 mb-4">
             <input
               type="file"
-              accept=".pdf,.docx"
+              accept=".pdf"
               onChange={handleFileUpload}
               className="py-2 px-4 border border-gray-300 rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
