@@ -64,14 +64,8 @@ const Sidebar2 = ({ onSignOut }) => {
   style={{ backdropFilter: 'blur(10px)' }}
 >
       <div className="text-white text-4xl p-4  ">
-        <h6 className="text-[20px] font-semibold text-white">
-          "Welcome"{" "}
-          <div
-            className="text-blue-500"
-            style={{ fontFamily: "Pacifico, cursive" }}
-          >
-            {user?.displayName}
-          </div>
+        <h6 className="text-[20px] font-semibold text-white text-center">
+          Welcome
         </h6>
       </div>
       <nav>

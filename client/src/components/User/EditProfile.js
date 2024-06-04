@@ -3,19 +3,19 @@ import React, { useState } from "react";
 
 const EditProfileModal = ({ onSaveChanges, onCancel, user }) => {
   const [name, setName] = useState(user.name);
-  const [profileImage, setProfileImage] = useState(null);
+  // const [profileImage, setProfileImage] = useState(null);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setProfileImage(file);
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   setProfileImage(file);
+  // };
 
   const handleSaveClick = () => {
-    onSaveChanges(name, profileImage);
+    onSaveChanges(name);
   };
 
   return (
@@ -25,7 +25,7 @@ const EditProfileModal = ({ onSaveChanges, onCancel, user }) => {
           Edit Profile
         </h2>
 
-        <label
+        {/* <label
           htmlFor="upload-photo"
           className="text-red-400 text-xl font-semibold mb-4"
         >
@@ -37,7 +37,7 @@ const EditProfileModal = ({ onSaveChanges, onCancel, user }) => {
           accept="image/*"
           onChange={handleImageChange}
           className="mb-8"
-        />
+        /> */}
 
         <label
           htmlFor="edit-name"
