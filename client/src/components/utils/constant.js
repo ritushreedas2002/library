@@ -7,4 +7,4 @@ export const MESSAGING_SENDER_ID = "603968663542";
 export const APP_ID = "1:603968663542:web:e96502bd07cbd29732a1d7";
 export const MEASUREMENT_ID = "G-3RX5D9C4XF";
 export const CLIENT_ID = "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com";
-export const REACT_APP_OPENAI_KEY="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";
+export const REACT_APP_OPENAI_KEY="sk-proj-xqkTBRvn2mQ3qIZccI6eT3BlbkFJU78DlQHHyJ0w0Vw4XdwK";
