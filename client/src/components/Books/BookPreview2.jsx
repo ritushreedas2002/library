@@ -65,7 +65,7 @@ const BookPreview2 = ({ bookId,userId, show }) => {
 
   const saveNotes = async () => {
     const method = notesExist ? 'PUT' : 'POST'; // Use PUT if notes exist, otherwise POST
-    const endpoint = notesExist?`https://library-pi-nine.vercel.app/api/booknotes/${userId}/${bookId}`:`https://library-henna-two.vercel.app/api/notes/${userId}/${bookId}`;
+    const endpoint = notesExist?`https://library-pi-nine.vercel.app/api/booknotes/${userId}/${bookId}`:`https://library-pi-nine.vercel.app/api/notes/${userId}/${bookId}`;
 
     try {
       const response = await fetch(endpoint, {

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
-import UserLogo from "../../User/UserLogo"
+import UserLogo from "../../User/UserLogo";
 import { FaMicrophone } from "react-icons/fa";
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
