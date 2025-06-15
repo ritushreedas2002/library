@@ -235,7 +235,7 @@ const CurrentRead = ({ uid }) => {
           </>
         )}
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 };

@@ -95,7 +95,7 @@ const BookSearch = () => {
           ))}
         </div>
       </div>
-      <Chatbot/>
+      {/* <Chatbot/> */}
     </div>
   );
 };

@@ -118,7 +118,7 @@ const RecentlyViewed = ({ uid }) => {
           )}
         </div>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 };

@@ -140,7 +140,7 @@ function Bookmark({ uid }) {
           )}
         </div>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 }

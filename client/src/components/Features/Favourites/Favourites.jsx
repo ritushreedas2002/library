@@ -159,7 +159,7 @@ const Favourites = ({ uid }) => {
           )}
         </div>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 };
