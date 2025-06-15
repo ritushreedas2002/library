@@ -629,7 +629,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
           )}
         </div>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 };

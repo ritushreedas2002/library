@@ -756,7 +756,7 @@ router.post("/api/search-history/:uid", async (req, res) => {
   }
 });
 
-chatbot;
+
 router.post("/text-query", async (req, res) => {
   const { text, userId } = req.body;
   const resultQuery = await chatbot.textQuery(text, userId); //function  to chatbot

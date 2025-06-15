@@ -65,7 +65,7 @@ const PDFUpload = () => {
           {pdf && <PdfViewer pdf={pdf} />}
         </div>
       </div>
-      <Chatbot/>
+      {/* <Chatbot/> */}
     </div>
   );
 };

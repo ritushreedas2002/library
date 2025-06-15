@@ -127,7 +127,7 @@ const UserProfile = ({ user, onEditProfileClick }) => {
           Delete Profile
         </button>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 };

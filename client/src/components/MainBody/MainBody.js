@@ -36,7 +36,7 @@ const MainBody = ({ onSignOut }) => {
       <div className="bg-amber-100 w-[87%] " id="search">
         <SearchBar />
         <Test />
-        <Chatbot/>
+        {/* <Chatbot/> */}
         
         <div className="bg-amber-100"> <BookSearch /></div>
         

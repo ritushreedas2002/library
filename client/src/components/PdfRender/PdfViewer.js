@@ -75,7 +75,7 @@ const PdfViewer = ({ pdf }) => {
           {numPages && renderPages()}
         </Document>
       </div>
-      <Chatbot/>
+      {/* <Chatbot/> */}
     </div>
   );
 };

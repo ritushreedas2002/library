@@ -285,7 +285,7 @@ const Gpt = () => {
           )}
         </div>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 };
