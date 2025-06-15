@@ -6,5 +6,8 @@ export const STORAGE_BUCKET = "library-a1fa9.appspot.com";
 export const MESSAGING_SENDER_ID = "603968663542";
 export const APP_ID = "1:603968663542:web:e96502bd07cbd29732a1d7";
 export const MEASUREMENT_ID = "G-3RX5D9C4XF";
-export const CLIENT_ID = "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com";
-export const REACT_APP_OPENAI_KEY="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";
+export const CLIENT_ID =
+  "588472909417-ro3c81i7dlpusa7lpbh0flqb28dp5lrv.apps.googleusercontent.com";
+export const REACT_APP_OPENAI_KEY =
+  "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";
+export const GEMINI_API_KEY = "AIzaSyAUIRP-qp6-o-IoWnCy0lGFEGW2DjJljf8";

@@ -70,10 +70,10 @@ const SearchResults = () => {
             </select>
           </div>
         </div>
-        {searchResults.length !== 0 ? (
+        {searchResults?.length !== 0 ? (
           <div>
             <div className="bg-amber-100 flex flex-wrap justify-start mt-4 ml-28">
-              {searchResults.map((book, index) => (
+              {searchResults?.map((book, index) => (
                 <Link to={`/book/${book.id}`} key={index}>
                   <div className=" flex w-96">
                     {book.volumeInfo?.imageLinks?.thumbnail ||

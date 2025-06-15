@@ -187,7 +187,7 @@ const [activemenu,setactivemenu]=useState();
             />
           )}
         </Routes>
-        <div><Footer/></div>
+        {/* <div><Footer/></div> */}
       </div>
     </Router>
   );

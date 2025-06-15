@@ -527,7 +527,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
                       <div className="flex justify-between">
                         <p className="h-4 mt-1">{note.title}</p>
                         <div>
-                          <button
+                          {/* <button
                             className="text-white text-2xl absolute top-2 right-4 h-8 w-4 rounded-xl   "
                             onClick={(e) => {
                               e.stopPropagation();
@@ -535,7 +535,7 @@ const Notetaking = ({ userid, show, notshow, showForm }) => {
                             }}
                           >
                             <FiDownload />
-                          </button>
+                          </button> */}
                           {dropdownVisible[note._id] && (
                             <div
                               className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50"

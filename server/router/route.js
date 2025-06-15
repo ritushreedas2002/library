@@ -5,20 +5,25 @@ const UserFeatures = require("../models/Features");
 const SearchHistory = require("../models/search");
 const Note = require("../models/Indibooknotes");
 const chatbot = require("../Chatbot/Chatbot");
-const ChatMessage=require("../models/chatmessage");
-const Search=require("../models/SearchHistory")
+const ChatMessage = require("../models/chatmessage");
+const Search = require("../models/SearchHistory");
 const path = require("path");
 const router = express.Router();
 const multer = require("multer");
 router.use(
   "/images",
-  express.static(path.join(__dirname, "https://library-aes6.vercel.app/public/images"))
+  express.static(
+    path.join(__dirname, "https://library-aes6.vercel.app/public/images")
+  )
 );
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Adjust the path to point to your client's image directory
-    const dest = path.join(__dirname, "https://library-aes6.vercel.app/public/images");
+    const dest = path.join(
+      __dirname,
+      "https://library-aes6.vercel.app/public/images"
+    );
     cb(null, dest);
   },
   filename: function (req, file, cb) {
@@ -89,8 +94,6 @@ router.put("/profile/:uid", upload.single("profileImage"), async (req, res) => {
   }
 });
 
-
-
 router.delete("/delete/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
@@ -104,10 +107,11 @@ router.delete("/delete/:uid", async (req, res) => {
     res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
     console.error(`Error occurred: ${error.message}`);
-    res.status(500).json({ error: "An error occurred while deleting the user." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the user." });
   }
 });
-
 
 //NOTES
 // Routes
@@ -229,7 +233,9 @@ router.delete("/api/notes/:uid/:noteId", async (req, res) => {
     }
 
     // Check and remove the note from the notes array
-    let noteIndex = user.notes.findIndex(note => note._id.toString() === noteId);
+    let noteIndex = user.notes.findIndex(
+      (note) => note._id.toString() === noteId
+    );
     let noteFoundInNotes = noteIndex !== -1;
     if (noteFoundInNotes) {
       user.notes.splice(noteIndex, 1);
@@ -237,7 +243,9 @@ router.delete("/api/notes/:uid/:noteId", async (req, res) => {
 
     // Check and remove the note from the favorites array if not found in notes
     if (!noteFoundInNotes) {
-      noteIndex = user.favorites.findIndex(note => note._id.toString() === noteId);
+      noteIndex = user.favorites.findIndex(
+        (note) => note._id.toString() === noteId
+      );
       if (noteIndex !== -1) {
         user.favorites.splice(noteIndex, 1);
       } else {
@@ -247,31 +255,30 @@ router.delete("/api/notes/:uid/:noteId", async (req, res) => {
     }
 
     await user.save();
-    res.json({notes: user.notes, favorites: user.favorites});
+    res.json({ notes: user.notes, favorites: user.favorites });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-
-
-
 //favourite notes
 // Route to add a note to favorites
 // Route to add a note to favorites using PUT or PATCH method
-router.put('/api/notes/favorite/:uid/:noteId', async (req, res) => {
+router.put("/api/notes/favorite/:uid/:noteId", async (req, res) => {
   const { uid, noteId } = req.params;
-  
+
   try {
     const userNote = await UserNote.findOne({ uid: uid });
     if (!userNote) {
-      return res.status(404).send('User not found');
+      return res.status(404).send("User not found");
     }
 
     // Find the note to favorite
-    const noteIndex = userNote.notes.findIndex(note => note._id.toString() === noteId);
+    const noteIndex = userNote.notes.findIndex(
+      (note) => note._id.toString() === noteId
+    );
     if (noteIndex === -1) {
-      return res.status(404).send('Note not found');
+      return res.status(404).send("Note not found");
     }
 
     // Retrieve the note to favorite
@@ -281,49 +288,48 @@ router.put('/api/notes/favorite/:uid/:noteId', async (req, res) => {
     userNote.favorites.push(noteToFavorite); // Add to favorites array
 
     await userNote.save();
-    res.status(200).send('Note added to favorites');
+    res.status(200).send("Note added to favorites");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 
-
-
-
 // Route to remove a note from favorites using DELETE method
-router.delete('/api/notes/unfavorite/:uid/:noteId', async (req, res) => {
+router.delete("/api/notes/unfavorite/:uid/:noteId", async (req, res) => {
   const { uid, noteId } = req.params;
-  
+
   try {
     const userNote = await UserNote.findOne({ uid: uid });
     if (!userNote) {
-      return res.status(404).send('User not found');
+      return res.status(404).send("User not found");
     }
 
     // Find the note in favorites
-    const noteToUnfavoriteIndex = userNote.favorites.findIndex(note => note._id.toString() === noteId);
+    const noteToUnfavoriteIndex = userNote.favorites.findIndex(
+      (note) => note._id.toString() === noteId
+    );
     if (noteToUnfavoriteIndex === -1) {
-      return res.status(404).send('Favorite note not found');
+      return res.status(404).send("Favorite note not found");
     }
-    
+
     // Retrieve the note to unfavorite
-    const [noteToUnfavorite] = userNote.favorites.splice(noteToUnfavoriteIndex, 1);
+    const [noteToUnfavorite] = userNote.favorites.splice(
+      noteToUnfavoriteIndex,
+      1
+    );
 
     // Set note as not favorite and move it back to notes array
     noteToUnfavorite.favorite = false;
     userNote.notes.push(noteToUnfavorite);
 
     await userNote.save();
-    res.status(200).send('Note removed from favorites');
+    res.status(200).send("Note removed from favorites");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
-
-
-
 
 //favourites
 router.get("/api/favorites/:uid", async (req, res) => {
@@ -427,12 +433,10 @@ router.post("/api/current-read", async (req, res) => {
     // Save the userFeatures document
     await userFeatures.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Current read book ID updated successfully",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Current read book ID updated successfully",
+    });
   } catch (error) {
     console.error("Error updating current read book ID:", error.message);
     res.status(500).json({ success: false, error: "Internal Server Error" });
@@ -497,12 +501,10 @@ router.post("/api/recently-viewed", async (req, res) => {
     // Save the updated userFeatures document
     await userFeatures.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Recently viewed book added successfully",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Recently viewed book added successfully",
+    });
   } catch (error) {
     console.error("Error adding recently viewed book:", error);
     res.status(500).json({ success: false, error: "Internal Server Error" });
@@ -754,12 +756,12 @@ router.post("/api/search-history/:uid", async (req, res) => {
   }
 });
 
-chatbot
+chatbot;
 router.post("/text-query", async (req, res) => {
   const { text, userId } = req.body;
   const resultQuery = await chatbot.textQuery(text, userId); //function  to chatbot
   const resObj = {
-   name:resultQuery[0].queryResult.intent.displayName,
+    name: resultQuery[0].queryResult.intent.displayName,
     userQuery: resultQuery[0].queryResult.queryText,
     fulfillmentText: resultQuery[0].queryResult.fulfillmentText,
   };
@@ -767,13 +769,10 @@ router.post("/text-query", async (req, res) => {
   res.send(resObj);
 });
 
-
-
-
 //chatmessages
 
 // Assuming you have Express setup
-router.post('/api/chat-messages', async (req, res) => {
+router.post("/api/chat-messages", async (req, res) => {
   const { userId, text, type } = req.body;
 
   try {
@@ -792,14 +791,15 @@ router.post('/api/chat-messages', async (req, res) => {
   }
 });
 
-
-router.get('/api/chat-messages/:userId', async (req, res) => {
+router.get("/api/chat-messages/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {
     const chatMessage = await ChatMessage.findOne({ userId });
     if (!chatMessage) {
-      return res.status(404).json({ message: "No chat history found for this user." });
+      return res
+        .status(404)
+        .json({ message: "No chat history found for this user." });
     }
 
     res.json(chatMessage.messages);
@@ -808,8 +808,7 @@ router.get('/api/chat-messages/:userId', async (req, res) => {
   }
 });
 
-
-router.delete('/api/chat-messages/:userId', async (req, res) => {
+router.delete("/api/chat-messages/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {
@@ -817,23 +816,28 @@ router.delete('/api/chat-messages/:userId', async (req, res) => {
     const result = await ChatMessage.deleteOne({ userId });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ message: 'No messages found for the specified user.' });
+      return res
+        .status(404)
+        .json({ message: "No messages found for the specified user." });
     }
 
-    res.status(200).json({ message: 'All messages for the user have been deleted successfully.' });
+    res
+      .status(200)
+      .json({
+        message: "All messages for the user have been deleted successfully.",
+      });
   } catch (error) {
-    console.error('Error deleting messages:', error);
-    res.status(500).json({ message: 'Failed to delete messages due to an internal error.' });
+    console.error("Error deleting messages:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to delete messages due to an internal error." });
   }
 });
-
-
-
 
 //Search for search bar
 
 // Assuming you have a route for search suggestions
-router.get('/api/search-suggestions/:uid/:query', async (req, res) => {
+router.get("/api/search-suggestions/:uid/:query", async (req, res) => {
   const { uid, query } = req.params;
 
   if (!query.trim()) {
@@ -847,31 +851,34 @@ router.get('/api/search-suggestions/:uid/:query', async (req, res) => {
     if (history && history.searches) {
       // Ensure there is a history and it has searches
       const matches = history.searches
-        .filter(searchTerm => searchTerm.toLowerCase().includes(query.toLowerCase()))
+        .filter((searchTerm) =>
+          searchTerm.toLowerCase().includes(query.toLowerCase())
+        )
         .slice(-5); // Get up to the last 5 matches that include the query
 
       const uniqueMatches = [...new Set(matches)]; // Remove duplicates
-      
+
       res.json(uniqueMatches);
     } else {
       res.json([]);
     }
   } catch (error) {
-    console.error('Error fetching search suggestions:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error fetching search suggestions:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-
-
 // Assuming Express and the SearchHistory model is set up
-router.post('/api/search/:userId', async (req, res) => {
+router.post("/api/search/:userId", async (req, res) => {
   const { userId } = req.params;
   const { searchTerm } = req.body;
 
   try {
     // Check if the search term already exists to avoid duplicates
-    const existingSearch = await Search.findOne({ uid: userId, searches: searchTerm });
+    const existingSearch = await Search.findOne({
+      uid: userId,
+      searches: searchTerm,
+    });
 
     if (!existingSearch) {
       // Update the document by pushing the new search term into the searches array
@@ -881,17 +888,95 @@ router.post('/api/search/:userId', async (req, res) => {
         { new: true, upsert: true } // Upsert option to create a new document if it doesn't exist
       );
 
-      res.status(200).json({ message: 'Search term stored successfully.', data: updatedSearchHistory });
+      res
+        .status(200)
+        .json({
+          message: "Search term stored successfully.",
+          data: updatedSearchHistory,
+        });
     } else {
       // If the search term already exists, just return success without adding a duplicate
-      res.status(200).json({ message: 'Search term already exists.', data: existingSearch });
+      res
+        .status(200)
+        .json({ message: "Search term already exists.", data: existingSearch });
     }
   } catch (error) {
-    console.error('Error storing search term:', error);
-    res.status(500).json({ message: 'Server error while storing search term', error: error.message });
+    console.error("Error storing search term:", error);
+    res
+      .status(500)
+      .json({
+        message: "Server error while storing search term",
+        error: error.message,
+      });
   }
 });
 
+// Google Books API proxy endpoint to avoid CORS issues
+router.get("/api/google-books", async (req, res) => {
+  try {
+    const { q, startIndex = 0, maxResults = 10, key, orderBy } = req.query;
 
+    if (!q) {
+      return res.status(400).json({ error: 'Query parameter "q" is required' });
+    }
+
+    let googleBooksUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
+      q
+    )}&startIndex=${startIndex}&maxResults=${maxResults}&key=${key}`;
+
+    if (orderBy) {
+      googleBooksUrl += `&orderBy=${orderBy}`;
+    }
+
+    const fetch = (await import("node-fetch")).default;
+    const response = await fetch(googleBooksUrl);
+
+    if (!response.ok) {
+      throw new Error(`Google Books API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error proxying Google Books API:", error);
+    res
+      .status(500)
+      .json({
+        error: "Failed to fetch from Google Books API",
+        details: error.message,
+      });
+  }
+});
+
+// Google Books API proxy endpoint for individual book details
+router.get("/api/google-books/:bookId", async (req, res) => {
+  try {
+    const { bookId } = req.params;
+
+    if (!bookId) {
+      return res.status(400).json({ error: "Book ID is required" });
+    }
+
+    const googleBooksUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
+
+    const fetch = (await import("node-fetch")).default;
+    const response = await fetch(googleBooksUrl);
+
+    if (!response.ok) {
+      throw new Error(`Google Books API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error proxying Google Books API for book details:", error);
+    res
+      .status(500)
+      .json({
+        error: "Failed to fetch book details from Google Books API",
+        details: error.message,
+      });
+  }
+});
 
 module.exports = router;

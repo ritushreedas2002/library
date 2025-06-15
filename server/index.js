@@ -13,6 +13,7 @@ require("./db/connection");
 // *cors
 const allowedOrigins = [
   "http://localhost:3000",
+  "http://localhost:3001", // Added port 3001 for flexibility
   "https://library-aes6.vercel.app", // Make sure there's no trailing slash
 ];
 
@@ -24,17 +25,15 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: ['GET', 'POST', 'DELETE', 'PUT'], // Allow only these methods
+  methods: ["GET", "POST", "DELETE", "PUT"], // Allow only these methods
   credentials: true,
 };
 
 app.use(express.json());
 app.use(cors(corsOptions));
 
-
 // linking express router
 app.use(require("./router/route"));
-
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -45,4 +44,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`server is up and running at the port ${port}.`);
 });
-

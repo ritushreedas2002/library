@@ -142,10 +142,10 @@ const SearchBar = () => {
     <div className=" pb-2 bg-gradient-to-b from-black h-28">
       <div className=" mr-3" ref={dropdownRef}>
         <div className="flex justify-center">
-          <FaMicrophone
+          {/* <FaMicrophone
             onClick={startListening}
             className="relative left-[610px] top-12 cursor-pointer text-gray-500"
-          />
+          /> */}
           <form
             className="ml-14 pt-4 w-3/5 grid grid-cols-12"
             onSubmit={(e) => e.preventDefault()}

@@ -216,16 +216,19 @@ const BookDetails = ({ uid }) => {
   const toggleShowPreview = async () => {
     setShowPreview(true);
     try {
-      const response = await fetch(`https://library-pi-nine.vercel.app/api/current-read`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uid: uid,
-          bookId: bookid,
-        }),
-      });
+      const response = await fetch(
+        `https://library-pi-nine.vercel.app/api/current-read`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: uid,
+            bookId: bookid,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to update current read book");
       }
@@ -367,7 +370,7 @@ const BookDetails = ({ uid }) => {
                     onClick={handleSpeechToggle} // Corrected
                     className="mt-4 p-2 text-black text-2xl rounded-lg  transition duration-300 ml-[700px]"
                   >
-                    {isSpeaking ?  <FaMicrophone />:<FaMicrophoneSlash />}
+                    {isSpeaking ? <FaMicrophone /> : <FaMicrophoneSlash />}
                   </button>
                 </div>
                 <div className=" mt-4 text-base text-gray-800">

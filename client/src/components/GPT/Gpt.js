@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { openai } from "../utils/openai";
+import { generateContent } from "../utils/gemini";
 import Sidebar2 from "../MainBody/SideBar/Sidebar2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -87,25 +87,23 @@ const Gpt = () => {
     }
     seterror("");
     setsearchresult([]);
-    //
-    console.log(searchtext.current.value);
+    //    console.log(searchtext.current.value);
     isloading(true);
     const gptQuery =
       "Provide a succinct summary of " +
       searchtext.current.value +
       " in approximately 300 words, focusing on the main plot, key characters, and significant themes. Start by introducing the setting and the protagonist, then outline the central conflict or challenge they face. Highlight any notable twists, turns, or climaxes in the narrative, ensuring to convey the emotional and thematic depth of the story without divulging any crucial spoilers. Conclude with the resolution or the moral lesson, if applicable, and the impact the story aims to leave on the reader. Aim for clarity and conciseness while capturing the essence and unique aspects of the book.";
-    const gptResults = await openai.chat.completions.create({
-      messages: [{ role: "user", content: gptQuery }],
-      model: "gpt-3.5-turbo",
-    });
 
-    if (!gptResults.choices) {
-      // TODO: Write Error Handling
+    try {
+      const gptResults = await generateContent(gptQuery);
+      console.log(gptResults);
+      setresult(gptResults);
+      isloading(false);
+    } catch (error) {
+      console.error("Error generating summary:", error);
+      seterror("Failed to generate summary. Please try again.");
+      isloading(false);
     }
-
-    console.log(gptResults.choices?.[0]?.message?.content);
-    setresult(gptResults.choices?.[0]?.message?.content);
-    isloading(false);
     // searchtext.current.value = "";
   };
 
@@ -127,61 +125,48 @@ const Gpt = () => {
 
     try {
       // Making the API call
-      const gptResults = await openai.chat.completions.create({
-        messages: [{ role: "user", content: gptQuery }],
-        model: "gpt-3.5-turbo",
-      });
+      const gptResults = await generateContent(gptQuery);
 
-      // Checking if the
-      if (gptResults.choices && gptResults.choices.length > 0) {
-        const recommendationsJson = JSON.parse(
-          gptResults.choices[0].message.content
-        );
-        console.log(recommendationsJson);
-        if (recommendationsJson && recommendationsJson.books) {
-          const bookTitles = recommendationsJson.books; // Assuming this is an array of book titles
-          console.log(bookTitles);
-
-          // Fetch details for each recommended book
-          const bookDetailsPromises = bookTitles.map((title) =>
-            fetch(
+      // Parse the JSON response
+      const recommendationsJson = JSON.parse(gptResults);
+      console.log(recommendationsJson);
+      if (recommendationsJson && recommendationsJson.books) {
+        const bookTitles = recommendationsJson.books; // Assuming this is an array of book titles
+        console.log(bookTitles); // Fetch details for each recommended book using proxy endpoint
+        const bookDetailsPromises = bookTitles.map((title) =>
+          fetch(
               `https://www.googleapis.com/books/v1/volumes?q=${title}&startIndex=0&maxResults=1&key=${GOOGLE_BOOK_API_KEY}`
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                if (data.items && data.items.length > 0) {
-                  const { volumeInfo } = data.items[0];
-                  //console.log(data.items);
-                  return {
-                    id: data.items[0].id,
-                    title: volumeInfo.title,
-                    authors: volumeInfo.authors || ["No authors listed"],
-                    thumbnail: volumeInfo.imageLinks
-                      ? volumeInfo.imageLinks.thumbnail
-                      : "placeholder_image_url",
-                  };
-                }
-                return null;
-              })
-          );
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.items && data.items.length > 0) {
+                const { volumeInfo } = data.items[0];
+                //console.log(data.items);
+                return {
+                  id: data.items[0].id,
+                  title: volumeInfo.title,
+                  authors: volumeInfo.authors || ["No authors listed"],
+                  thumbnail: volumeInfo.imageLinks
+                    ? volumeInfo.imageLinks.thumbnail
+                    : "placeholder_image_url",
+                };
+              }
+              return null;
+            })
+        );
 
-          Promise.all(bookDetailsPromises).then((bookDetails) => {
-            // Filter out any null responses (in case some books weren't found)
-            const validBookDetails = bookDetails.filter(
-              (detail) => detail !== null
-            );
-            console.log(validBookDetails);
-            setsearchresult(validBookDetails);
-            isloading(false);
-          });
-        } else {
-          console.error("Books array not found in the recommendations");
-          seterror("No books found in the recommendations.");
+        Promise.all(bookDetailsPromises).then((bookDetails) => {
+          // Filter out any null responses (in case some books weren't found)
+          const validBookDetails = bookDetails.filter(
+            (detail) => detail !== null
+          );
+          console.log(validBookDetails);
+          setsearchresult(validBookDetails);
           isloading(false);
-        }
+        });
       } else {
-        console.error("No results found from GPT-3.");
-        seterror("No results found.");
+        console.error("Books array not found in the recommendations");
+        seterror("No books found in the recommendations.");
         isloading(false);
       }
     } catch (error) {
