@@ -420,7 +420,7 @@ const BookDetails = ({ uid }) => {
           />
         )}
       </div>
-      {/* <Chatbot /> */}
+      <Chatbot />
     </div>
   );
 };
